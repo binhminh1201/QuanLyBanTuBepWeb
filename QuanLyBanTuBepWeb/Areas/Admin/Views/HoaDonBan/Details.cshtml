@@ -1,0 +1,87 @@
+@model QuanLyBanTuBepWeb.Models.HoaDonBan
+@{
+    ViewData["Title"] = "Chi Tiết Hoá Đơn Bán: " + Model.SoHDB;
+}
+
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-receipt text-primary me-2"></i>Chi Tiết Hoá Đơn Bán Hàng (@Model.SoHDB)</h5>
+        <div>
+            <button onclick="window.print();" class="btn btn-outline-secondary btn-sm me-2">
+                <i class="bi bi-printer me-1"></i> In hoá đơn
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left me-1"></i> Quay lại
+            </a>
+        </div>
+    </div>
+
+    <!-- Invoice Header -->
+    <div class="p-3 bg-light rounded-3 mb-4">
+        <div class="row g-3 small">
+            <div class="col-md-3">
+                <span class="text-muted d-block">Mã hoá đơn:</span>
+                <strong class="text-primary fs-6">@Model.SoHDB</strong>
+            </div>
+            <div class="col-md-3">
+                <span class="text-muted d-block">Ngày lập:</span>
+                <strong>@Model.NgayBan?.ToString("dd/MM/yyyy HH:mm")</strong>
+            </div>
+            <div class="col-md-3">
+                <span class="text-muted d-block">Nhân viên phụ trách:</span>
+                <strong>@(Model.NhanVien?.TenNV ?? "N/A")</strong> (Mã: @Model.MaNV)
+            </div>
+            <div class="col-md-3">
+                <span class="text-muted d-block">Khách hàng:</span>
+                <strong>@(Model.KhachHang?.TenKhach ?? "Khách vãng lai")</strong>
+            </div>
+            <div class="col-md-6">
+                <span class="text-muted d-block">Địa chỉ lắp đặt:</span>
+                <span>@(Model.KhachHang?.DiaChi ?? "N/A")</span>
+            </div>
+            <div class="col-md-6">
+                <span class="text-muted d-block">Số điện thoại liên hệ:</span>
+                <span>@(Model.KhachHang?.DienThoai ?? "N/A")</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Items list -->
+    <h6 class="fw-bold mb-3">Danh sách sản phẩm tủ bếp xuất bán:</h6>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered align-middle small">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th>Mã hàng</th>
+                    <th>Tên tủ bếp</th>
+                    <th class="text-center" style="width: 100px;">Số lượng</th>
+                    <th class="text-end" style="width: 150px;">Đơn giá</th>
+                    <th class="text-center" style="width: 100px;">Giảm giá (%)</th>
+                    <th class="text-end" style="width: 180px;">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int stt = 1; }
+                @foreach (var item in Model.ChiTietHoaDonBans)
+                {
+                    <tr>
+                        <td class="text-center">@(stt++)</td>
+                        <td class="fw-bold text-primary">@item.MaHang</td>
+                        <td>@(item.DMHangHoa?.TenHang ?? item.MaHang)</td>
+                        <td class="text-center">@item.SoLuong</td>
+                        <td class="text-end">@item.DMHangHoa?.DonGiaBan?.ToString("N0") đ</td>
+                        <td class="text-center">@(item.GiamGia ?? 0)%</td>
+                        <td class="text-end fw-bold text-danger">@item.ThanhTien?.ToString("N0") đ</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr class="table-light fs-6">
+                    <td colspan="6" class="text-end fw-bold">Tổng Cộng Thanh Toán:</td>
+                    <td class="text-end fw-bold text-danger">@Model.TongTien?.ToString("N0") đ</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

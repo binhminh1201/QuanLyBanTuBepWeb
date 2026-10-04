@@ -1,0 +1,134 @@
+@{
+    ViewData["Title"] = "Bảng Điều Khiển Quản Trị";
+    var donHangMoi = ViewBag.DonHangMoi as IEnumerable<QuanLyBanTuBepWeb.Models.HoaDonBan>;
+    var sapHetHang = ViewBag.SapHetHang as IEnumerable<QuanLyBanTuBepWeb.Models.DMHangHoa>;
+}
+
+<!-- Stat Metric Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase mb-1">Tổng Doanh Thu</div>
+                    <div class="fs-4 fw-bold text-primary">@(((decimal)ViewBag.TongDoanhThu).ToString("N0")) đ</div>
+                </div>
+                <div class="fs-1 text-primary opacity-50"><i class="bi bi-wallet2"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase mb-1">Đơn Bán Hàng</div>
+                    <div class="fs-4 fw-bold text-success">@ViewBag.TongSoDonHang đơn</div>
+                </div>
+                <div class="fs-1 text-success opacity-50"><i class="bi bi-receipt"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase mb-1">Mẫu Tủ Bếp</div>
+                    <div class="fs-4 fw-bold text-info">@ViewBag.TongSanPham mẫu</div>
+                </div>
+                <div class="fs-1 text-info opacity-50"><i class="bi bi-box-seam"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card stat-card bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="text-muted small fw-bold text-uppercase mb-1">Tổng Tồn Kho</div>
+                    <div class="fs-4 fw-bold text-warning">@ViewBag.TongTonKho bộ</div>
+                </div>
+                <div class="fs-1 text-warning opacity-50"><i class="bi bi-layers-half"></i></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Đơn hàng bán gần đây -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-3 bg-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-clock-history text-primary me-2"></i>Đơn Bán Hàng Mới Nhất</h6>
+                <a asp-controller="HoaDonBan" asp-action="Index" class="btn btn-outline-primary btn-sm">Xem tất cả</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0 small">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Số HDB</th>
+                            <th>Khách hàng</th>
+                            <th>Ngày bán</th>
+                            <th>NV bán</th>
+                            <th class="text-end">Tổng tiền</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (donHangMoi != null && donHangMoi.Any())
+                        {
+                            foreach (var hd in donHangMoi)
+                            {
+                                <tr>
+                                    <td class="fw-bold text-primary">@hd.SoHDB</td>
+                                    <td>@(hd.KhachHang?.TenKhach ?? "Khách lẻ")</td>
+                                    <td>@hd.NgayBan?.ToString("dd/MM/yyyy")</td>
+                                    <td>@(hd.NhanVien?.TenNV ?? "N/A")</td>
+                                    <td class="text-end fw-bold text-danger">@hd.TongTien?.ToString("N0") đ</td>
+                                    <td class="text-end">
+                                        <a asp-controller="HoaDonBan" asp-action="Details" asp-route-id="@hd.SoHDB" class="btn btn-light btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="6" class="text-center text-muted py-3">Chưa có đơn hàng nào</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cảnh báo tồn kho ít -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm rounded-3 bg-white p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-dark mb-0"><i class="bi bi-exclamation-triangle text-danger me-2"></i>Tủ Bếp Sắp Hết Hàng</h6>
+                <a asp-controller="DMHangHoa" asp-action="Index" class="btn btn-outline-secondary btn-sm">Xem kho</a>
+            </div>
+            <div class="list-group list-group-flush">
+                @if (sapHetHang != null && sapHetHang.Any())
+                {
+                    foreach (var sp in sapHetHang)
+                    {
+                        <div class="list-group-item px-0 py-2 d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0 small fw-bold text-dark">@sp.TenHang</h6>
+                                <small class="text-muted">Mã: @sp.MaHang</small>
+                            </div>
+                            <span class="badge @(sp.SoLuong <= 0 ? "bg-danger" : "bg-warning text-dark") rounded-pill">
+                                Tồn: @sp.SoLuong
+                            </span>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-muted small py-3 text-center">Các mặt hàng đều còn đủ số lượng tồn</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

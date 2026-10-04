@@ -1,0 +1,183 @@
+@model IEnumerable<QuanLyBanTuBepWeb.Models.DMHangHoa>
+@{
+    ViewData["Title"] = "Trang chủ - Không gian Bếp Hoàn Mỹ";
+    var chatLieus = ViewBag.ChatLieus as IEnumerable<QuanLyBanTuBepWeb.Models.ChatLieu>;
+}
+
+<!-- Hero Banner Section -->
+<section class="py-5 bg-dark text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);">
+    <div class="container py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3">
+                    <i class="bi bi-star-fill me-1"></i> XƯỞNG SẢN XUẤT TỦ BẾP UY TÍN SỐ 1
+                </span>
+                <h1 class="display-4 fw-bolder mb-3">Kiến Tạo Không Gian Bếp Đẳng Cấp & Tiện Nghi</h1>
+                <p class="lead text-light opacity-75 mb-4">
+                    Chuyên cung cấp các mẫu tủ bếp Acrylic bóng gương, Inox cánh kính, Gỗ Sồi tự nhiên, MDF chống ẩm cao cấp. Bảo hành chính hãng tới 36 tháng, đo đạc và khảo sát miễn phí.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-lg fw-bold px-4 shadow">
+                        <i class="bi bi-grid-fill me-2"></i> Khám Phá Bộ Sưu Tập
+                    </a>
+                    <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-telephone-fill me-2"></i> Nhận Báo Giá Miễn Phí
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="p-3 bg-white bg-opacity-10 rounded-4 shadow-lg border border-white border-opacity-25">
+                    <img src="/images/products/tu_bep_01.jpg" alt="Tủ bếp cao cấp" class="img-fluid rounded-3 shadow" style="max-height: 380px; width: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category Pills Section -->
+<section class="py-4 bg-white border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div class="fw-bold text-dark"><i class="bi bi-funnel-fill text-primary me-2"></i>Chất liệu ưa chuộng:</div>
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Tất cả</a>
+                @if (chatLieus != null)
+                {
+                    foreach (var cl in chatLieus)
+                    {
+                        <a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="@cl.MaChatLieu" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                            @cl.TenChatLieu
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+            <div>
+                <span class="text-primary fw-bold text-uppercase small">Sản phẩm nổi bật</span>
+                <h2 class="fw-bold mb-0">Các Mẫu Tủ Bếp Được Ưa Chuộng Nhất</h2>
+            </div>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary fw-semibold">
+                Xem tất cả <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-4 col-md-6">
+                    <div class="card card-product h-100 shadow-sm">
+                        <div class="position-relative" style="height: 220px; overflow: hidden; background-color: #f1f5f9;">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@item.MaHang">
+                                <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="card-img-top product-img" alt="@item.TenHang" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                            </a>
+                            <span class="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded small fw-bold">
+                                @(item.NuocSanXuat?.TenNuocSX ?? "Nhập khẩu")
+                            </span>
+                        </div>
+                        <div class="card-body d-flex flex-column p-4">
+                            <div class="small text-muted mb-1">
+                                <span class="badge bg-secondary-subtle text-secondary me-1">@item.ChatLieu?.TenChatLieu</span>
+                                <span class="badge bg-info-subtle text-info">@item.MauSac?.TenMau</span>
+                            </div>
+                            <h5 class="card-title fw-bold mb-2">
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.MaHang" class="text-decoration-none text-dark">
+                                    @item.TenHang
+                                </a>
+                            </h5>
+                            <p class="small text-muted flex-grow-1 mb-3">
+                                <i class="bi bi-arrows-fullscreen me-1"></i> @item.KichThuoc?.TenKichThuoc |
+                                <i class="bi bi-shield-check me-1"></i> BH: @item.ThoiGianBaoHanh
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                                <div>
+                                    <small class="text-muted d-block" style="font-size: 0.75rem;">Đơn giá bán:</small>
+                                    <span class="fs-5 fw-bold text-danger">@item.DonGiaBan?.ToString("N0") đ</span>
+                                </div>
+                                <button class="btn btn-primary-custom btn-sm px-3 rounded-pill btn-add-cart" data-id="@item.MaHang">
+                                    <i class="bi bi-cart-plus me-1"></i> Chọn mua
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="py-5 bg-white border-top border-bottom">
+    <div class="container">
+        <div class="text-center max-w-xl mx-auto mb-5">
+            <span class="text-primary fw-bold text-uppercase small">Cam kết chất lượng</span>
+            <h2 class="fw-bold">Tại Sao Nên Lựa Chọn Tủ Bếp KITCHENLUX?</h2>
+        </div>
+        <div class="row g-4 text-center">
+            <div class="col-md-3">
+                <div class="p-4 rounded-4 bg-light h-100">
+                    <div class="fs-1 text-primary mb-3"><i class="bi bi-shield-lock-fill"></i></div>
+                    <h5 class="fw-bold">Vật Liệu Cao Cấp 100%</h5>
+                    <p class="small text-muted mb-0">Nhập khẩu chính hãng gỗ An Cường lõi xanh chống ẩm, inox 304 không gỉ và nhựa Picomat siêu chịu nước.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 rounded-4 bg-light h-100">
+                    <div class="fs-1 text-success mb-3"><i class="bi bi-tools"></i></div>
+                    <h5 class="fw-bold">Khảo Sát Tận Nơi Miễn Phí</h5>
+                    <p class="small text-muted mb-0">Đội ngũ kiến trúc sư và kỹ sư lành nghề trực tiếp đo đạc diện tích nhà bếp và dựng bản vẽ 3D miễn phí.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 rounded-4 bg-light h-100">
+                    <div class="fs-1 text-warning mb-3"><i class="bi bi-tag-fill"></i></div>
+                    <h5 class="fw-bold">Giá Tận Gốc Tại Xưởng</h5>
+                    <p class="small text-muted mb-0">Sản xuất trực tiếp tại xưởng không qua trung gian, giá bán minh bạch tối ưu chi phí cho gia đình.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-4 rounded-4 bg-light h-100">
+                    <div class="fs-1 text-danger mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
+                    <h5 class="fw-bold">Bảo Hành Dài Hạn</h5>
+                    <p class="small text-muted mb-0">Cam kết bảo hành kết cấu lên tới 36 tháng và bảo trì định kỳ trọn đời sản phẩm.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Thêm vào giỏ hàng bằng AJAX
+            $(".btn-add-cart").click(function (e) {
+                e.preventDefault();
+                var productId = $(this).data("id");
+                $.ajax({
+                    url: "/Cart/AddToCart",
+                    type: "POST",
+                    data: { id: productId, quantity: 1 },
+                    success: function (res) {
+                        if (res.success) {
+                            $("#cartCountBadge").text(res.totalCount);
+                            $("#toastMessage").html('<i class="bi bi-check-circle-fill me-2"></i>' + res.message);
+                            var toast = new bootstrap.Toast($('#cartToast'));
+                            toast.show();
+                        } else {
+                            alert(res.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Có lỗi xảy ra khi thêm vào giỏ hàng!");
+                    }
+                });
+            });
+        });
+    </script>
+}

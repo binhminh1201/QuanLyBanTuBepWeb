@@ -1,0 +1,79 @@
+@model QuanLyBanTuBepWeb.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng Ký Tài Khoản Khách Hàng";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="text-center mb-4">
+                    <div class="fs-1 text-primary mb-2"><i class="bi bi-person-plus-fill"></i></div>
+                    <h4 class="fw-bold text-dark">Tạo Tài Khoản Mới</h4>
+                    <p class="text-muted small">Đăng ký để hưởng ưu đãi và theo dõi đơn hàng tủ bếp dễ dàng</p>
+                </div>
+
+                <form asp-action="Register" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mb-3"></div>
+
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label asp-for="TenDangNhap" class="form-label small fw-bold"></label>
+                            <input asp-for="TenDangNhap" class="form-control" placeholder="Tên đăng nhập (viết liền, không dấu)..." />
+                            <span asp-validation-for="TenDangNhap" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="MatKhau" class="form-label small fw-bold"></label>
+                            <input asp-for="MatKhau" class="form-control" placeholder="Mật khẩu..." />
+                            <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="XacNhanMatKhau" class="form-label small fw-bold"></label>
+                            <input asp-for="XacNhanMatKhau" class="form-control" placeholder="Nhập lại mật khẩu..." />
+                            <span asp-validation-for="XacNhanMatKhau" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="HoTen" class="form-label small fw-bold"></label>
+                            <input asp-for="HoTen" class="form-control" placeholder="Họ và tên..." />
+                            <span asp-validation-for="HoTen" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="SoDienThoai" class="form-label small fw-bold"></label>
+                            <input asp-for="SoDienThoai" class="form-control" placeholder="Số điện thoại..." />
+                            <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label small fw-bold"></label>
+                            <input asp-for="Email" class="form-control" placeholder="Email liên hệ..." />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="col-12">
+                            <label asp-for="DiaChi" class="form-label small fw-bold"></label>
+                            <input asp-for="DiaChi" class="form-control" placeholder="Địa chỉ giao hàng / lắp đặt..." />
+                            <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2 fw-bold rounded-pill mt-4 mb-3">
+                        Đăng Ký Tài Khoản
+                    </button>
+                </form>
+
+                <div class="text-center small text-muted">
+                    Đã có tài khoản? <a asp-action="Login" class="text-primary fw-bold text-decoration-none">Đăng nhập tại đây</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,51 @@
+@model QuanLyBanTuBepWeb.Models.HoaDonBan
+@{
+    ViewData["Title"] = "Đặt Hàng Thành Công";
+}
+
+<div class="container py-5 text-center">
+    <div class="card border-0 shadow-sm rounded-4 p-5 max-w-xl mx-auto bg-white" style="max-width: 680px;">
+        <div class="mb-4">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+        </div>
+        <h2 class="fw-bold text-dark mb-2">Đặt Hàng Thành Công!</h2>
+        <p class="text-muted">Cảm ơn bạn đã tin tưởng lựa chọn sản phẩm tủ bếp của KITCHENLUX. Chúng tôi đã nhận được đơn hàng và sẽ liên hệ khảo sát trong thời gian sớm nhất.</p>
+
+        <div class="bg-light p-4 rounded-3 text-start my-4">
+            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3">Thông Tin Đơn Hàng:</h6>
+            <div class="row g-2 small mb-2">
+                <div class="col-sm-4 text-muted">Mã hoá đơn (Số HDB):</div>
+                <div class="col-sm-8 fw-bold text-primary">@Model.SoHDB</div>
+            </div>
+            <div class="row g-2 small mb-2">
+                <div class="col-sm-4 text-muted">Họ tên khách hàng:</div>
+                <div class="col-sm-8 fw-bold">@(Model.KhachHang?.TenKhach ?? "Khách vãng lai")</div>
+            </div>
+            <div class="row g-2 small mb-2">
+                <div class="col-sm-4 text-muted">Số điện thoại:</div>
+                <div class="col-sm-8">@(Model.KhachHang?.DienThoai ?? "N/A")</div>
+            </div>
+            <div class="row g-2 small mb-2">
+                <div class="col-sm-4 text-muted">Địa chỉ thi công:</div>
+                <div class="col-sm-8">@(Model.KhachHang?.DiaChi ?? "N/A")</div>
+            </div>
+            <div class="row g-2 small mb-2">
+                <div class="col-sm-4 text-muted">Ngày đặt:</div>
+                <div class="col-sm-8">@Model.NgayBan?.ToString("dd/MM/yyyy HH:mm")</div>
+            </div>
+            <div class="row g-2 small border-top pt-2 mt-2">
+                <div class="col-sm-4 text-muted fw-bold">Tổng thanh toán:</div>
+                <div class="col-sm-8 fw-bold text-danger fs-5">@Model.TongTien?.ToString("N0") đ</div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary px-4 rounded-pill">
+                <i class="bi bi-house me-1"></i> Trang chủ
+            </a>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-primary-custom px-4 rounded-pill">
+                <i class="bi bi-grid me-1"></i> Tiếp tục mua sắm
+            </a>
+        </div>
+    </div>
+</div>

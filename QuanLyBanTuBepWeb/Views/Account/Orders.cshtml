@@ -1,0 +1,81 @@
+@model IEnumerable<QuanLyBanTuBepWeb.Models.HoaDonBan>
+@{
+    ViewData["Title"] = "Đơn Hàng Của Tôi";
+}
+
+<div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Lịch sử đơn hàng</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <h3 class="fw-bold mb-4"><i class="bi bi-clock-history text-primary me-2"></i>Lịch Sử Đơn Hàng Của Bạn</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center bg-white rounded-4">
+            <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+            <h5 class="fw-bold text-secondary">Bạn chưa có đơn đặt hàng nào</h5>
+            <p class="text-muted small">Hãy chọn các mẫu tủ bếp ưng ý để làm đẹp cho ngôi nhà của bạn!</p>
+            <div class="mt-3">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-primary-custom px-4 rounded-pill">
+                    Khám phá sản phẩm
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="d-flex flex-column gap-4">
+            @foreach (var order in Model)
+            {
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                    <div class="card-header bg-light py-3 d-flex flex-wrap justify-content-between align-items-center">
+                        <div>
+                            <span class="fw-bold text-primary me-3"><i class="bi bi-receipt me-1"></i>Mã HĐ: @order.SoHDB</span>
+                            <span class="text-muted small"><i class="bi bi-calendar3 me-1"></i>Ngày đặt: @order.NgayBan?.ToString("dd/MM/yyyy")</span>
+                        </div>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill">
+                            <i class="bi bi-check2-circle me-1"></i>Đã tiếp nhận
+                        </span>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table class="table table-borderless align-middle mb-0">
+                                <tbody>
+                                    @foreach (var item in order.ChiTietHoaDonBans)
+                                    {
+                                        <tr>
+                                            <td style="width: 80px;">
+                                                <img src="/images/products/@(string.IsNullOrEmpty(item.DMHangHoa?.Anh) ? "no_image.png" : item.DMHangHoa.Anh)" class="rounded-2" style="width: 70px; height: 50px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                            </td>
+                                            <td>
+                                                <h6 class="mb-0 fw-bold">@(item.DMHangHoa?.TenHang ?? item.MaHang)</h6>
+                                                <small class="text-muted">Mã: @item.MaHang</small>
+                                            </td>
+                                            <td class="text-center">Số lượng: <strong>@item.SoLuong</strong></td>
+                                            <td class="text-end fw-bold text-danger">@item.ThanhTien?.ToString("N0") đ</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white py-3 d-flex justify-content-between align-items-center border-top">
+                        <span class="text-muted small">Miễn phí công khảo sát & lắp đặt cơ bản</span>
+                        <div>
+                            <span class="text-muted me-2 small">Tổng thanh toán:</span>
+                            <span class="fs-5 fw-bold text-danger">@order.TongTien?.ToString("N0") đ</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

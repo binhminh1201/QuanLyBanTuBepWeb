@@ -1,0 +1,281 @@
+@model QuanLyBanTuBepWeb.Models.ViewModels.ProductFilterVM
+@{
+    ViewData["Title"] = "Bộ Sưu Tập Tủ Bếp";
+    var chatLieus = ViewBag.ChatLieus as IEnumerable<QuanLyBanTuBepWeb.Models.ChatLieu>;
+    var mauSacs = ViewBag.MauSacs as IEnumerable<QuanLyBanTuBepWeb.Models.MauSac>;
+    var kichThuocs = ViewBag.KichThuocs as IEnumerable<QuanLyBanTuBepWeb.Models.KichThuoc>;
+    var nuocSXs = ViewBag.NuocSanXuats as IEnumerable<QuanLyBanTuBepWeb.Models.NuocSanXuat>;
+}
+
+<!-- Page Header Breadcrumb -->
+<div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Bộ sưu tập Tủ Bếp</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row g-4">
+        <!-- Sidebar Filter (Lab 5 & Lab 6) -->
+        <div class="col-lg-3">
+            <div class="card border-0 shadow-sm rounded-3 p-3 bg-white sticky-top" style="top: 80px; z-index: 10;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-sliders text-primary me-2"></i>Bộ Lọc Tìm Kiếm</h5>
+                    <button id="btnResetAll" class="btn btn-link text-decoration-none btn-sm p-0 text-muted" title="Xóa lọc">
+                        <i class="bi bi-arrow-counterclockwise"></i> Đặt lại
+                    </button>
+                </div>
+
+                <form id="filterForm">
+                    <!-- 1. Tìm kiếm theo từ khóa -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Từ khóa:</label>
+                        <div class="input-group input-group-sm">
+                            <input type="text" id="keywordInput" name="keyword" class="form-control" placeholder="Tên tủ bếp..." value="@Model.Keyword" />
+                            <button class="btn btn-primary" type="button" id="btnSearchKeyword"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- 2. Lọc theo Chất liệu -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Chất liệu:</label>
+                        <select id="selectChatLieu" name="maChatLieu" class="form-select form-select-sm filter-input">
+                            <option value="">-- Tất cả chất liệu --</option>
+                            @if (chatLieus != null)
+                            {
+                                foreach (var item in chatLieus)
+                                {
+                                    <option value="@item.MaChatLieu" selected="@(item.MaChatLieu == Model.MaChatLieu ? "selected" : null)">@item.TenChatLieu</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- 3. Lọc theo Màu sắc -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Màu sắc:</label>
+                        <select id="selectMauSac" name="maMau" class="form-select form-select-sm filter-input">
+                            <option value="">-- Tất cả màu sắc --</option>
+                            @if (mauSacs != null)
+                            {
+                                foreach (var item in mauSacs)
+                                {
+                                    <option value="@item.MaMau" selected="@(item.MaMau == Model.MaMau ? "selected" : null)">@item.TenMau</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- 4. Lọc theo Kích thước -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Kích thước:</label>
+                        <select id="selectKichThuoc" name="maKichThuoc" class="form-select form-select-sm filter-input">
+                            <option value="">-- Tất cả kích thước --</option>
+                            @if (kichThuocs != null)
+                            {
+                                foreach (var item in kichThuocs)
+                                {
+                                    <option value="@item.MaKichThuoc" selected="@(item.MaKichThuoc == Model.MaKichThuoc ? "selected" : null)">@item.TenKichThuoc</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- 5. Lọc theo Xuất xứ -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Xuất xứ / Nước SX:</label>
+                        <select id="selectNuocSX" name="maNuocSX" class="form-select form-select-sm filter-input">
+                            <option value="">-- Tất cả xuất xứ --</option>
+                            @if (nuocSXs != null)
+                            {
+                                foreach (var item in nuocSXs)
+                                {
+                                    <option value="@item.MaNuocSX" selected="@(item.MaNuocSX == Model.MaNuocSX ? "selected" : null)">@item.TenNuocSX</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <!-- 6. Khoảng giá -->
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold">Mức giá:</label>
+                        <div class="form-check small mb-1">
+                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="priceAll" value="" checked>
+                            <label class="form-check-label" for="priceAll">Tất cả mức giá</label>
+                        </div>
+                        <div class="form-check small mb-1">
+                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price1" value="0-10000000">
+                            <label class="form-check-label" for="price1">Dưới 10 triệu</label>
+                        </div>
+                        <div class="form-check small mb-1">
+                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price2" value="10000000-15000000">
+                            <label class="form-check-label" for="price2">10 - 15 triệu</label>
+                        </div>
+                        <div class="form-check small">
+                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price3" value="15000000-999999999">
+                            <label class="form-check-label" for="price3">Trên 15 triệu</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Main Product Listing Section -->
+        <div class="col-lg-9">
+            <!-- Sort and Header Bar -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center bg-white p-3 rounded-3 shadow-sm mb-4">
+                <h4 class="fw-bold mb-0 text-dark">Sản Phẩm Tủ Bếp</h4>
+                <div class="d-flex align-items-center gap-2">
+                    <label class="small text-muted mb-0 text-nowrap">Sắp xếp:</label>
+                    <select id="selectSort" class="form-select form-select-sm" style="width: auto;">
+                        <option value="">Mới nhất</option>
+                        <option value="price_asc">Giá: Thấp đến Cao</option>
+                        <option value="price_desc">Giá: Cao đến Thấp</option>
+                        <option value="name_asc">Tên: A - Z</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Loading Spinner (AJAX) -->
+            <div id="loadingSpinner" class="text-center py-5 d-none">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Đang tải dữ liệu...</span>
+                </div>
+                <div class="small text-muted mt-2">Đang nạp danh sách tủ bếp...</div>
+            </div>
+
+            <!-- Container được cập nhật bất đồng bộ qua AJAX -->
+            <div id="productContainer">
+                <partial name="_ProductListPartial" model="Model" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var currentPage = 1;
+
+            // Hàm gọi AJAX tải lại danh sách sản phẩm (Lab 5 & Lab 6)
+            function loadProducts(page) {
+                if (page) currentPage = page;
+
+                var keyword = $("#keywordInput").val();
+                var maChatLieu = $("#selectChatLieu").val();
+                var maMau = $("#selectMauSac").val();
+                var maKichThuoc = $("#selectKichThuoc").val();
+                var maNuocSX = $("#selectNuocSX").val();
+                var sapXep = $("#selectSort").val();
+
+                var giaTu = "";
+                var giaDen = "";
+                var priceRange = $('input[name="priceRange"]:checked').val();
+                if (priceRange) {
+                    var parts = priceRange.split("-");
+                    giaTu = parts[0];
+                    giaDen = parts[1];
+                }
+
+                $("#loadingSpinner").removeClass("d-none");
+                $("#productContainer").addClass("opacity-50");
+
+                $.ajax({
+                    url: "/Product/FilterProducts",
+                    type: "GET",
+                    data: {
+                        keyword: keyword,
+                        maChatLieu: maChatLieu,
+                        maMau: maMau,
+                        maKichThuoc: maKichThuoc,
+                        maNuocSX: maNuocSX,
+                        giaTu: giaTu,
+                        giaDen: giaDen,
+                        sapXep: sapXep,
+                        page: currentPage
+                    },
+                    success: function (html) {
+                        $("#productContainer").html(html);
+                        $("#loadingSpinner").addClass("d-none");
+                        $("#productContainer").removeClass("opacity-50");
+
+                        // Cuộn mượt lên đầu danh sách sản phẩm
+                        $('html, body').animate({
+                            scrollTop: $("#productContainer").offset().top - 100
+                        }, 200);
+                    },
+                    error: function (xhr) {
+                        $("#loadingSpinner").addClass("d-none");
+                        $("#productContainer").removeClass("opacity-50");
+                        alert("Lỗi tải dữ liệu: " + xhr.statusText);
+                    }
+                });
+            }
+
+            // Bắt sự kiện thay đổi các bộ lọc dropdown và radio
+            $(".filter-input, .filter-radio-price, #selectSort").change(function () {
+                loadProducts(1);
+            });
+
+            // Bắt sự kiện bấm nút tìm kiếm từ khóa
+            $("#btnSearchKeyword").click(function () {
+                loadProducts(1);
+            });
+
+            // Tìm kiếm khi gõ Enter
+            $("#keywordInput").keypress(function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    loadProducts(1);
+                }
+            });
+
+            // Bắt sự kiện click vào nút phân trang AJAX (Event Delegation)
+            $("body").on("click", ".ajax-page-link", function (e) {
+                e.preventDefault();
+                var page = $(this).data("page");
+                if (page) {
+                    loadProducts(page);
+                }
+            });
+
+            // Nút xóa tất cả bộ lọc
+            $("body").on("click", "#btnResetFilter, #btnResetAll", function () {
+                $("#keywordInput").val("");
+                $("#selectChatLieu").val("");
+                $("#selectMauSac").val("");
+                $("#selectKichThuoc").val("");
+                $("#selectNuocSX").val("");
+                $("#selectSort").val("");
+                $("#priceAll").prop("checked", true);
+                loadProducts(1);
+            });
+
+            // Thêm vào giỏ hàng bằng AJAX
+            $("body").on("click", ".btn-add-cart", function (e) {
+                e.preventDefault();
+                var productId = $(this).data("id");
+                $.ajax({
+                    url: "/Cart/AddToCart",
+                    type: "POST",
+                    data: { id: productId, quantity: 1 },
+                    success: function (res) {
+                        if (res.success) {
+                            $("#cartCountBadge").text(res.totalCount);
+                            $("#toastMessage").html('<i class="bi bi-check-circle-fill me-2"></i>' + res.message);
+                            var toast = new bootstrap.Toast($('#cartToast'));
+                            toast.show();
+                        } else {
+                            alert(res.message);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}

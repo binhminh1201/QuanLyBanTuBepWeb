@@ -1,0 +1,121 @@
+@model QuanLyBanTuBepWeb.Models.DMHangHoa
+@{
+    ViewData["Title"] = "Thêm Mới Tủ Bếp";
+}
+
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-plus-circle text-success me-2"></i>Thêm Mới Mẫu Tủ Bếp</h5>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách
+        </a>
+    </div>
+
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger small"></div>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label asp-for="MaHang" class="form-label small fw-bold"></label>
+                <input asp-for="MaHang" class="form-control form-control-sm" placeholder="Ví dụ: TB06..." />
+                <span asp-validation-for="MaHang" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-8">
+                <label asp-for="TenHang" class="form-label small fw-bold"></label>
+                <input asp-for="TenHang" class="form-control form-control-sm" placeholder="Tên gọi tủ bếp đầy đủ..." />
+                <span asp-validation-for="TenHang" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="MaChatLieu" class="form-label small fw-bold"></label>
+                <select asp-for="MaChatLieu" asp-items="ViewBag.MaChatLieu" class="form-select form-select-sm">
+                    <option value="">-- Chọn chất liệu --</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="MaMau" class="form-label small fw-bold"></label>
+                <select asp-for="MaMau" asp-items="ViewBag.MaMau" class="form-select form-select-sm">
+                    <option value="">-- Chọn màu sắc --</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="MaKichThuoc" class="form-label small fw-bold"></label>
+                <select asp-for="MaKichThuoc" asp-items="ViewBag.MaKichThuoc" class="form-select form-select-sm">
+                    <option value="">-- Chọn kích thước --</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="MaNuocSX" class="form-label small fw-bold"></label>
+                <select asp-for="MaNuocSX" asp-items="ViewBag.MaNuocSX" class="form-select form-select-sm">
+                    <option value="">-- Chọn nước SX --</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="SoLuong" class="form-label small fw-bold"></label>
+                <input asp-for="SoLuong" class="form-control form-control-sm" type="number" min="0" value="1" />
+                <span asp-validation-for="SoLuong" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="GiaNhap" class="form-label small fw-bold"></label>
+                <input asp-for="GiaNhap" id="inputGiaNhap" class="form-control form-control-sm" type="number" step="100000" placeholder="Giá nhập..." />
+                <span asp-validation-for="GiaNhap" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="DonGiaBan" class="form-label small fw-bold"></label>
+                <input asp-for="DonGiaBan" id="inputDonGiaBan" class="form-control form-control-sm" type="number" step="100000" placeholder="Tự tính = 110% giá nhập" />
+                <small class="text-muted" style="font-size: 0.7rem;">(Tự động cập nhật 110% giá nhập)</small>
+                <span asp-validation-for="DonGiaBan" class="text-danger small"></span>
+            </div>
+
+            <div class="col-md-3">
+                <label asp-for="ThoiGianBaoHanh" class="form-label small fw-bold"></label>
+                <input asp-for="ThoiGianBaoHanh" class="form-control form-control-sm" placeholder="Ví dụ: 24 tháng..." />
+            </div>
+
+            <div class="col-md-12">
+                <label asp-for="UploadAnh" class="form-label small fw-bold"></label>
+                <input asp-for="UploadAnh" class="form-control form-control-sm" type="file" accept="image/*" />
+                <small class="text-muted">Chọn tệp hình ảnh (.jpg, .png, .svg) hiển thị sản phẩm tủ bếp</small>
+            </div>
+
+            <!-- Tích hợp CKEditor (Mục 3.3) -->
+            <div class="col-12">
+                <label asp-for="GhiChu" class="form-label small fw-bold"></label>
+                <textarea asp-for="GhiChu" id="editorGhiChu" class="form-control" rows="4" placeholder="Mô tả chi tiết đặc điểm cấu tạo, phụ kiện đi kèm..."></textarea>
+            </div>
+        </div>
+
+        <div class="mt-4 pt-3 border-top d-flex gap-2">
+            <button type="submit" class="btn btn-success btn-sm px-4 fw-bold">
+                <i class="bi bi-save me-1"></i> Lưu Sản Phẩm
+            </button>
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm px-3">Hủy</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <!-- Tích hợp Rich Text Editor CKEditor CDN (Mục 3.3) -->
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('editorGhiChu');
+
+        // Tự động tính DonGiaBan = 110% GiaNhap (Nghiệp vụ số 3)
+        $("#inputGiaNhap").on("input", function () {
+            var giaNhap = parseFloat($(this).val()) || 0;
+            if (giaNhap > 0) {
+                var giaBan = Math.round(giaNhap * 1.10);
+                $("#inputDonGiaBan").val(giaBan);
+            }
+        });
+    </script>
+}

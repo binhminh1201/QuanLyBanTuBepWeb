@@ -1,0 +1,117 @@
+@model IEnumerable<QuanLyBanTuBepWeb.Models.DMHangHoa>
+@{
+    ViewData["Title"] = "Quản Lý Danh Mục Tủ Bếp";
+}
+
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <!-- Filter and Add Toolbar -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <form asp-action="Index" method="get" class="d-flex flex-wrap gap-2">
+            <input type="text" name="keyword" class="form-control form-control-sm" style="width: 220px;" placeholder="Tìm theo mã hoặc tên..." value="@ViewBag.Keyword" />
+            <select name="maChatLieu" asp-items="ViewBag.ChatLieus" class="form-select form-select-sm" style="width: 200px;">
+                <option value="">-- Tất cả chất liệu --</option>
+            </select>
+            <button type="submit" class="btn btn-primary btn-sm px-3"><i class="bi bi-search me-1"></i>Lọc</button>
+            <a asp-action="Index" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-counterclockwise"></i></a>
+        </form>
+
+        <a asp-action="Create" class="btn btn-success btn-sm px-3 shadow-sm fw-bold">
+            <i class="bi bi-plus-circle me-1"></i> Thêm Tủ Bếp Mới
+        </a>
+    </div>
+
+    <!-- Product Table -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 small">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 70px;">Hình ảnh</th>
+                    <th>Mã hàng</th>
+                    <th>Tên hàng hoá</th>
+                    <th>Chất liệu</th>
+                    <th>Màu sắc</th>
+                    <th>Kích thước</th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-end">Giá nhập</th>
+                    <th class="text-end">Đơn giá bán</th>
+                    <th class="text-center" style="width: 130px;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="rounded-2" style="width: 60px; height: 45px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                        </td>
+                        <td class="fw-bold text-primary">@item.MaHang</td>
+                        <td class="fw-semibold">@item.TenHang</td>
+                        <td>@(item.ChatLieu?.TenChatLieu ?? "-")</td>
+                        <td>@(item.MauSac?.TenMau ?? "-")</td>
+                        <td>@(item.KichThuoc?.TenKichThuoc ?? "-")</td>
+                        <td class="text-center">
+                            <span class="badge @(item.SoLuong <= 2 ? "bg-danger" : "bg-success") px-2 py-1">
+                                @item.SoLuong
+                            </span>
+                        </td>
+                        <td class="text-end text-muted">@item.GiaNhap?.ToString("N0") đ</td>
+                        <td class="text-end fw-bold text-danger">@item.DonGiaBan?.ToString("N0") đ</td>
+                        <td class="text-center">
+                            <div class="btn-group btn-group-sm">
+                                <a asp-action="Edit" asp-route-id="@item.MaHang" class="btn btn-outline-primary" title="Sửa">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.MaHang" class="btn btn-outline-info" title="Chi tiết">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger btn-delete" data-id="@item.MaHang" data-name="@item.TenHang" title="Xoá">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal xác nhận xóa -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="deleteForm" method="post" asp-action="Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="deleteId" name="id" />
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold text-danger"><i class="bi bi-exclamation-triangle me-2"></i>Xác nhận xoá sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xoá tủ bếp <strong id="deleteName"></strong> (Mã: <span id="deleteCode"></span>)?
+                    <p class="small text-danger mt-2 mb-0">* Lưu ý: Sản phẩm đã có trong hoá đơn bán hoặc hoá đơn nhập sẽ không thể xoá.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Xác nhận xoá</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".btn-delete").click(function () {
+                var id = $(this).data("id");
+                var name = $(this).data("name");
+                $("#deleteId").val(id);
+                $("#deleteCode").text(id);
+                $("#deleteName").text(name);
+                var modal = new bootstrap.Modal($('#deleteModal'));
+                modal.show();
+            });
+        });
+    </script>
+}

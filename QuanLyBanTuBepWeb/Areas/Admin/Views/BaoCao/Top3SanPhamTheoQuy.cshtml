@@ -1,0 +1,80 @@
+@model IEnumerable<dynamic>
+@{
+    ViewData["Title"] = "Top 3 Sản Phẩm Bán Chạy Theo Quý";
+    int nam = ViewBag.Nam;
+    int quy = ViewBag.Quy;
+}
+
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-trophy-fill text-warning me-2"></i>Báo Cáo Top 3 Sản Phẩm Bán Chạy Nhất (Quý @quy / @nam)</h5>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại
+        </a>
+    </div>
+
+    <!-- Filter form -->
+    <form asp-action="Top3SanPhamTheoQuy" method="get" class="d-flex flex-wrap align-items-center gap-3 mb-4 p-3 bg-light rounded-3">
+        <div class="d-flex align-items-center gap-2">
+            <label class="small text-muted fw-bold mb-0">Năm:</label>
+            <input type="number" name="nam" class="form-control form-control-sm" style="width: 100px;" value="@nam" min="2020" max="2035" />
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <label class="small text-muted fw-bold mb-0">Quý:</label>
+            <select name="quy" class="form-select form-select-sm" style="width: 120px;">
+                <option value="1" selected="@(quy == 1 ? "selected" : null)">Quý 1</option>
+                <option value="2" selected="@(quy == 2 ? "selected" : null)">Quý 2</option>
+                <option value="3" selected="@(quy == 3 ? "selected" : null)">Quý 3</option>
+                <option value="4" selected="@(quy == 4 ? "selected" : null)">Quý 4</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm px-3"><i class="bi bi-funnel-fill me-1"></i>Xem báo cáo</button>
+    </form>
+
+    <!-- Table -->
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 small">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 60px;" class="text-center">Hạng</th>
+                    <th>Mã hàng</th>
+                    <th>Tên tủ bếp</th>
+                    <th>Chất liệu</th>
+                    <th>Màu sắc</th>
+                    <th class="text-center">Tổng SL bán</th>
+                    <th class="text-end">Tổng doanh thu</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    int rank = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">
+                                @if (rank == 1) { <span class="badge bg-warning text-dark fs-6">🥇 1</span> }
+                                else if (rank == 2) { <span class="badge bg-secondary fs-6">🥈 2</span> }
+                                else if (rank == 3) { <span class="badge bg-danger fs-6">🥉 3</span> }
+                                else { <span>@rank</span> }
+                            </td>
+                            <td class="fw-bold text-primary">@item.MaHang</td>
+                            <td class="fw-semibold">@item.TenHang</td>
+                            <td>@item.ChatLieu</td>
+                            <td>@item.MauSac</td>
+                            <td class="text-center fw-bold fs-6">@item.TongSoLuong bộ</td>
+                            <td class="text-end fw-bold text-danger fs-6">@(((decimal)item.TongDoanhThu).ToString("N0")) đ</td>
+                        </tr>
+                        rank++;
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">Không có giao dịch bán hàng trong Quý @quy năm @nam</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

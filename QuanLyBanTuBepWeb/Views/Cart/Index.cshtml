@@ -1,0 +1,175 @@
+@model List<QuanLyBanTuBepWeb.Models.ViewModels.CartItem>
+@{
+    ViewData["Title"] = "Giỏ Hàng Của Bạn";
+    decimal total = ViewBag.TotalAmount ?? 0;
+}
+
+<div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Giỏ hàng</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <h3 class="fw-bold mb-4"><i class="bi bi-cart3 text-primary me-2"></i>Giỏ Hàng Mua Sắm</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="card border-0 shadow-sm p-5 text-center bg-white rounded-4">
+            <i class="bi bi-cart-x fs-1 text-muted d-block mb-3"></i>
+            <h5 class="fw-bold text-secondary">Giỏ hàng của bạn đang trống</h5>
+            <p class="text-muted small">Chưa có mẫu tủ bếp nào được thêm vào giỏ hàng.</p>
+            <div class="mt-3">
+                <a asp-controller="Product" asp-action="Index" class="btn btn-primary-custom px-4 rounded-pill">
+                    <i class="bi bi-grid-fill me-2"></i> Tiếp tục xem sản phẩm
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            <!-- Cart Table Items -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-3">
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light small">
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Đơn giá</th>
+                                    <th style="width: 130px;">Số lượng</th>
+                                    <th>Thành tiền</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="row-@item.MaHang">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="rounded-3 me-3" style="width: 70px; height: 60px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                                <div>
+                                                    <h6 class="mb-0 fw-bold">@item.TenHang</h6>
+                                                    <small class="text-muted">Mã: @item.MaHang</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="fw-semibold">@item.DonGiaBan.ToString("N0") đ</td>
+                                        <td>
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="form-control text-center input-cart-qty" data-id="@item.MaHang" value="@item.SoLuong" min="1" max="99">
+                                            </div>
+                                        </td>
+                                        <td class="fw-bold text-danger" id="item-total-@item.MaHang">
+                                            @item.ThanhTien.ToString("N0") đ
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-outline-danger btn-sm rounded-circle btn-remove-item" data-id="@item.MaHang" title="Xóa">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-arrow-left me-1"></i> Xem thêm tủ bếp khác
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 80px;">
+                    <h5 class="fw-bold text-dark mb-4">Tóm Tắt Đơn Hàng</h5>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tạm tính:</span>
+                        <span class="fw-semibold" id="cartSubtotal">@total.ToString("N0") đ</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Phí khảo sát & vận chuyển:</span>
+                        <span class="text-success fw-bold">Miễn phí</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Lắp đặt cơ bản:</span>
+                        <span class="text-success fw-bold">Miễn phí</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fs-6 fw-bold">Tổng thanh toán:</span>
+                        <span class="fs-4 fw-bold text-danger" id="cartGrandTotal">@total.ToString("N0") đ</span>
+                    </div>
+
+                    <a asp-action="Checkout" class="btn btn-primary-custom btn-lg w-100 fw-bold shadow-sm rounded-pill mb-2">
+                        Tiến Hành Đặt Hàng <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                    <div class="text-center small text-muted">
+                        <i class="bi bi-shield-check text-success me-1"></i> Thông tin được mã hóa an toàn 100%
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Thay đổi số lượng sản phẩm bằng AJAX
+            $(".input-cart-qty").change(function () {
+                var id = $(this).data("id");
+                var qty = parseInt($(this).val()) || 1;
+                if (qty <= 0) qty = 1;
+
+                $.ajax({
+                    url: "/Cart/UpdateQuantity",
+                    type: "POST",
+                    data: { id: id, quantity: qty },
+                    success: function (res) {
+                        if (res.success) {
+                            $("#item-total-" + id).text(res.itemTotal);
+                            $("#cartSubtotal").text(res.cartTotal);
+                            $("#cartGrandTotal").text(res.cartTotal);
+                            $("#cartCountBadge").text(res.totalCount);
+                        }
+                    }
+                });
+            });
+
+            // Xóa sản phẩm khỏi giỏ hàng bằng AJAX
+            $(".btn-remove-item").click(function () {
+                var id = $(this).data("id");
+                if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?")) {
+                    $.ajax({
+                        url: "/Cart/RemoveItem",
+                        type: "POST",
+                        data: { id: id },
+                        success: function (res) {
+                            if (res.success) {
+                                $("#row-" + id).fadeOut(300, function () {
+                                    $(this).remove();
+                                    if ($("tbody tr").length === 0) {
+                                        location.reload();
+                                    }
+                                });
+                                $("#cartSubtotal").text(res.cartTotal);
+                                $("#cartGrandTotal").text(res.cartTotal);
+                                $("#cartCountBadge").text(res.totalCount);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

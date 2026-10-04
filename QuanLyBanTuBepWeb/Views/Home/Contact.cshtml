@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Liên Hệ & Đặt Lịch Khảo Sát";
+}
+
+<div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Liên hệ</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <div class="row g-5">
+        <div class="col-lg-5">
+            <span class="text-primary fw-bold text-uppercase small">Tư vấn tận tâm</span>
+            <h2 class="fw-bold mb-3">Liên Hệ Trực Tiếp Với Showroom</h2>
+            <p class="text-muted small mb-4">Quý khách hàng có nhu cầu tư vấn thiết kế, nhận bảng báo giá chi tiết từng dòng vật liệu hoặc đặt lịch khảo sát đo đạc tại nhà, vui lòng liên hệ thông tin dưới đây:</p>
+
+            <div class="d-flex flex-column gap-3 mb-4">
+                <div class="d-flex align-items-start">
+                    <div class="fs-4 text-primary me-3"><i class="bi bi-geo-alt-fill"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Địa chỉ Showroom:</h6>
+                        <span class="text-muted small">Số 54, Phố Nội Thất, Cầu Giấy, Hà Nội</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="fs-4 text-success me-3"><i class="bi bi-telephone-fill"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Hotline tư vấn 24/7:</h6>
+                        <span class="text-muted small">0912.345.678 / 0987.654.321</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="fs-4 text-warning me-3"><i class="bi bi-envelope-fill"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Email tiếp nhận yêu cầu:</h6>
+                        <span class="text-muted small">contact@tubepkitchenlux.vn</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-start">
+                    <div class="fs-4 text-info me-3"><i class="bi bi-clock-fill"></i></div>
+                    <div>
+                        <h6 class="fw-bold mb-0">Giờ mở cửa:</h6>
+                        <span class="text-muted small">08:00 - 20:30 (Tất cả các ngày trong tuần)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <h4 class="fw-bold text-dark mb-2">Đăng Ký Nhận Tư Vấn & Đo Đạc Miễn Phí</h4>
+                <p class="small text-muted mb-4">Để lại thông tin, kiến trúc sư của chúng tôi sẽ gọi lại trong vòng 15 phút.</p>
+
+                <form onsubmit="alert('Cảm ơn bạn đã để lại thông tin! Đội ngũ tư vấn sẽ liên hệ sớm nhất.'); return false;">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Họ và tên quý khách:</label>
+                            <input type="text" class="form-control" placeholder="Nguyễn Văn A..." required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Số điện thoại liên hệ:</label>
+                            <input type="tel" class="form-control" placeholder="09..." required />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Địa chỉ công trình (Dự kiến lắp đặt):</label>
+                            <input type="text" class="form-control" placeholder="Quận/Huyện, Tỉnh/Thành phố..." />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Ghi chú yêu cầu:</label>
+                            <textarea class="form-control" rows="3" placeholder="Ví dụ: Tủ bếp chữ L dài 3m, phong cách hiện đại..."></textarea>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-primary-custom w-100 py-2 fw-bold rounded-pill">
+                                Gửi Yêu Cầu Tư Vấn Ngay
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

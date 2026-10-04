@@ -1,0 +1,79 @@
+@model IEnumerable<QuanLyBanTuBepWeb.Models.HoaDonBan>
+@{
+    ViewData["Title"] = "Top 5 Hoá Đơn Bán Hàng Nhỏ Nhất";
+    int nam = ViewBag.Nam;
+    int quy = ViewBag.Quy;
+}
+
+<div class="card border-0 shadow-sm rounded-3 bg-white p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-arrow-down-circle-fill text-danger me-2"></i>5 Hoá Đơn Có Tổng Tiền Bán Nhỏ Nhất (Quý @quy / @nam)</h5>
+        <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Quay lại
+        </a>
+    </div>
+
+    <!-- Filter form -->
+    <form asp-action="Top5HoaDonNhoNhatTheoQuy" method="get" class="d-flex flex-wrap align-items-center gap-3 mb-4 p-3 bg-light rounded-3">
+        <div class="d-flex align-items-center gap-2">
+            <label class="small text-muted fw-bold mb-0">Năm:</label>
+            <input type="number" name="nam" class="form-control form-control-sm" style="width: 100px;" value="@nam" min="2020" max="2035" />
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <label class="small text-muted fw-bold mb-0">Quý:</label>
+            <select name="quy" class="form-select form-select-sm" style="width: 120px;">
+                <option value="1" selected="@(quy == 1 ? "selected" : null)">Quý 1</option>
+                <option value="2" selected="@(quy == 2 ? "selected" : null)">Quý 2</option>
+                <option value="3" selected="@(quy == 3 ? "selected" : null)">Quý 3</option>
+                <option value="4" selected="@(quy == 4 ? "selected" : null)">Quý 4</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm px-3"><i class="bi bi-funnel-fill me-1"></i>Xem báo cáo</button>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 small">
+            <thead class="table-light">
+                <tr>
+                    <th style="width: 50px;">STT</th>
+                    <th>Số HDB</th>
+                    <th>Ngày bán</th>
+                    <th>Khách hàng</th>
+                    <th>Điện thoại</th>
+                    <th>Nhân viên phụ trách</th>
+                    <th class="text-end">Tổng tiền bán</th>
+                    <th class="text-center">Xem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    int stt = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center fw-bold">@(stt++)</td>
+                            <td class="fw-bold text-primary">@item.SoHDB</td>
+                            <td>@item.NgayBan?.ToString("dd/MM/yyyy")</td>
+                            <td>@(item.KhachHang?.TenKhach ?? "Khách lẻ")</td>
+                            <td>@(item.KhachHang?.DienThoai ?? "-")</td>
+                            <td>@(item.NhanVien?.TenNV ?? "N/A")</td>
+                            <td class="text-end fw-bold text-danger fs-6">@item.TongTien?.ToString("N0") đ</td>
+                            <td class="text-center">
+                                <a asp-controller="HoaDonBan" asp-action="Details" asp-route-id="@item.SoHDB" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center text-muted py-4">Không có hoá đơn nào trong Quý @quy năm @nam</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

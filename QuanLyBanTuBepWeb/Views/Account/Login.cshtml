@@ -1,0 +1,65 @@
+@model QuanLyBanTuBepWeb.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Đăng Nhập Tài Khoản";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <div class="text-center mb-4">
+                    <div class="fs-1 text-primary mb-2"><i class="bi bi-person-circle"></i></div>
+                    <h4 class="fw-bold text-dark">Đăng Nhập</h4>
+                    <p class="text-muted small">Truy cập để quản lý tài khoản và theo dõi đơn hàng</p>
+                </div>
+
+                <form asp-action="Login" asp-route-returnUrl="@ViewBag.ReturnUrl" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger small py-2 mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="TenDangNhap" class="form-label small fw-bold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-person"></i></span>
+                            <input asp-for="TenDangNhap" class="form-control" placeholder="Tên đăng nhập hoặc mã NV..." autofocus />
+                        </div>
+                        <span asp-validation-for="TenDangNhap" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="MatKhau" class="form-label small fw-bold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-key"></i></span>
+                            <input asp-for="MatKhau" class="form-control" placeholder="Mật khẩu..." />
+                        </div>
+                        <span asp-validation-for="MatKhau" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" asp-for="GhiNho" />
+                        <label class="form-check-label small" asp-for="GhiNho"></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2 fw-bold rounded-pill mb-3">
+                        Đăng Nhập Ngay
+                    </button>
+                </form>
+
+                <!-- Tài khoản test mẫu theo BTL -->
+                <div class="p-3 bg-light rounded-3 small mb-3 border">
+                    <span class="fw-bold d-block text-secondary mb-1"><i class="bi bi-info-circle me-1"></i>Tài khoản dùng thử:</span>
+                    <div>• <strong>Admin:</strong> <code>admin</code> / pass: <code>123456</code></div>
+                    <div>• <strong>Khách hàng:</strong> <code>khach01</code> / pass: <code>123456</code></div>
+                </div>
+
+                <div class="text-center small text-muted">
+                    Chưa có tài khoản? <a asp-action="Register" class="text-primary fw-bold text-decoration-none">Đăng ký mới</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

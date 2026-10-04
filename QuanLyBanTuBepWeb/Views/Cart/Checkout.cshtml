@@ -1,0 +1,115 @@
+@model QuanLyBanTuBepWeb.Models.ViewModels.CheckoutViewModel
+@{
+    ViewData["Title"] = "Thanh Toán & Đặt Hàng";
+    var cart = ViewBag.Cart as List<QuanLyBanTuBepWeb.Models.ViewModels.CartItem>;
+    decimal total = ViewBag.TotalAmount ?? 0;
+}
+
+<div class="bg-white border-bottom py-3 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 small">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Cart" asp-action="Index">Giỏ hàng</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Thanh toán</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="container pb-5">
+    <h3 class="fw-bold mb-4"><i class="bi bi-credit-card-2-front text-primary me-2"></i>Thông Tin Đặt Hàng & Khảo Sát</h3>
+
+    <form asp-action="Checkout" method="post">
+        @Html.AntiForgeryToken()
+        <div class="row g-4">
+            <!-- Form thông tin giao hàng & lắp đặt -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                    <h5 class="fw-bold text-dark mb-3"><i class="bi bi-person-lines-fill text-primary me-2"></i>Thông Tin Người Nhận & Địa Điểm Thi Công</h5>
+                    
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="HoTen" class="form-label small fw-bold"></label>
+                        <input asp-for="HoTen" class="form-control" placeholder="Nhập họ và tên đầy đủ..." />
+                        <span asp-validation-for="HoTen" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="SoDienThoai" class="form-label small fw-bold"></label>
+                        <input asp-for="SoDienThoai" class="form-control" placeholder="Số điện thoại liên hệ (09...)" />
+                        <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DiaChi" class="form-label small fw-bold"></label>
+                        <textarea asp-for="DiaChi" class="form-control" rows="2" placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành phố..."></textarea>
+                        <span asp-validation-for="DiaChi" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="GhiChu" class="form-label small fw-bold"></label>
+                        <textarea asp-for="GhiChu" class="form-control" rows="2" placeholder="Yêu cầu riêng về thời gian khảo sát, kích thước phong thủy..."></textarea>
+                    </div>
+
+                    <div class="p-3 bg-light rounded-3 mt-4">
+                        <h6 class="fw-bold mb-2"><i class="bi bi-truck text-success me-2"></i>Hình thức thanh toán:</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="cod" checked>
+                            <label class="form-check-label small" for="cod">
+                                <strong>Khảo sát & Thanh toán sau khi nghiệm thu</strong> (Đặt cọc khi ký hợp đồng thi công)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tóm tắt đơn hàng -->
+            <div class="col-lg-5">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                    <h5 class="fw-bold text-dark mb-3">Đơn Hàng Của Bạn (@(cart?.Count ?? 0) món)</h5>
+                    <ul class="list-group list-group-flush mb-3">
+                        @if (cart != null)
+                        {
+                            foreach (var item in cart)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                    <div class="d-flex align-items-center">
+                                        <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="rounded-2 me-2" style="width: 50px; height: 40px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                        <div>
+                                            <h6 class="my-0 small fw-bold">@item.TenHang</h6>
+                                            <small class="text-muted">SL: @item.SoLuong x @item.DonGiaBan.ToString("N0") đ</small>
+                                        </div>
+                                    </div>
+                                    <span class="fw-bold text-danger small">@item.ThanhTien.ToString("N0") đ</span>
+                                </li>
+                            }
+                        }
+                    </ul>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Tạm tính:</span>
+                        <span class="fw-semibold">@total.ToString("N0") đ</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Vận chuyển & Lắp đặt:</span>
+                        <span class="text-success fw-bold">Miễn phí</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="fs-6 fw-bold">Tổng thanh toán:</span>
+                        <span class="fs-4 fw-bold text-danger">@total.ToString("N0") đ</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom btn-lg w-100 fw-bold shadow-sm rounded-pill">
+                        <i class="bi bi-check2-circle me-1"></i> Xác Nhận Đặt Hàng Ngay
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

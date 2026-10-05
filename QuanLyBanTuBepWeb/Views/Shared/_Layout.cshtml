@@ -81,6 +81,74 @@
             background-color: #172554;
             color: white;
         }
+
+        /* Floating Contact Widget (Zalo & Hotline) */
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+        .contact-circle-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            text-decoration: none;
+        }
+        .contact-circle-btn:hover {
+            transform: scale(1.12);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+        .btn-zalo {
+            background-color: #0068ff;
+        }
+        .btn-phone-call {
+            background-color: #22c55e;
+            color: white;
+            font-size: 24px;
+            animation: pulse-green 2s infinite;
+        }
+        .btn-phone-call:hover {
+            color: white;
+        }
+        @@keyframes pulse-green {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(34, 197, 94, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+        .contact-tooltip {
+            position: absolute;
+            right: 64px;
+            background: rgba(15, 23, 42, 0.9);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+        .contact-circle-btn:hover .contact-tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -89,7 +157,7 @@
         <div class="container d-flex justify-content-between align-items-center">
             <div>
                 <i class="bi bi-geo-alt-fill text-danger me-1"></i> Số 54, Phố Nội Thất, Hà Nội |
-                <i class="bi bi-telephone-fill text-success ms-2 me-1"></i> Hotline: 0912.345.678
+                <i class="bi bi-telephone-fill text-success ms-2 me-1"></i> Hotline: <a href="tel:0345228952" class="text-decoration-none text-dark fw-bold">0345.228.952</a>
             </div>
             <div>
                 <i class="bi bi-shield-check text-primary me-1"></i> Bảo hành chính hãng lên đến 36 tháng
@@ -205,7 +273,7 @@
                     <p class="small">Chuyên tư vấn, thiết kế và thi công hệ thống tủ bếp hiện đại hàng đầu Việt Nam. Chất lượng vượt trội, mẫu mã đa dạng theo phong cách Châu Âu và Bắc Âu.</p>
                     <p class="small mb-1"><i class="bi bi-geo-alt me-2"></i>Hà Nội, Việt Nam</p>
                     <p class="small mb-1"><i class="bi bi-envelope me-2"></i>contact@tubepkitchenlux.vn</p>
-                    <p class="small"><i class="bi bi-telephone me-2"></i>0912.345.678</p>
+                    <p class="small"><i class="bi bi-telephone me-2"></i><a href="tel:0345228952" class="text-white text-decoration-none fw-bold">0345.228.952</a></p>
                 </div>
                 <div class="col-lg-2 col-md-6">
                     <h6 class="text-white fw-bold mb-3">Danh mục chính</h6>
@@ -242,6 +310,25 @@
             </div>
         </div>
     </footer>
+
+    <!-- Floating Contact Widget: Zalo & Hotline -->
+    <div class="floating-contact-btn">
+        <!-- Nút Gọi Hotline -->
+        <a href="tel:0345228952" class="contact-circle-btn btn-phone-call" title="Gọi Hotline: 0345.228.952">
+            <i class="bi bi-telephone-fill"></i>
+            <span class="contact-tooltip">Hotline: 0345.228.952</span>
+        </a>
+
+        <!-- Nút Chat Zalo -->
+        <a href="https://zalo.me/0345228952" target="_blank" rel="noopener noreferrer" class="contact-circle-btn btn-zalo" title="Chat tư vấn qua Zalo: 0345.228.952">
+            <svg viewBox="0 0 48 48" width="34" height="34" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="24" cy="24" r="24" fill="#0068FF"/>
+                <path d="M12 23.47C12 17.13 17.37 12 24 12s12 5.13 12 11.47c0 6.34-5.37 11.48-12 11.48-1.52 0-2.98-.27-4.32-.77L14 36l.78-4.14C13.06 29.83 12 26.8 12 23.47z" fill="#FFFFFF"/>
+                <path d="M18.8 28.5h6.4v-1.6h-4.3l4.3-5.2v-1.2h-6.1v1.6h4l-4.3 5.2v1.2zm8.1 0h1.8v-8h-1.8v8zm5.5 0h1.8v-8h-1.8v8z" fill="#0068FF"/>
+            </svg>
+            <span class="contact-tooltip">Tư vấn Zalo 24/7</span>
+        </a>
+    </div>
 
     <!-- jQuery and Bootstrap 5 Bundle CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

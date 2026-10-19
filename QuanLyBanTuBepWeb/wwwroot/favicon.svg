@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <!-- Nền hình vuông bo góc Xanh Navy hoàng gia #1E3A8A -->
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#1E3A8A" stroke="#F59E0B" stroke-width="2.5"/>
+
+  <!-- Tủ trên (Upper Cabinets) - Màu trắng tinh tế -->
+  <rect x="12" y="11" width="18" height="15" rx="2" fill="#FFFFFF"/>
+  <rect x="34" y="11" width="18" height="15" rx="2" fill="#FFFFFF"/>
+  <!-- Tay nắm tủ trên - Vàng Gold #D97706 -->
+  <rect x="27" y="17" width="2" height="6" rx="1" fill="#D97706"/>
+  <rect x="35" y="17" width="2" height="6" rx="1" fill="#D97706"/>
+
+  <!-- Mặt bàn đá bếp (Gold Countertop) -->
+  <rect x="9" y="29" width="46" height="5" rx="2" fill="#F59E0B"/>
+
+  <!-- Tủ dưới (Base Cabinets) - Màu trắng -->
+  <rect x="12" y="37" width="18" height="17" rx="2" fill="#FFFFFF"/>
+  <rect x="34" y="37" width="18" height="17" rx="2" fill="#FFFFFF"/>
+  <!-- Tay nắm ngăn kéo & cánh tủ dưới -->
+  <rect x="15" y="41" width="12" height="2" rx="1" fill="#D97706"/>
+  <rect x="15" y="47" width="12" height="2" rx="1" fill="#D97706"/>
+  <rect x="36" y="41" width="2" height="8" rx="1" fill="#D97706"/>
+
+  <!-- Chân tủ bếp (Plinth) -->
+  <rect x="14" y="55" width="36" height="3" rx="1.5" fill="#0F172A"/>
+
+  <!-- Ngôi sao lấp lánh sang trọng góc phải -->
+  <path d="M51 6 L52 9 L55 10 L52 11 L51 14 L50 11 L47 10 L50 9 Z" fill="#F59E0B"/>
+</svg>

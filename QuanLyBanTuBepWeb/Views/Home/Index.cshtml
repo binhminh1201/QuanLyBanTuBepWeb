@@ -121,32 +121,40 @@
         </div>
         <div class="row g-4 text-center">
             <div class="col-md-3">
-                <div class="p-4 rounded-4 bg-light h-100">
-                    <div class="fs-1 text-primary mb-3"><i class="bi bi-shield-lock-fill"></i></div>
-                    <h5 class="fw-bold">Vật Liệu Cao Cấp 100%</h5>
-                    <p class="small text-muted mb-0">Nhập khẩu chính hãng gỗ An Cường lõi xanh chống ẩm, inox 304 không gỉ và nhựa Picomat siêu chịu nước.</p>
-                </div>
+                <a asp-controller="Home" asp-action="About" class="text-decoration-none text-dark d-block h-100">
+                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                        <div class="fs-1 text-primary mb-3"><i class="bi bi-shield-lock-fill"></i></div>
+                        <h5 class="fw-bold">Vật Liệu Cao Cấp 100%</h5>
+                        <p class="small text-muted mb-0">Nhập khẩu chính hãng gỗ An Cường lõi xanh chống ẩm, inox 304 không gỉ và nhựa Picomat siêu chịu nước.</p>
+                    </div>
+                </a>
             </div>
             <div class="col-md-3">
-                <div class="p-4 rounded-4 bg-light h-100">
-                    <div class="fs-1 text-success mb-3"><i class="bi bi-tools"></i></div>
-                    <h5 class="fw-bold">Khảo Sát Tận Nơi Miễn Phí</h5>
-                    <p class="small text-muted mb-0">Đội ngũ kiến trúc sư và kỹ sư lành nghề trực tiếp đo đạc diện tích nhà bếp và dựng bản vẽ 3D miễn phí.</p>
-                </div>
+                <a asp-controller="Home" asp-action="Policy" asp-route-tab="khao-sat" class="text-decoration-none text-dark d-block h-100">
+                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                        <div class="fs-1 text-success mb-3"><i class="bi bi-tools"></i></div>
+                        <h5 class="fw-bold">Khảo Sát Tận Nơi Miễn Phí</h5>
+                        <p class="small text-muted mb-0">Đội ngũ kiến trúc sư và kỹ sư lành nghề trực tiếp đo đạc diện tích nhà bếp và dựng bản vẽ 3D miễn phí.</p>
+                    </div>
+                </a>
             </div>
             <div class="col-md-3">
-                <div class="p-4 rounded-4 bg-light h-100">
-                    <div class="fs-1 text-warning mb-3"><i class="bi bi-tag-fill"></i></div>
-                    <h5 class="fw-bold">Giá Tận Gốc Tại Xưởng</h5>
-                    <p class="small text-muted mb-0">Sản xuất trực tiếp tại xưởng không qua trung gian, giá bán minh bạch tối ưu chi phí cho gia đình.</p>
-                </div>
+                <a asp-controller="Home" asp-action="Policy" asp-route-tab="thanh-toan" class="text-decoration-none text-dark d-block h-100">
+                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                        <div class="fs-1 text-warning mb-3"><i class="bi bi-tag-fill"></i></div>
+                        <h5 class="fw-bold">Giá Tận Gốc Tại Xưởng</h5>
+                        <p class="small text-muted mb-0">Sản xuất trực tiếp tại xưởng không qua trung gian, giá bán minh bạch tối ưu chi phí cho gia đình.</p>
+                    </div>
+                </a>
             </div>
             <div class="col-md-3">
-                <div class="p-4 rounded-4 bg-light h-100">
-                    <div class="fs-1 text-danger mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
-                    <h5 class="fw-bold">Bảo Hành Dài Hạn</h5>
-                    <p class="small text-muted mb-0">Cam kết bảo hành kết cấu lên tới 36 tháng và bảo trì định kỳ trọn đời sản phẩm.</p>
-                </div>
+                <a asp-controller="Home" asp-action="Policy" asp-route-tab="bao-hanh" class="text-decoration-none text-dark d-block h-100">
+                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                        <div class="fs-1 text-danger mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
+                        <h5 class="fw-bold">Bảo Hành Dài Hạn</h5>
+                        <p class="small text-muted mb-0">Cam kết bảo hành kết cấu lên tới 36 tháng và bảo trì định kỳ trọn đời sản phẩm.</p>
+                    </div>
+                </a>
             </div>
         </div>
     </div>

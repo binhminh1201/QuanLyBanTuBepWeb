@@ -42,6 +42,12 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View();
         }
 
+        public IActionResult Policy(string? tab)
+        {
+            ViewBag.ActiveTab = string.IsNullOrEmpty(tab) ? "bao-hanh" : tab.ToLower();
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

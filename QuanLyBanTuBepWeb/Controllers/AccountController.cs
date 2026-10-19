@@ -131,20 +131,20 @@ namespace QuanLyBanTuBepWeb.Controllers
             var khachHang = new KhachHang
             {
                 MaKhach = maKhach,
-                TenKhach = model.HoTen,
-                DienThoai = model.SoDienThoai,
-                DiaChi = model.DiaChi
+                TenKhach = model.HoTen.Trim(),
+                DienThoai = model.SoDienThoai.Trim(),
+                DiaChi = string.IsNullOrWhiteSpace(model.DiaChi) ? null : model.DiaChi.Trim()
             };
             _context.KhachHangs.Add(khachHang);
 
             var taiKhoan = new TaiKhoan
             {
-                TenDangNhap = model.TenDangNhap,
+                TenDangNhap = model.TenDangNhap.Trim(),
                 MatKhau = model.MatKhau,
-                HoTen = model.HoTen,
-                Email = model.Email,
-                SoDienThoai = model.SoDienThoai,
-                DiaChi = model.DiaChi,
+                HoTen = model.HoTen.Trim(),
+                Email = string.IsNullOrWhiteSpace(model.Email) ? null : model.Email.Trim(),
+                SoDienThoai = model.SoDienThoai.Trim(),
+                DiaChi = string.IsNullOrWhiteSpace(model.DiaChi) ? null : model.DiaChi.Trim(),
                 Quyen = "KhachHang",
                 MaKhach = maKhach,
                 TrangThai = true,

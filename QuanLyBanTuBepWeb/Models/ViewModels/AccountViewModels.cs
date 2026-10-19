@@ -40,12 +40,12 @@ namespace QuanLyBanTuBepWeb.Models.ViewModels
         [Display(Name = "Họ và tên")]
         public string HoTen { get; set; } = null!;
 
-        [EmailAddress(ErrorMessage = "Email không hợp lệ")]
+        [EmailAddress(ErrorMessage = "Email không đúng định dạng")]
         [Display(Name = "Email")]
         public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Số điện thoại không được để trống")]
-        [RegularExpression(@"^0\d{9,10}$", ErrorMessage = "Số điện thoại bắt đầu bằng 0, gồm 10-11 số")]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
+        [RegularExpression(@"^0\d{9,10}$", ErrorMessage = "Số điện thoại không hợp lệ (bắt đầu bằng số 0, gồm 10-11 chữ số)")]
         [Display(Name = "Số điện thoại")]
         public string SoDienThoai { get; set; } = null!;
 

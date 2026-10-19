@@ -1,10 +1,6 @@
 @model QuanLyBanTuBepWeb.Models.ViewModels.ProductFilterVM
 @{
     ViewData["Title"] = "Bộ Sưu Tập Tủ Bếp";
-    var chatLieus = ViewBag.ChatLieus as IEnumerable<QuanLyBanTuBepWeb.Models.ChatLieu>;
-    var mauSacs = ViewBag.MauSacs as IEnumerable<QuanLyBanTuBepWeb.Models.MauSac>;
-    var kichThuocs = ViewBag.KichThuocs as IEnumerable<QuanLyBanTuBepWeb.Models.KichThuoc>;
-    var nuocSXs = ViewBag.NuocSanXuats as IEnumerable<QuanLyBanTuBepWeb.Models.NuocSanXuat>;
 }
 
 <!-- Page Header Breadcrumb -->
@@ -21,109 +17,8 @@
 
 <div class="container pb-5">
     <div class="row g-4">
-        <!-- Sidebar Filter (Lab 5 & Lab 6) -->
-        <div class="col-lg-3">
-            <div class="card border-0 shadow-sm rounded-3 p-3 bg-white sticky-top" style="top: 80px; z-index: 10;">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-sliders text-primary me-2"></i>Bộ Lọc Tìm Kiếm</h5>
-                    <button id="btnResetAll" class="btn btn-link text-decoration-none btn-sm p-0 text-muted" title="Xóa lọc">
-                        <i class="bi bi-arrow-counterclockwise"></i> Đặt lại
-                    </button>
-                </div>
-
-                <form id="filterForm">
-                    <!-- 1. Tìm kiếm theo từ khóa -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Từ khóa:</label>
-                        <div class="input-group input-group-sm">
-                            <input type="text" id="keywordInput" name="keyword" class="form-control" placeholder="Tên tủ bếp..." value="@Model.Keyword" />
-                            <button class="btn btn-primary" type="button" id="btnSearchKeyword"><i class="bi bi-search"></i></button>
-                        </div>
-                    </div>
-
-                    <!-- 2. Lọc theo Chất liệu -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Chất liệu:</label>
-                        <select id="selectChatLieu" name="maChatLieu" class="form-select form-select-sm filter-input">
-                            <option value="">-- Tất cả chất liệu --</option>
-                            @if (chatLieus != null)
-                            {
-                                foreach (var item in chatLieus)
-                                {
-                                    <option value="@item.MaChatLieu" selected="@(item.MaChatLieu == Model.MaChatLieu ? "selected" : null)">@item.TenChatLieu</option>
-                                }
-                            }
-                        </select>
-                    </div>
-
-                    <!-- 3. Lọc theo Màu sắc -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Màu sắc:</label>
-                        <select id="selectMauSac" name="maMau" class="form-select form-select-sm filter-input">
-                            <option value="">-- Tất cả màu sắc --</option>
-                            @if (mauSacs != null)
-                            {
-                                foreach (var item in mauSacs)
-                                {
-                                    <option value="@item.MaMau" selected="@(item.MaMau == Model.MaMau ? "selected" : null)">@item.TenMau</option>
-                                }
-                            }
-                        </select>
-                    </div>
-
-                    <!-- 4. Lọc theo Kích thước -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Kích thước:</label>
-                        <select id="selectKichThuoc" name="maKichThuoc" class="form-select form-select-sm filter-input">
-                            <option value="">-- Tất cả kích thước --</option>
-                            @if (kichThuocs != null)
-                            {
-                                foreach (var item in kichThuocs)
-                                {
-                                    <option value="@item.MaKichThuoc" selected="@(item.MaKichThuoc == Model.MaKichThuoc ? "selected" : null)">@item.TenKichThuoc</option>
-                                }
-                            }
-                        </select>
-                    </div>
-
-                    <!-- 5. Lọc theo Xuất xứ -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Xuất xứ / Nước SX:</label>
-                        <select id="selectNuocSX" name="maNuocSX" class="form-select form-select-sm filter-input">
-                            <option value="">-- Tất cả xuất xứ --</option>
-                            @if (nuocSXs != null)
-                            {
-                                foreach (var item in nuocSXs)
-                                {
-                                    <option value="@item.MaNuocSX" selected="@(item.MaNuocSX == Model.MaNuocSX ? "selected" : null)">@item.TenNuocSX</option>
-                                }
-                            }
-                        </select>
-                    </div>
-
-                    <!-- 6. Khoảng giá -->
-                    <div class="mb-3">
-                        <label class="form-label small fw-bold">Mức giá:</label>
-                        <div class="form-check small mb-1">
-                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="priceAll" value="" checked>
-                            <label class="form-check-label" for="priceAll">Tất cả mức giá</label>
-                        </div>
-                        <div class="form-check small mb-1">
-                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price1" value="0-10000000">
-                            <label class="form-check-label" for="price1">Dưới 10 triệu</label>
-                        </div>
-                        <div class="form-check small mb-1">
-                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price2" value="10000000-15000000">
-                            <label class="form-check-label" for="price2">10 - 15 triệu</label>
-                        </div>
-                        <div class="form-check small">
-                            <input class="form-check-input filter-radio-price" type="radio" name="priceRange" id="price3" value="15000000-999999999">
-                            <label class="form-check-label" for="price3">Trên 15 triệu</label>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <!-- Sidebar Filter ViewComponent (Lab 2 & Lab 5) -->
+        @await Component.InvokeAsync("ProductFilterSidebar", Model)
 
         <!-- Main Product Listing Section -->
         <div class="col-lg-9">

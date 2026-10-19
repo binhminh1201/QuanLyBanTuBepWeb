@@ -17,4 +17,13 @@ namespace QuanLyBanTuBepWeb.Models.ViewModels
         public int TotalItems { get; set; } = 0;
         public int PageSize { get; set; } = 6;
     }
+
+    public class SidebarFilterVM
+    {
+        public ProductFilterVM CurrentFilter { get; set; } = new();
+        public List<ChatLieu> ChatLieus { get; set; } = new();
+        public List<MauSac> MauSacs { get; set; } = new();
+        public List<KichThuoc> KichThuocs { get; set; } = new();
+        public List<NuocSanXuat> NuocSanXuats { get; set; } = new();
+    }
 }

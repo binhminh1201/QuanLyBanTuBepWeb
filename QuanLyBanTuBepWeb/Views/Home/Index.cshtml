@@ -75,7 +75,7 @@
                     <div class="card card-product h-100 shadow-sm">
                         <div class="position-relative" style="height: 220px; overflow: hidden; background-color: #f1f5f9;">
                             <a asp-controller="Product" asp-action="Details" asp-route-id="@item.MaHang">
-                                <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="card-img-top product-img" alt="@item.TenHang" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                <img src="/images/products/@item.AnhChinh" class="card-img-top product-img" alt="@item.TenHang" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
                             </a>
                             <span class="position-absolute top-0 end-0 bg-primary text-white px-2 py-1 m-2 rounded small fw-bold">
                                 @(item.NuocSanXuat?.TenNuocSX ?? "Nhập khẩu")

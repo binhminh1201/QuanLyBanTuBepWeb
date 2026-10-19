@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QuanLyBanTuBepWeb.Models;
+using QuanLyBanTuBepWeb.Models.ViewModels;
 
 namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
 {
@@ -117,6 +118,46 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                     TongChiTieu = g.Sum(x => x.TongTien)
                 })
                 .OrderByDescending(x => x.TongChiTieu)
+                .ToListAsync();
+
+            return View(result);
+        }
+
+        // YC 7: Báo cáo chi tiết danh sách các hoá đơn nhập do một nhân viên nhập được chọn trước
+        public async Task<IActionResult> HoaDonNhapTheoNV(string? maNV)
+        {
+            var nhanViens = await _context.NhanViens.OrderBy(nv => nv.MaNV).ToListAsync();
+            ViewBag.NhanViens = nhanViens;
+
+            string selectedNV = !string.IsNullOrEmpty(maNV) 
+                ? maNV 
+                : (nhanViens.FirstOrDefault(nv => nv.MaNV == "NV04")?.MaNV ?? nhanViens.FirstOrDefault()?.MaNV ?? "");
+            ViewBag.SelectedNV = selectedNV;
+
+            var result = await _context.ChiTietHoaDonNhaps
+                .Include(ct => ct.HoaDonNhap)
+                    .ThenInclude(h => h!.NhanVien)
+                .Include(ct => ct.HoaDonNhap)
+                    .ThenInclude(h => h!.NhaCungCap)
+                .Include(ct => ct.DMHangHoa)
+                .Where(ct => ct.HoaDonNhap != null && ct.HoaDonNhap.MaNV == selectedNV)
+                .OrderByDescending(ct => ct.HoaDonNhap!.NgayNhap)
+                .ThenBy(ct => ct.SoHDN)
+                .Select(ct => new HoaDonNhapTheoNVItemVM
+                {
+                    SoHDN = ct.SoHDN,
+                    NgayNhap = ct.HoaDonNhap != null ? ct.HoaDonNhap.NgayNhap : null,
+                    MaNV = selectedNV,
+                    TenNV = ct.HoaDonNhap != null && ct.HoaDonNhap.NhanVien != null ? ct.HoaDonNhap.NhanVien.TenNV : "",
+                    TenNCC = ct.HoaDonNhap != null && ct.HoaDonNhap.NhaCungCap != null ? ct.HoaDonNhap.NhaCungCap.TenNCC : "",
+                    MaHang = ct.MaHang,
+                    TenHang = ct.DMHangHoa != null ? ct.DMHangHoa.TenHang : ct.MaHang,
+                    SoLuong = ct.SoLuong,
+                    DonGia = ct.DonGia,
+                    GiamGia = ct.GiamGia ?? 0,
+                    ThanhTien = ct.ThanhTien ?? 0,
+                    TongTienHoaDon = ct.HoaDonNhap != null ? (ct.HoaDonNhap.TongTien ?? 0) : 0
+                })
                 .ToListAsync();
 
             return View(result);

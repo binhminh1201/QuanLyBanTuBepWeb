@@ -42,7 +42,7 @@
                 {
                     <tr>
                         <td>
-                            <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="rounded-2" style="width: 60px; height: 45px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                            <img src="/images/products/@item.AnhChinh" class="rounded-2" style="width: 60px; height: 45px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
                         </td>
                         <td class="fw-bold text-primary">@item.MaHang</td>
                         <td class="fw-semibold">@item.TenHang</td>

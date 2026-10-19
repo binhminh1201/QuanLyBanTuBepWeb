@@ -20,9 +20,40 @@
 <div class="container pb-5">
     <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
         <div class="row g-0">
-            <!-- Product Image -->
-            <div class="col-lg-6 p-4 text-center bg-light d-flex align-items-center justify-content-center">
-                <img src="/images/products/@(string.IsNullOrEmpty(Model.Anh) ? "no_image.png" : Model.Anh)" class="img-fluid rounded-3 shadow-sm" alt="@Model.TenHang" style="max-height: 420px; width: auto;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+            <!-- Product Image & Multi-Angle Gallery -->
+            <div class="col-lg-6 p-4 bg-light d-flex flex-column justify-content-between">
+                <!-- Main Image Display -->
+                <div class="position-relative text-center d-flex align-items-center justify-content-center bg-white rounded-4 p-2 shadow-sm border" style="min-height: 380px; max-height: 440px; overflow: hidden;">
+                    <img id="mainProductImg" src="/images/products/@Model.AnhChinh" class="img-fluid rounded-3" alt="@Model.TenHang" style="max-height: 400px; width: 100%; object-fit: contain; transition: all 0.25s ease;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                    <span id="imgAngleBadge" class="position-absolute top-0 start-0 m-3 badge bg-dark bg-opacity-75 px-3 py-2 rounded-pill small fw-normal">
+                        <i class="bi bi-camera me-1"></i> Góc chính diện
+                    </span>
+                </div>
+
+                <!-- Multi-angle Thumbnails Gallery -->
+                <div class="mt-3">
+                    <div class="small fw-bold text-muted mb-2 d-flex align-items-center justify-content-between">
+                        <span><i class="bi bi-images me-1 text-primary"></i> Hình ảnh các góc chụp thực tế:</span>
+                        <span class="text-primary small" style="font-size: 0.75rem;">Nhấp vào ảnh để phóng to</span>
+                    </div>
+                    <div class="d-flex gap-2 overflow-auto py-1" id="productThumbnails">
+                        @{
+                            var labels = new[] { "Chính diện", "Góc nghiêng 3D", "Khoang & Phụ kiện", "Mặt đá & Bố trí" };
+                            var imgIndex = 0;
+                        }
+                        @foreach (var imgName in Model.DanhSachAnh)
+                        {
+                            var lbl = imgIndex < labels.Length ? labels[imgIndex] : $"Góc chụp {imgIndex + 1}";
+                            <div class="thumb-item text-center cursor-pointer @(imgIndex == 0 ? "active-thumb" : "")" style="cursor: pointer; min-width: 85px;" data-src="/images/products/@imgName" data-label="@lbl">
+                                <div class="border rounded-3 p-1 bg-white shadow-xs position-relative" style="height: 65px; overflow: hidden; transition: all 0.2s;">
+                                    <img src="/images/products/@imgName" class="w-100 h-100 rounded-2" style="object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                </div>
+                                <small class="d-block text-truncate text-muted mt-1" style="font-size: 0.7rem; max-width: 85px;">@lbl</small>
+                            </div>
+                            imgIndex++;
+                        }
+                    </div>
+                </div>
             </div>
 
             <!-- Product Specs and Buy Form -->
@@ -117,7 +148,7 @@
                         <div class="card card-product h-100 shadow-sm">
                             <div style="height: 180px; overflow: hidden; background-color: #f1f5f9;">
                                 <a asp-action="Details" asp-route-id="@item.MaHang">
-                                    <img src="/images/products/@(string.IsNullOrEmpty(item.Anh) ? "no_image.png" : item.Anh)" class="card-img-top product-img" alt="@item.TenHang" style="height: 180px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                    <img src="/images/products/@item.AnhChinh" class="card-img-top product-img" alt="@item.TenHang" style="height: 180px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
                                 </a>
                             </div>
                             <div class="card-body p-3 d-flex flex-column justify-content-between">
@@ -135,8 +166,34 @@
 </div>
 
 @section Scripts {
+    <style>
+        .active-thumb .border {
+            border-color: #0d6efd !important;
+            border-width: 2px !important;
+            box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25) !important;
+        }
+        .thumb-item:hover .border {
+            border-color: #0d6efd !important;
+            transform: translateY(-2px);
+        }
+    </style>
     <script>
         $(document).ready(function () {
+            // Chuyển đổi góc chụp ảnh khi click thumbnail
+            $('.thumb-item').on('click', function () {
+                $('.thumb-item').removeClass('active-thumb');
+                $(this).addClass('active-thumb');
+                var newSrc = $(this).data('src');
+                var label = $(this).data('label');
+
+                $('#mainProductImg').css('opacity', '0.4');
+                setTimeout(function () {
+                    $('#mainProductImg').attr('src', newSrc).css('opacity', '1');
+                }, 150);
+
+                $('#imgAngleBadge').html('<i class="bi bi-camera me-1"></i> ' + label);
+            });
+
             var maxQty = @(Model.SoLuong ?? 0);
 
             $("#btnMinus").click(function () {

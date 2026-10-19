@@ -57,6 +57,61 @@ namespace QuanLyBanTuBepWeb.Models
         [Display(Name = "Hình ảnh")]
         public string? Anh { get; set; }
 
+        [NotMapped]
+        public string AnhChinh
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Anh)) return "no_image.png";
+                var first = Anh.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+                return string.IsNullOrEmpty(first) ? "no_image.png" : first.Trim();
+            }
+        }
+
+        [NotMapped]
+        public List<string> DanhSachAnh
+        {
+            get
+            {
+                var list = new List<string>();
+                if (!string.IsNullOrEmpty(Anh))
+                {
+                    var parts = Anh.Split(new[] { ';', ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var p in parts)
+                    {
+                        var clean = p.Trim();
+                        if (!string.IsNullOrEmpty(clean) && !list.Contains(clean))
+                            list.Add(clean);
+                    }
+                }
+
+                if (list.Count > 0)
+                {
+                    var first = list[0];
+                    if (first.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var baseName = first.Substring(0, first.Length - 4);
+                        if (!baseName.EndsWith("_angle") && !baseName.EndsWith("_detail") && !baseName.EndsWith("_inside"))
+                        {
+                            var angleImg = $"{baseName}_angle.jpg";
+                            var detailImg = $"{baseName}_detail.jpg";
+                            var insideImg = $"{baseName}_inside.jpg";
+
+                            if (!list.Contains(angleImg)) list.Add(angleImg);
+                            if (!list.Contains(detailImg)) list.Add(detailImg);
+                            if (!list.Contains(insideImg)) list.Add(insideImg);
+                        }
+                    }
+                }
+
+                if (list.Count == 0)
+                {
+                    list.Add("no_image.png");
+                }
+                return list;
+            }
+        }
+
         [StringLength(500)]
         [Display(Name = "Ghi chú")]
         public string? GhiChu { get; set; }

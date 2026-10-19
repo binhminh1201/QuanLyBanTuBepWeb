@@ -18,12 +18,6 @@ namespace QuanLyBanTuBepWeb.Controllers
         // GET: /Product
         public async Task<IActionResult> Index(string? keyword, string? maChatLieu, string? maMau, string? maKichThuoc, string? maNuocSX, decimal? giaTu, decimal? giaDen, string? sapXep, int page = 1)
         {
-            // Nạp dữ liệu các bộ lọc cho Sidebar
-            ViewBag.ChatLieus = await _context.ChatLieus.ToListAsync();
-            ViewBag.MauSacs = await _context.MauSacs.ToListAsync();
-            ViewBag.KichThuocs = await _context.KichThuocs.ToListAsync();
-            ViewBag.NuocSanXuats = await _context.NuocSanXuats.ToListAsync();
-
             var vm = await QueryProductsAsync(keyword, maChatLieu, maMau, maKichThuoc, maNuocSX, giaTu, giaDen, sapXep, page);
             return View(vm);
         }

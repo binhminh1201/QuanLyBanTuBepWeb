@@ -48,13 +48,18 @@ Sau đó mở trình duyệt và truy cập: `http://localhost:5000` hoặc cổ
 5. **Upload file hình ảnh & CKEditor (Yêu cầu 3.3 & Chương 10)**:
    - Upload file ảnh tủ bếp qua `IFormFile` lưu vào `wwwroot/images/products/`.
    - Tích hợp trình soạn thảo văn bản CKEditor cho trường mô tả/ghi chú sản phẩm.
-6. **Web API RESTful (Yêu cầu 3.3)**:
+6. **Kiến trúc ViewComponent độc lập (Slide Chương 5, Lab 2 & Lab 5)**:
+   - Đóng gói thanh lọc Sidebar động thành `ProductFilterSidebarViewComponent` tự quản lý truy vấn 4 danh mục (Chất liệu, Màu sắc, Kích thước, Xuất xứ) tách biệt hoàn toàn khỏi Controller.
+7. **Web API RESTful (Yêu cầu 3.3)**:
    - Endpoint `GET /api/tubep` trả về danh sách tủ bếp định dạng JSON.
    - Endpoint `GET /api/tubep/{id}` trả về chi tiết tủ bếp theo ID.
-7. **Tích hợp các Stored Procedure báo cáo đề tài**:
-   - `sp_BaoCaoTop3SanPhamTheoQuy`: Top 3 sản phẩm bán chạy nhất trong quý.
-   - `sp_BaoCaoTop5HDBanNhoNhatTheoQuy`: 5 hóa đơn bán hàng nhỏ nhất trong quý.
-   - `sp_BaoCaoKhachHangTheoThang`: Danh sách khách hàng và doanh số theo tháng.
+8. **Đầy đủ 4 Báo cáo thống kê theo đề tài Excel ([47_Quan_ly_ban_tu_bep.xlsx](file:///d:/DoStBetter/LTW/47_Quan_ly_ban_tu_bep.xlsx))**:
+   - `sp_BaoCaoTop3SanPhamTheoQuy`: Top 3 sản phẩm bán chạy nhất trong quý (YC 6).
+   - `sp_BaoCaoHoaDonNhapTheoNV`: Báo cáo chi tiết hóa đơn nhập do nhân viên nhập (YC 7).
+   - `sp_BaoCaoTop5HDBanNhoNhatTheoQuy`: 5 hóa đơn bán hàng nhỏ nhất trong quý (YC 8).
+   - `sp_BaoCaoKhachHangTheoThang`: Danh sách khách hàng và doanh số theo tháng (YC 9).
+9. **Tìm kiếm hóa đơn bán đa tiêu chí (YC 5)**:
+   - Tìm kiếm kết hợp theo Mã hàng hoá trong HĐ, Khoảng ngày bán và Khoảng tổng tiền.
 
 ---
 
@@ -77,8 +82,8 @@ flowchart LR
         
         UC7[Quản lý danh mục Tủ Bếp CRUD]
         UC8[Upload ảnh & Soạn thảo CKEditor]
-        UC9[Quản lý Hoá đơn bán hàng]
-        UC10[Xem Báo cáo thống kê theo quý/tháng]
+        UC9[Quản lý & Tìm kiếm Hoá đơn bán]
+        UC10[Xem 4 Báo cáo thống kê đề tài]
         UC11[Quản trị tài khoản & Dashboard]
     end
 
@@ -109,3 +114,5 @@ flowchart LR
 | **TC06** | Đăng nhập Admin | Tài khoản `admin` / pass `123456` | Chuyển hướng vào trang Dashboard quản trị `/Admin` | Đăng nhập thành công, mở giao diện SB Admin | **PASS** |
 | **TC07** | Thêm mới tủ bếp kèm ảnh | Nhập thông tin TB06, chọn file ảnh `.jpg` | Thêm vào CSDL, file ảnh lưu trong `wwwroot/images/products/` | Hiển thị trong bảng quản trị với ảnh vừa chọn | **PASS** |
 | **TC08** | Báo cáo Top 3 theo Quý | Chọn Năm: 2026, Quý: 1 | Trả về 3 sản phẩm bán chạy nhất Quý 1/2026 theo đúng DB | Hiện chính xác 3 sản phẩm TB01, TB04, TB02 | **PASS** |
+| **TC09** | Báo cáo HĐ Nhập theo NV | Chọn nhân viên: "NV04 - Phạm Thu Hà" | Trả về chi tiết các đợt nhập hàng của NV04 kèm tổng tiền | Hiển thị chính xác các hóa đơn HDN01 - HDN04 của NV04 | **PASS** |
+| **TC10** | Tìm kiếm HĐ bán đa tiêu chí | Chọn mặt hàng "TB01" và Tổng tiền từ "10.000.000" | Lọc ra các hóa đơn bán chứa TB01 có tổng giá trị >= 10tr | Lọc chính xác các hóa đơn HDB01, HDB03 | **PASS** |

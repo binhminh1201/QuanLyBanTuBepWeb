@@ -65,7 +65,7 @@ namespace QuanLyBanTuBepWeb.Controllers
                 {
                     MaHang = product.MaHang,
                     TenHang = product.TenHang,
-                    Anh = product.Anh,
+                    Anh = product.AnhChinh,
                     DonGiaBan = product.DonGiaBan ?? 0,
                     SoLuong = quantity
                 });

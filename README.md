@@ -1,32 +1,30 @@
-# HƯỚNG DẪN DỰ ÁN BÀI TẬP LỚN: XÂY DỰNG WEBSITE QUẢN LÝ BÁN TỦ BẾP
-**Môn học:** Lập trình Web (ASP.NET Core MVC 10 + Entity Framework Core + SQL Server 2022)  
+# BÀI TẬP LỚN: XÂY DỰNG WEBSITE QUẢN LÝ BÁN TỦ BẾP
+**Môn học:** Lập trình Web (ASP.NET Core MVC + Entity Framework Core + SQL Server)  
 **Nhóm thực hiện:** Nhóm 5  
-**Thư mục dự án:** `D:\DoStBetter\LTW\QuanLyBanTuBepWeb`
 
 ---
 
-## 1. CÁC TÀI KHOẢN ĐĂNG NHẬP MẪU
+## 1. TÀI KHOẢN ĐĂNG NHẬP MẪU
 
 | Loại tài khoản | Tên đăng nhập | Mật khẩu | Quyền hạn (Role) | Chức năng chính |
 | :--- | :--- | :--- | :--- | :--- |
-| **Quản trị viên (Admin)** | `admin` | `123456` | `Admin` | Truy cập `/Admin`: Dashboard thống kê doanh thu, Quản lý tủ bếp (CRUD + Upload ảnh + CKEditor), Quản lý hóa đơn bán, Xem 4 báo cáo thống kê theo quý/tháng. |
-| **Khách hàng** | `khach01` | `123456` | `KhachHang` | Xem bộ sưu tập tủ bếp, Lọc AJAX, Thêm giỏ hàng Session, Đặt hàng online, Xem lịch sử đơn hàng cá nhân. |
+| **Quản trị viên (Admin)** | `admin` | `123456` | `Admin` | Quản trị hệ thống, quản lý danh mục sản phẩm, quản lý đơn hàng và xem báo cáo thống kê. |
+| **Khách hàng** | `khach01` | `123456` | `KhachHang` | Xem sản phẩm tủ bếp, tìm kiếm & lọc AJAX, giỏ hàng, đặt hàng và theo dõi đơn hàng. |
 
 ---
 
-## 2. HƯỚNG DẪN CHẠY VÀ KIỂM TRA DỰ ÁN
+## 2. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN
 
-### Cách 1: Sử dụng Visual Studio (Khuyên dùng)
-1. Mở Visual Studio -> Chọn **Open a project or solution**.
-2. Tìm đến thư mục `D:\DoStBetter\LTW\QuanLyBanTuBepWeb` và chọn tệp `QuanLyBanTuBepWeb.csproj`.
-3. Nhấn **F5** (hoặc nút **Play - https/http**) để chạy ứng dụng trên trình duyệt.
-
-### Cách 2: Sử dụng dòng lệnh (Terminal / PowerShell)
-```powershell
-cd "D:\DoStBetter\LTW\QuanLyBanTuBepWeb"
-dotnet run
-```
-Sau đó mở trình duyệt và truy cập: `http://localhost:5000` hoặc cổng được hiển thị trên màn hình console.
+1. **Cơ sở dữ liệu**: Chạy file script SQL `QuanLyBanTuBep.sql` trong SQL Server để khởi tạo CSDL và dữ liệu mẫu.
+2. **Cấu hình kết nối**: Kiểm tra chuỗi kết nối `DefaultConnection` trong `appsettings.json` phù hợp với máy chủ SQL Server của bạn.
+3. **Khởi chạy ứng dụng**:
+   - **Visual Studio**: Mở project `QuanLyBanTuBepWeb.csproj` và nhấn **F5** (hoặc **Ctrl + F5**).
+   - **Dòng lệnh (.NET CLI)**:
+     ```bash
+     cd QuanLyBanTuBepWeb
+     dotnet run
+     ```
+   - Mở trình duyệt và truy cập website tại: `http://localhost:5000`.
 
 ---
 

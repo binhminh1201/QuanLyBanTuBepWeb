@@ -30,36 +30,36 @@ Sau đó mở trình duyệt và truy cập: `http://localhost:5000` hoặc cổ
 
 ---
 
-## 3. DANH SÁCH CÁC TÍNH NĂNG ĐÃ HIỆN THỰC THEO ĐÚNG NỘI DUNG MÔN HỌC
+## 3. DANH SÁCH CÁC TÍNH NĂNG ĐÃ HIỆN THỰC CỦA HỆ THỐNG
 
-1. **Kiến trúc phân hệ 2 lớp người dùng (Yêu cầu 3.1 & Chương 10)**:
+1. **Kiến trúc phân hệ 2 lớp người dùng**:
    - Giao diện Showroom Tủ bếp dành cho Khách hàng (`/Home`, `/Product`, `/Cart`, `/Account`).
-   - Phân hệ quản trị độc lập dành cho Admin (`/Admin/Home`, `/Admin/DMHangHoa`, `/Admin/HoaDonBan`, `/Admin/BaoCao`).
-2. **Bộ 3 AJAX cốt lõi (Yêu cầu 3.3 & Lab 5, Lab 6)**:
-   - Lọc tủ bếp theo Chất liệu, Màu sắc, Kích thước, Xuất xứ, Khoảng giá.
+   - Phân hệ quản trị độc lập dành cho Quản trị viên (`/Admin/Home`, `/Admin/DMHangHoa`, `/Admin/HoaDonBan`, `/Admin/BaoCao`).
+2. **Bộ lọc và tương tác AJAX**:
+   - Lọc tủ bếp đa tiêu chí theo Chất liệu, Màu sắc, Kích thước, Xuất xứ, Khoảng giá.
    - Tìm kiếm từ khóa theo tên hoặc mã tủ bếp.
-   - Phân trang động (Paging) bằng AJAX kết hợp jQuery và `PartialView("_ProductListPartial")` hoàn toàn không reload trang.
-3. **Quản lý trạng thái (Session & Cookies - Yêu cầu 3.3 & Chương 7, 8)**:
-   - Giỏ hàng (Shopping Cart) lưu trong Session qua `JsonSerializer` (`CartController.cs` & `SessionExtensions.cs`).
-   - Đăng nhập ghi nhớ qua Cookie (`CookieAuthenticationDefaults`).
-4. **Kiểm soát tính hợp lệ (Data Annotations & Validation - Lab 3)**:
+   - Phân trang động (Paging) bằng AJAX kết hợp jQuery và `PartialView("_ProductListPartial")` hoàn toàn không tải lại trang.
+3. **Quản lý trạng thái (Session & Cookies)**:
+   - Giỏ hàng (Shopping Cart) lưu trữ trong Session qua `JsonSerializer` (`CartController.cs` & `SessionExtensions.cs`).
+   - Đăng nhập ghi nhớ và phân quyền qua Cookie (`CookieAuthenticationDefaults`).
+4. **Kiểm tra tính hợp lệ dữ liệu (Data Annotations & Validation)**:
    - Ràng buộc Model (`[Required]`, `[Range]`, `[RegularExpression]`, `[Compare]`).
-   - Bẫy lỗi ở Client (jQuery Validate) và Server (`ModelState.IsValid`).
-5. **Upload file hình ảnh & CKEditor (Yêu cầu 3.3 & Chương 10)**:
-   - Upload file ảnh tủ bếp qua `IFormFile` lưu vào `wwwroot/images/products/`.
-   - Tích hợp trình soạn thảo văn bản CKEditor cho trường mô tả/ghi chú sản phẩm.
-6. **Kiến trúc ViewComponent độc lập (Slide Chương 5, Lab 2 & Lab 5)**:
+   - Bẫy lỗi và hiển thị thông báo ở cả Client (jQuery Validate) và Server (`ModelState.IsValid`).
+5. **Upload file hình ảnh & Trình soạn thảo CKEditor**:
+   - Tải lên file ảnh tủ bếp qua `IFormFile` lưu vào `wwwroot/images/products/`.
+   - Tích hợp trình soạn thảo văn bản CKEditor cho trường mô tả, thông số kỹ thuật sản phẩm.
+6. **Đóng gói giao diện độc lập với ViewComponent**:
    - Đóng gói thanh lọc Sidebar động thành `ProductFilterSidebarViewComponent` tự quản lý truy vấn 4 danh mục (Chất liệu, Màu sắc, Kích thước, Xuất xứ) tách biệt hoàn toàn khỏi Controller.
-7. **Web API RESTful (Yêu cầu 3.3)**:
+7. **Dịch vụ Web API RESTful**:
    - Endpoint `GET /api/tubep` trả về danh sách tủ bếp định dạng JSON.
    - Endpoint `GET /api/tubep/{id}` trả về chi tiết tủ bếp theo ID.
-8. **Đầy đủ 4 Báo cáo thống kê theo đề tài Excel ([47_Quan_ly_ban_tu_bep.xlsx](file:///d:/DoStBetter/LTW/47_Quan_ly_ban_tu_bep.xlsx))**:
-   - `sp_BaoCaoTop3SanPhamTheoQuy`: Top 3 sản phẩm bán chạy nhất trong quý (YC 6).
-   - `sp_BaoCaoHoaDonNhapTheoNV`: Báo cáo chi tiết hóa đơn nhập do nhân viên nhập (YC 7).
-   - `sp_BaoCaoTop5HDBanNhoNhatTheoQuy`: 5 hóa đơn bán hàng nhỏ nhất trong quý (YC 8).
-   - `sp_BaoCaoKhachHangTheoThang`: Danh sách khách hàng và doanh số theo tháng (YC 9).
-9. **Tìm kiếm hóa đơn bán đa tiêu chí (YC 5)**:
-   - Tìm kiếm kết hợp theo Mã hàng hoá trong HĐ, Khoảng ngày bán và Khoảng tổng tiền.
+8. **Hệ thống 4 Báo cáo thống kê chuyên sâu**:
+   - `sp_BaoCaoTop3SanPhamTheoQuy`: Top 3 sản phẩm bán chạy nhất trong quý.
+   - `sp_BaoCaoHoaDonNhapTheoNV`: Báo cáo chi tiết hóa đơn nhập hàng do nhân viên nhập.
+   - `sp_BaoCaoTop5HDBanNhoNhatTheoQuy`: 5 hóa đơn bán hàng có giá trị nhỏ nhất trong quý.
+   - `sp_BaoCaoKhachHangTheoThang`: Danh sách khách hàng và doanh số bán hàng theo tháng.
+9. **Tìm kiếm hóa đơn bán đa tiêu chí**:
+   - Tìm kiếm kết hợp theo Mã hàng hoá trong hóa đơn, Khoảng ngày bán và Khoảng tổng tiền.
 
 ---
 

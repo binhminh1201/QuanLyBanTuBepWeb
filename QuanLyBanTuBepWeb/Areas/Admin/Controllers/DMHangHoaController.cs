@@ -195,7 +195,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Kiểm tra ràng buộc khóa ngoại (Chương 8)
+            // Kiểm tra ràng buộc khóa ngoại
             if (product.ChiTietHoaDonBans.Any() || product.ChiTietHoaDonNhaps.Any())
             {
                 TempData["ErrorMessage"] = $"Không thể xoá sản phẩm '{product.TenHang}' vì đã có trong hoá đơn bán hoặc hoá đơn nhập!";

@@ -22,7 +22,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View(vm);
         }
 
-        // GET: /Product/FilterProducts (Phục vụ AJAX theo chuẩn Lab 5 & Lab 6)
+        // GET: /Product/FilterProducts (Phục vụ AJAX lọc sản phẩm không reload trang)
         [HttpGet]
         public async Task<IActionResult> FilterProducts(string? keyword, string? maChatLieu, string? maMau, string? maKichThuoc, string? maNuocSX, decimal? giaTu, decimal? giaDen, string? sapXep, int page = 1)
         {

@@ -82,8 +82,19 @@
 
             <div class="col-md-12">
                 <label asp-for="UploadAnh" class="form-label small fw-bold"></label>
-                <input asp-for="UploadAnh" class="form-control form-control-sm" type="file" accept="image/*" />
-                <small class="text-muted">Chọn tệp hình ảnh (.jpg, .png, .svg) hiển thị sản phẩm tủ bếp</small>
+                <div class="row align-items-center g-3">
+                    <div class="col-md-8">
+                        <input asp-for="UploadAnh" id="fileUploadInput" class="form-control form-control-sm" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" />
+                        <span asp-validation-for="UploadAnh" class="text-danger small"></span>
+                        <div class="form-text small text-muted">Hỗ trợ định dạng: .jpg, .png, .webp, .svg (Dung lượng tối đa: 5MB).</div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <div class="p-2 border rounded bg-light d-inline-block">
+                            <img id="imagePreview" src="/images/products/no_image.png" alt="Xem trước ảnh" style="max-height: 110px; max-width: 160px; object-fit: cover;" class="rounded border" />
+                            <div class="small text-muted mt-1" style="font-size: 0.75rem;">Xem trước ảnh sản phẩm</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Tích hợp CKEditor (Mục 3.3) -->
@@ -115,6 +126,18 @@
             if (giaNhap > 0) {
                 var giaBan = Math.round(giaNhap * 1.10);
                 $("#inputDonGiaBan").val(giaBan);
+            }
+        });
+
+        // Xem trước hình ảnh tải lên ngay lập tức
+        document.getElementById('fileUploadInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('imagePreview').src = event.target.result;
+                };
+                reader.readAsDataURL(file);
             }
         });
     </script>

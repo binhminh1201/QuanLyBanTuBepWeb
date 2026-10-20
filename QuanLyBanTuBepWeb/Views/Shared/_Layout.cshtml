@@ -22,14 +22,19 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <style>
         :root {
-            --primary-color: #1e3a8a;
-            --accent-color: #d97706;
+            --primary-color: #1e293b;
+            --primary-hover: #0f172a;
+            --accent-color: #b45309;
             --dark-color: #0f172a;
+            --border-color: #e2e8f0;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #334155;
+            color: #1e293b;
             background-color: #f8fafc;
+        }
+        .navbar {
+            border-bottom: 1px solid #e2e8f0 !important;
         }
         .navbar-brand {
             font-weight: 800;
@@ -50,6 +55,7 @@
         .footer {
             background-color: var(--dark-color);
             color: #94a3b8;
+            border-top: 3px solid #b45309;
         }
         .footer a {
             color: #cbd5e1;
@@ -58,16 +64,21 @@
         .footer a:hover {
             color: #ffffff;
         }
+        .card {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 4px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+        }
         .card-product {
             border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 4px !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
             overflow: hidden;
             background: #ffffff;
         }
         .card-product:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
         }
         .product-img {
             height: 220px;
@@ -78,14 +89,26 @@
             background-color: #f1f5f9;
             display: block;
         }
+        .btn {
+            border-radius: 4px !important;
+            font-weight: 500;
+        }
         .btn-primary-custom {
             background-color: var(--primary-color);
             color: white;
-            border: none;
+            border: 1px solid var(--primary-color);
         }
         .btn-primary-custom:hover {
-            background-color: #172554;
+            background-color: var(--primary-hover);
+            border-color: var(--primary-hover);
             color: white;
+        }
+        .rounded-4, .rounded-3, .rounded-5, .rounded-pill {
+            border-radius: 4px !important;
+        }
+        .badge {
+            border-radius: 3px !important;
+            font-weight: 600;
         }
 
         /* Floating Contact Widget (Zalo & Hotline) */

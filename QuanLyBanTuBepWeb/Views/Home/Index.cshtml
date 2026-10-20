@@ -5,29 +5,29 @@
 }
 
 <!-- Hero Banner Section -->
-<section class="py-5 bg-dark text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);">
+<section class="py-5 bg-dark text-white position-relative" style="background-color: #0f172a; border-bottom: 3px solid #b45309;">
     <div class="container py-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold mb-3">
-                    <i class="bi bi-star-fill me-1"></i> XƯỞNG SẢN XUẤT TỦ BẾP UY TÍN SỐ 1
+                <span class="badge bg-warning text-dark px-3 py-2 rounded-1 fw-bold mb-3">
+                    <i class="bi bi-star-fill me-1"></i> XƯỞNG SẢN XUẤT TỦ BẾP UY TÍN
                 </span>
                 <h1 class="display-4 fw-bolder mb-3">Kiến Tạo Không Gian Bếp Đẳng Cấp & Tiện Nghi</h1>
                 <p class="lead text-light opacity-75 mb-4">
                     Chuyên cung cấp các mẫu tủ bếp Acrylic bóng gương, Inox cánh kính, Gỗ Sồi tự nhiên, MDF chống ẩm cao cấp. Bảo hành chính hãng tới 36 tháng, đo đạc và khảo sát miễn phí.
                 </p>
                 <div class="d-flex flex-wrap gap-3">
-                    <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-lg fw-bold px-4 shadow">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-warning btn-lg fw-bold px-4 rounded-1">
                         <i class="bi bi-grid-fill me-2"></i> Khám Phá Bộ Sưu Tập
                     </a>
-                    <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-light btn-lg px-4">
+                    <a asp-controller="Home" asp-action="Contact" class="btn btn-outline-light btn-lg px-4 rounded-1">
                         <i class="bi bi-telephone-fill me-2"></i> Nhận Báo Giá Miễn Phí
                     </a>
                 </div>
             </div>
             <div class="col-lg-6 text-center">
-                <div class="p-3 bg-white bg-opacity-10 rounded-4 shadow-lg border border-white border-opacity-25">
-                    <img src="/images/products/tu_bep_01.jpg" alt="Tủ bếp cao cấp" class="img-fluid rounded-3 shadow" style="max-height: 380px; width: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                <div class="p-2 bg-black bg-opacity-25 rounded-2 border border-secondary border-opacity-25 shadow">
+                    <img src="/images/products/tu_bep_01.jpg" alt="Tủ bếp cao cấp" class="img-fluid rounded-1" style="max-height: 380px; width: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
                 </div>
             </div>
         </div>
@@ -40,12 +40,12 @@
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
             <div class="fw-bold text-dark"><i class="bi bi-funnel-fill text-primary me-2"></i>Chất liệu ưa chuộng:</div>
             <div class="d-flex flex-wrap gap-2">
-                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill px-3">Tất cả</a>
+                <a asp-controller="Product" asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-1 px-3">Tất cả</a>
                 @if (chatLieus != null)
                 {
                     foreach (var cl in chatLieus)
                     {
-                        <a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="@cl.MaChatLieu" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                        <a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="@cl.MaChatLieu" class="btn btn-outline-primary btn-sm rounded-1 px-3">
                             @cl.TenChatLieu
                         </a>
                     }
@@ -100,7 +100,7 @@
                                     <small class="text-muted d-block" style="font-size: 0.75rem;">Đơn giá bán:</small>
                                     <span class="fs-5 fw-bold text-danger">@item.DonGiaBan?.ToString("N0") đ</span>
                                 </div>
-                                <button class="btn btn-primary-custom btn-sm px-3 rounded-pill btn-add-cart" data-id="@item.MaHang">
+                                <button class="btn btn-primary-custom btn-sm px-3 rounded-1 btn-add-cart" data-id="@item.MaHang">
                                     <i class="bi bi-cart-plus me-1"></i> Chọn mua
                                 </button>
                             </div>
@@ -122,7 +122,7 @@
         <div class="row g-4 text-center">
             <div class="col-md-3">
                 <a asp-controller="Home" asp-action="About" class="text-decoration-none text-dark d-block h-100">
-                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                    <div class="p-4 rounded-2 bg-white border h-100 shadow-sm transition-hover">
                         <div class="fs-1 text-primary mb-3"><i class="bi bi-shield-lock-fill"></i></div>
                         <h5 class="fw-bold">Vật Liệu Cao Cấp 100%</h5>
                         <p class="small text-muted mb-0">Nhập khẩu chính hãng gỗ An Cường lõi xanh chống ẩm, inox 304 không gỉ và nhựa Picomat siêu chịu nước.</p>
@@ -131,7 +131,7 @@
             </div>
             <div class="col-md-3">
                 <a asp-controller="Home" asp-action="Policy" asp-route-tab="khao-sat" class="text-decoration-none text-dark d-block h-100">
-                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                    <div class="p-4 rounded-2 bg-white border h-100 shadow-sm transition-hover">
                         <div class="fs-1 text-success mb-3"><i class="bi bi-tools"></i></div>
                         <h5 class="fw-bold">Khảo Sát Tận Nơi Miễn Phí</h5>
                         <p class="small text-muted mb-0">Đội ngũ kiến trúc sư và kỹ sư lành nghề trực tiếp đo đạc diện tích nhà bếp và dựng bản vẽ 3D miễn phí.</p>
@@ -140,7 +140,7 @@
             </div>
             <div class="col-md-3">
                 <a asp-controller="Home" asp-action="Policy" asp-route-tab="thanh-toan" class="text-decoration-none text-dark d-block h-100">
-                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                    <div class="p-4 rounded-2 bg-white border h-100 shadow-sm transition-hover">
                         <div class="fs-1 text-warning mb-3"><i class="bi bi-tag-fill"></i></div>
                         <h5 class="fw-bold">Giá Tận Gốc Tại Xưởng</h5>
                         <p class="small text-muted mb-0">Sản xuất trực tiếp tại xưởng không qua trung gian, giá bán minh bạch tối ưu chi phí cho gia đình.</p>
@@ -149,7 +149,7 @@
             </div>
             <div class="col-md-3">
                 <a asp-controller="Home" asp-action="Policy" asp-route-tab="bao-hanh" class="text-decoration-none text-dark d-block h-100">
-                    <div class="p-4 rounded-4 bg-light h-100 shadow-sm transition-hover">
+                    <div class="p-4 rounded-2 bg-white border h-100 shadow-sm transition-hover">
                         <div class="fs-1 text-danger mb-3"><i class="bi bi-wrench-adjustable-circle"></i></div>
                         <h5 class="fw-bold">Bảo Hành Dài Hạn</h5>
                         <p class="small text-muted mb-0">Cam kết bảo hành kết cấu lên tới 36 tháng và bảo trì định kỳ trọn đời sản phẩm.</p>

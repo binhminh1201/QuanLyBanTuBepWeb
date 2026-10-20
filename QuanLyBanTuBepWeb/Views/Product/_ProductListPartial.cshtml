@@ -12,7 +12,7 @@
         <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
         <h5 class="fw-bold text-secondary">Không tìm thấy sản phẩm tủ bếp phù hợp</h5>
         <p class="small text-muted">Vui lòng thử chọn lại tiêu chí lọc hoặc xóa từ khóa tìm kiếm.</p>
-        <button id="btnResetFilter" class="btn btn-outline-primary btn-sm rounded-pill mt-2">
+        <button id="btnResetFilter" class="btn btn-outline-primary btn-sm rounded-1 mt-2">
             <i class="bi bi-arrow-counterclockwise me-1"></i> Xóa tất cả bộ lọc
         </button>
     </div>
@@ -59,13 +59,13 @@ else
                             </div>
                             @if (item.SoLuong > 0)
                             {
-                                <button class="btn btn-primary-custom btn-sm px-3 rounded-pill btn-add-cart" data-id="@item.MaHang">
+                                <button class="btn btn-primary-custom btn-sm px-3 rounded-1 btn-add-cart" data-id="@item.MaHang">
                                     <i class="bi bi-cart-plus"></i> Chọn
                                 </button>
                             }
                             else
                             {
-                                <button class="btn btn-secondary btn-sm px-3 rounded-pill" disabled>Hết hàng</button>
+                                <button class="btn btn-secondary btn-sm px-3 rounded-1" disabled>Hết hàng</button>
                             }
                         </div>
                     </div>

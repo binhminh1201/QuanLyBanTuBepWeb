@@ -80,4 +80,30 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Tự động mã hóa băm mật khẩu (PBKDF2 SHA-256) cho tất cả tài khoản chưa băm trong CSDL
+using (var scope = app.Services.CreateScope())
+{
+    try
+    {
+        var db = scope.ServiceProvider.GetRequiredService<QuanLyBanTuBepContext>();
+        if (db.Database.CanConnect())
+        {
+            var hasher = new Microsoft.AspNetCore.Identity.PasswordHasher<TaiKhoan>();
+            var unhashed = db.TaiKhoans.Where(t => !t.MatKhau.StartsWith("AQAAAA")).ToList();
+            if (unhashed.Count > 0)
+            {
+                foreach (var acc in unhashed)
+                {
+                    acc.MatKhau = hasher.HashPassword(acc, acc.MatKhau);
+                }
+                db.SaveChanges();
+            }
+        }
+    }
+    catch
+    {
+        // Bỏ qua nếu đang chạy build tool hoặc DB tạm thời chưa sẵn sàng
+    }
+}
+
 app.Run();

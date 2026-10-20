@@ -63,12 +63,29 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                 ModelState.AddModelError("MaHang", "Mã hàng hoá này đã tồn tại trong hệ thống");
             }
 
+            // Kiểm tra tính hợp lệ của tệp ảnh tải lên (nếu có)
+            if (model.UploadAnh != null && model.UploadAnh.Length > 0)
+            {
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".svg" };
+                var extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("UploadAnh", "Chỉ chấp nhận tệp hình ảnh (.jpg, .jpeg, .png, .webp, .svg)");
+                }
+
+                if (model.UploadAnh.Length > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("UploadAnh", "Dung lượng ảnh tối đa là 5MB");
+                }
+            }
+
             if (ModelState.IsValid)
             {
-                // Xử lý upload ảnh (nếu có chọn file)
+                // Xử lý upload ảnh
                 if (model.UploadAnh != null && model.UploadAnh.Length > 0)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.UploadAnh.FileName);
+                    string extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
+                    string fileName = $"tubep_{model.MaHang}_{DateTime.Now.Ticks}{extension}";
                     string uploadFolder = Path.Combine(_env.WebRootPath, "images", "products");
                     if (!Directory.Exists(uploadFolder)) Directory.CreateDirectory(uploadFolder);
 
@@ -79,7 +96,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                     }
                     model.Anh = fileName;
                 }
-                else
+                else if (string.IsNullOrWhiteSpace(model.Anh))
                 {
                     model.Anh = "no_image.png";
                 }
@@ -114,6 +131,22 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
         {
             if (id != model.MaHang) return NotFound();
 
+            // Kiểm tra tệp ảnh nếu có upload ảnh mới
+            if (model.UploadAnh != null && model.UploadAnh.Length > 0)
+            {
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".svg" };
+                var extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
+                if (!allowedExtensions.Contains(extension))
+                {
+                    ModelState.AddModelError("UploadAnh", "Chỉ chấp nhận tệp hình ảnh (.jpg, .jpeg, .png, .webp, .svg)");
+                }
+
+                if (model.UploadAnh.Length > 5 * 1024 * 1024)
+                {
+                    ModelState.AddModelError("UploadAnh", "Dung lượng ảnh tối đa là 5MB");
+                }
+            }
+
             if (ModelState.IsValid)
             {
                 try
@@ -135,14 +168,21 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                     // Nếu có upload ảnh mới
                     if (model.UploadAnh != null && model.UploadAnh.Length > 0)
                     {
-                        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.UploadAnh.FileName);
+                        string extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
+                        string fileName = $"tubep_{model.MaHang}_{DateTime.Now.Ticks}{extension}";
                         string uploadFolder = Path.Combine(_env.WebRootPath, "images", "products");
+                        if (!Directory.Exists(uploadFolder)) Directory.CreateDirectory(uploadFolder);
+
                         string filePath = Path.Combine(uploadFolder, fileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
                             await model.UploadAnh.CopyToAsync(stream);
                         }
                         existing.Anh = fileName;
+                    }
+                    else if (!string.IsNullOrWhiteSpace(model.Anh))
+                    {
+                        existing.Anh = model.Anh;
                     }
 
                     await _context.SaveChangesAsync();

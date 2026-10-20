@@ -18,14 +18,14 @@
 </div>
 
 <div class="container pb-5">
-    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+    <div class="card border shadow-sm rounded-2 overflow-hidden mb-5">
         <div class="row g-0">
             <!-- Product Image & Multi-Angle Gallery -->
             <div class="col-lg-6 p-4 bg-light d-flex flex-column justify-content-between">
                 <!-- Main Image Display -->
-                <div class="position-relative text-center d-flex align-items-center justify-content-center bg-white rounded-4 p-2 shadow-sm border" style="min-height: 380px; max-height: 440px; overflow: hidden;">
-                    <img id="mainProductImg" src="/images/products/@Model.AnhChinh" class="img-fluid rounded-3" alt="@Model.TenHang" style="max-height: 400px; width: 100%; object-fit: contain; transition: all 0.25s ease;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
-                    <span id="imgAngleBadge" class="position-absolute top-0 start-0 m-3 badge bg-dark bg-opacity-75 px-3 py-2 rounded-pill small fw-normal">
+                <div class="position-relative text-center d-flex align-items-center justify-content-center bg-white rounded-2 p-2 shadow-sm border" style="min-height: 380px; max-height: 440px; overflow: hidden;">
+                    <img id="mainProductImg" src="/images/products/@Model.AnhChinh" class="img-fluid rounded-1" alt="@Model.TenHang" style="max-height: 400px; width: 100%; object-fit: contain; transition: all 0.25s ease;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                    <span id="imgAngleBadge" class="position-absolute top-0 start-0 m-3 badge bg-dark bg-opacity-75 px-3 py-2 rounded-1 small fw-normal">
                         <i class="bi bi-camera me-1"></i> Góc chính diện
                     </span>
                 </div>
@@ -45,8 +45,8 @@
                         {
                             var lbl = imgIndex < labels.Length ? labels[imgIndex] : $"Góc chụp {imgIndex + 1}";
                             <div class="thumb-item text-center cursor-pointer @(imgIndex == 0 ? "active-thumb" : "")" style="cursor: pointer; min-width: 85px;" data-src="/images/products/@imgName" data-label="@lbl">
-                                <div class="border rounded-3 p-1 bg-white shadow-xs position-relative" style="height: 65px; overflow: hidden; transition: all 0.2s;">
-                                    <img src="/images/products/@imgName" class="w-100 h-100 rounded-2" style="object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                                <div class="border rounded-2 p-1 bg-white shadow-xs position-relative" style="height: 65px; overflow: hidden; transition: all 0.2s;">
+                                    <img src="/images/products/@imgName" class="w-100 h-100 rounded-1" style="object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
                                 </div>
                                 <small class="d-block text-truncate text-muted mt-1" style="font-size: 0.7rem; max-width: 85px;">@lbl</small>
                             </div>
@@ -60,8 +60,8 @@
             <div class="col-lg-6 p-4 p-md-5 d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-center mb-2">
-                        <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-pill">Mã: @Model.MaHang</span>
-                        <span class="badge @(Model.SoLuong > 0 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") px-3 py-1 rounded-pill">
+                        <span class="badge bg-primary-subtle text-primary fw-bold px-3 py-1 rounded-1">Mã: @Model.MaHang</span>
+                        <span class="badge @(Model.SoLuong > 0 ? "bg-success-subtle text-success" : "bg-danger-subtle text-danger") px-3 py-1 rounded-1">
                             @(Model.SoLuong > 0 ? $"Còn {Model.SoLuong} sản phẩm" : "Hết hàng")
                         </span>
                     </div>

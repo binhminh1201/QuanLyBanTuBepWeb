@@ -74,12 +74,27 @@
             </div>
 
             <div class="col-md-12">
-                <label class="form-label small fw-bold">Hình ảnh hiện tại:</label>
-                <div class="mb-2">
-                    <img src="/images/products/@(string.IsNullOrEmpty(Model.Anh) ? "no_image.png" : Model.Anh)" class="rounded-3 border" style="width: 100px; height: 75px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';">
+                <label class="form-label small fw-bold">Hình ảnh sản phẩm:</label>
+                <div class="row align-items-center g-3">
+                    <div class="col-auto text-center">
+                        <div class="p-2 border rounded bg-light">
+                            <img src="/images/products/@(string.IsNullOrEmpty(Model.Anh) ? "no_image.png" : Model.Anh)" class="rounded border" style="width: 120px; height: 90px; object-fit: cover;" onerror="this.onerror=null; this.src='/images/products/no_image.png';" alt="Ảnh hiện tại">
+                            <div class="small text-muted mt-1" style="font-size: 0.75rem;">Ảnh hiện tại</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label asp-for="UploadAnh" class="form-label small fw-semibold">Chọn tệp hình ảnh mới để thay thế (nếu cần):</label>
+                        <input asp-for="UploadAnh" id="fileUploadInputEdit" class="form-control form-control-sm" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" />
+                        <span asp-validation-for="UploadAnh" class="text-danger small"></span>
+                        <div class="form-text small text-muted">Hỗ trợ: .jpg, .png, .webp, .svg (Tối đa 5MB). Nếu không chọn, hệ thống giữ nguyên ảnh cũ.</div>
+                    </div>
+                    <div class="col-auto text-center" id="previewWrapperEdit" style="display: none;">
+                        <div class="p-2 border rounded bg-light">
+                            <img id="imagePreviewEdit" src="" class="rounded border" style="width: 120px; height: 90px; object-fit: cover;" alt="Xem trước ảnh mới">
+                            <div class="small text-success fw-bold mt-1" style="font-size: 0.75rem;">Ảnh mới thay thế</div>
+                        </div>
+                    </div>
                 </div>
-                <label asp-for="UploadAnh" class="form-label small fw-bold">Thay đổi hình ảnh mới (Nếu có):</label>
-                <input asp-for="UploadAnh" class="form-control form-control-sm" type="file" accept="image/*" />
             </div>
 
             <div class="col-12">
@@ -108,6 +123,21 @@
             if (giaNhap > 0) {
                 var giaBan = Math.round(giaNhap * 1.10);
                 $("#inputDonGiaBan").val(giaBan);
+            }
+        });
+
+        // Xem trước ảnh mới thay thế
+        document.getElementById('fileUploadInputEdit').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    document.getElementById('imagePreviewEdit').src = event.target.result;
+                    document.getElementById('previewWrapperEdit').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('previewWrapperEdit').style.display = 'none';
             }
         });
     </script>

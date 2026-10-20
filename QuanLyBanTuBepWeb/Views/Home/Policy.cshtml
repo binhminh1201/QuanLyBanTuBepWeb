@@ -11,75 +11,57 @@
 <style>
     /* Custom Styling for Policy Page */
     .policy-hero {
-        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        background-color: #0f172a;
+        border-bottom: 3px solid #b45309;
         color: #ffffff;
         position: relative;
-        overflow: hidden;
-    }
-    .policy-hero::after {
-        content: "";
-        position: absolute;
-        top: -50%;
-        right: -10%;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
     }
     
     .policy-sidebar-btn {
-        transition: all 0.25s ease;
+        transition: all 0.2s ease;
         border: 1px solid transparent !important;
         background-color: #ffffff;
         color: #334155;
         text-align: left;
+        border-radius: 4px !important;
     }
     .policy-sidebar-btn:hover {
         background-color: #f8fafc;
         border-color: #e2e8f0 !important;
-        transform: translateX(4px);
+        transform: translateX(2px);
     }
     .policy-sidebar-btn.active {
-        background: #f0fdf4 !important;
-        border-color: #bbf7d0 !important;
-        border-left: 4px solid #16a34a !important;
-        color: #14532d !important;
-        box-shadow: 0 4px 12px rgba(22, 163, 74, 0.08);
+        background: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+        border-left: 3px solid #1e293b !important;
+        color: #0f172a !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
     .policy-sidebar-btn.active[data-tab="bao-hanh"] {
-        background: #fef2f2 !important;
-        border-color: #fecaca !important;
-        border-left: 4px solid #dc2626 !important;
-        color: #7f1d1d !important;
+        border-left: 3px solid #dc2626 !important;
+        color: #991b1b !important;
     }
     .policy-sidebar-btn.active[data-tab="khao-sat"] {
-        background: #f0fdf4 !important;
-        border-color: #bbf7d0 !important;
-        border-left: 4px solid #16a34a !important;
-        color: #14532d !important;
+        border-left: 3px solid #16a34a !important;
+        color: #166534 !important;
     }
     .policy-sidebar-btn.active[data-tab="thanh-toan"] {
-        background: #fffbeb !important;
-        border-color: #fde68a !important;
-        border-left: 4px solid #d97706 !important;
-        color: #78350f !important;
+        border-left: 3px solid #d97706 !important;
+        color: #92400e !important;
     }
     .policy-sidebar-btn.active[data-tab="bao-mat"] {
-        background: #eff6ff !important;
-        border-color: #bfdbfe !important;
-        border-left: 4px solid #2563eb !important;
-        color: #1e3a8a !important;
+        border-left: 3px solid #2563eb !important;
+        color: #1e40af !important;
     }
 
     .icon-badge {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 12px;
-        font-size: 1.25rem;
+        border-radius: 4px;
+        font-size: 1.15rem;
         flex-shrink: 0;
     }
 
@@ -143,7 +125,7 @@
         </nav>
         <div class="row align-items-center">
             <div class="col-lg-8">
-                <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                <span class="badge bg-warning text-dark px-3 py-1 rounded-1 fw-bold text-uppercase mb-2" style="font-size: 0.75rem; letter-spacing: 0.5px;">
                     <i class="bi bi-patch-check-fill me-1"></i> KitchenLux Customer Care
                 </span>
                 <h1 class="display-6 fw-bold mb-2">Chính Sách & Hỗ Trợ Khách Hàng</h1>
@@ -152,7 +134,7 @@
                 </p>
             </div>
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-                <div class="d-inline-flex align-items-center gap-3 bg-white bg-opacity-10 px-4 py-3 rounded-4 backdrop-blur border border-white border-opacity-20">
+                <div class="d-inline-flex align-items-center gap-3 bg-black bg-opacity-25 px-4 py-3 rounded-2 border border-secondary border-opacity-25">
                     <i class="bi bi-headset fs-1 text-warning"></i>
                     <div class="text-start">
                         <small class="text-white-50 d-block">Hotline Hỗ Trợ Kỹ Thuật</small>
@@ -169,7 +151,7 @@
     <div class="row g-4">
         <!-- Sidebar Navigation Pills -->
         <div class="col-lg-4 col-md-5">
-            <div class="card border-0 shadow-sm rounded-4 sticky-top overflow-hidden" style="top: 90px; z-index: 10;">
+            <div class="card border shadow-sm rounded-2 sticky-top overflow-hidden" style="top: 90px; z-index: 10;">
                 <div class="card-header bg-white border-bottom py-3 px-4">
                     <span class="text-muted text-uppercase fw-bold small" style="letter-spacing: 0.5px;">
                         <i class="bi bi-list-nested me-2 text-primary"></i>Danh mục dịch vụ
@@ -179,7 +161,7 @@
                     <div class="nav flex-column nav-pills gap-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         
                         <!-- Tab 1: Bảo hành -->
-                        <button class="nav-link policy-sidebar-btn p-3 rounded-3 d-flex align-items-center gap-3 @(activeTab == "bao-hanh" ? "active" : "")" 
+                        <button class="nav-link policy-sidebar-btn p-3 rounded-2 d-flex align-items-center gap-3 @(activeTab == "bao-hanh" ? "active" : "")" 
                                 id="tab-bao-hanh" data-tab="bao-hanh" data-bs-toggle="pill" data-bs-target="#content-bao-hanh" type="button" role="tab">
                             <div class="icon-badge bg-danger-subtle text-danger">
                                 <i class="bi bi-shield-check"></i>
@@ -192,7 +174,7 @@
                         </button>
 
                         <!-- Tab 2: Khảo sát -->
-                        <button class="nav-link policy-sidebar-btn p-3 rounded-3 d-flex align-items-center gap-3 @(activeTab == "khao-sat" ? "active" : "")" 
+                        <button class="nav-link policy-sidebar-btn p-3 rounded-2 d-flex align-items-center gap-3 @(activeTab == "khao-sat" ? "active" : "")" 
                                 id="tab-khao-sat" data-tab="khao-sat" data-bs-toggle="pill" data-bs-target="#content-khao-sat" type="button" role="tab">
                             <div class="icon-badge bg-success-subtle text-success">
                                 <i class="bi bi-tools"></i>
@@ -205,7 +187,7 @@
                         </button>
 
                         <!-- Tab 3: Thanh toán & Vận chuyển -->
-                        <button class="nav-link policy-sidebar-btn p-3 rounded-3 d-flex align-items-center gap-3 @(activeTab == "thanh-toan" ? "active" : "")" 
+                        <button class="nav-link policy-sidebar-btn p-3 rounded-2 d-flex align-items-center gap-3 @(activeTab == "thanh-toan" ? "active" : "")" 
                                 id="tab-thanh-toan" data-tab="thanh-toan" data-bs-toggle="pill" data-bs-target="#content-thanh-toan" type="button" role="tab">
                             <div class="icon-badge bg-warning-subtle text-warning">
                                 <i class="bi bi-truck"></i>
@@ -218,7 +200,7 @@
                         </button>
 
                         <!-- Tab 4: Bảo mật -->
-                        <button class="nav-link policy-sidebar-btn p-3 rounded-3 d-flex align-items-center gap-3 @(activeTab == "bao-mat" ? "active" : "")" 
+                        <button class="nav-link policy-sidebar-btn p-3 rounded-2 d-flex align-items-center gap-3 @(activeTab == "bao-mat" ? "active" : "")" 
                                 id="tab-bao-mat" data-tab="bao-mat" data-bs-toggle="pill" data-bs-target="#content-bao-mat" type="button" role="tab">
                             <div class="icon-badge bg-primary-subtle text-primary">
                                 <i class="bi bi-lock-fill"></i>
@@ -232,11 +214,11 @@
                     </div>
 
                     <!-- Tư vấn nhanh Card -->
-                    <div class="mt-4 p-3 bg-white rounded-3 border text-center shadow-xs">
+                    <div class="mt-4 p-3 bg-white rounded-2 border text-center shadow-xs">
                         <div class="text-danger mb-2"><i class="bi bi-clock-history fs-3"></i></div>
                         <h6 class="fw-bold mb-1">Thời gian làm việc</h6>
                         <p class="small text-muted mb-2">Thứ 2 - Chủ Nhật: <strong>8h00 - 21h30</strong></p>
-                        <a href="https://zalo.me/0345228952" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm w-100 rounded-pill">
+                        <a href="https://zalo.me/0345228952" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm w-100 rounded-1">
                             <i class="bi bi-chat-dots me-1"></i> Nhắn tin tư vấn Zalo
                         </a>
                     </div>
@@ -246,7 +228,7 @@
 
         <!-- Content Area -->
         <div class="col-lg-8 col-md-7">
-            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="card border shadow-sm rounded-2 p-4 p-md-5 bg-white">
                 <div class="tab-content" id="v-pills-tabContent">
                     
                     <!-- ============================================== -->
@@ -254,7 +236,7 @@
                     <!-- ============================================== -->
                     <div class="tab-pane fade @(activeTab == "bao-hanh" ? "show active" : "")" id="content-bao-hanh" role="tabpanel">
                         <div class="d-flex align-items-center gap-3 mb-4 pb-3 border-bottom">
-                            <div class="icon-badge bg-danger text-white shadow-sm" style="width: 50px; height: 50px; border-radius: 14px;">
+                            <div class="icon-badge bg-danger text-white shadow-sm" style="width: 50px; height: 50px; border-radius: 6px;">
                                 <i class="bi bi-shield-check fs-3"></i>
                             </div>
                             <div>

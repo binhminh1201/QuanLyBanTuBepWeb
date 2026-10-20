@@ -60,13 +60,22 @@
             padding: 12px 24px;
         }
         .stat-card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
-        .stat-card:hover {
-            transform: translateY(-3px);
+        .card {
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 4px !important;
+        }
+        .btn {
+            border-radius: 4px !important;
+        }
+        .rounded-3, .rounded-4, .rounded-pill {
+            border-radius: 4px !important;
+        }
+        .badge {
+            border-radius: 3px !important;
         }
     </style>
 </head>
@@ -130,15 +139,17 @@
     <div id="content-wrapper">
         <!-- Topbar -->
         <div class="admin-topbar d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-                <h5 class="mb-0 text-dark fw-bold">@ViewData["Title"]</h5>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small fw-medium">Hệ thống Quản lý</span>
+                <span class="text-muted small">/</span>
+                <h6 class="mb-0 text-dark fw-bold">@ViewData["Title"]</h6>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
-                    <i class="bi bi-database-check me-1"></i> SQL Server 2022: Connected
+                <span class="text-muted small">
+                    <i class="bi bi-calendar3 me-1"></i>@DateTime.Now.ToString("dd/MM/yyyy")
                 </span>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-sm">
-                    <i class="bi bi-box-arrow-up-right me-1"></i> Ra Web Bán Hàng
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-sm" target="_blank">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Xem Cửa Hàng
                 </a>
             </div>
         </div>

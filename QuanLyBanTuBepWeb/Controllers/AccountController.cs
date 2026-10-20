@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuanLyBanTuBepWeb.Models;
@@ -41,9 +42,41 @@ namespace QuanLyBanTuBepWeb.Controllers
             var user = await _context.TaiKhoans
                 .Include(t => t.KhachHang)
                 .Include(t => t.NhanVien)
-                .FirstOrDefaultAsync(t => t.TenDangNhap == model.TenDangNhap && t.MatKhau == model.MatKhau);
+                .FirstOrDefaultAsync(t => t.TenDangNhap == model.TenDangNhap);
 
             if (user == null)
+            {
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không chính xác!");
+                return View(model);
+            }
+
+            // Kiểm tra mật khẩu băm một chiều (PBKDF2 SHA-256)
+            var hasher = new PasswordHasher<TaiKhoan>();
+            bool isPasswordValid = false;
+
+            try
+            {
+                var verifyResult = hasher.VerifyHashedPassword(user, user.MatKhau, model.MatKhau);
+                if (verifyResult == PasswordVerificationResult.Success || verifyResult == PasswordVerificationResult.SuccessRehashNeeded)
+                {
+                    isPasswordValid = true;
+                }
+            }
+            catch
+            {
+                // Khi mật khẩu cũ trong CSDL chưa ở định dạng hash của Identity
+                isPasswordValid = false;
+            }
+
+            // Tương thích ngược: Cho phép tài khoản mẫu cũ (lưu plain text) đăng nhập và tự động nâng cấp sang bảng băm
+            if (!isPasswordValid && user.MatKhau == model.MatKhau)
+            {
+                isPasswordValid = true;
+                user.MatKhau = hasher.HashPassword(user, model.MatKhau);
+                await _context.SaveChangesAsync();
+            }
+
+            if (!isPasswordValid)
             {
                 ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không chính xác!");
                 return View(model);
@@ -137,10 +170,11 @@ namespace QuanLyBanTuBepWeb.Controllers
             };
             _context.KhachHangs.Add(khachHang);
 
+            var hasher = new PasswordHasher<TaiKhoan>();
             var taiKhoan = new TaiKhoan
             {
                 TenDangNhap = model.TenDangNhap.Trim(),
-                MatKhau = model.MatKhau,
+                MatKhau = hasher.HashPassword(null!, model.MatKhau),
                 HoTen = model.HoTen.Trim(),
                 Email = string.IsNullOrWhiteSpace(model.Email) ? null : model.Email.Trim(),
                 SoDienThoai = model.SoDienThoai.Trim(),

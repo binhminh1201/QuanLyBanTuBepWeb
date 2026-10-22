@@ -1,0 +1,54 @@
+<!-- Sidebar Navigation (Tách từ _AdminLayout theo chuẩn Lab 2) -->
+<div id="sidebar" class="d-flex flex-column p-3">
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-4 text-white text-decoration-none px-2">
+        <img src="~/favicon.svg" alt="Admin Logo" width="34" height="34" class="me-2 rounded-2" />
+        <div>
+            <div class="fw-bold fs-5 lh-1">ADMIN PANEL</div>
+            <small class="text-muted" style="font-size: 0.75rem;">Quản Lý Bán Tủ Bếp</small>
+        </div>
+    </a>
+
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-speedometer2 me-2 fs-5"></i> Bảng điều khiển
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="DMHangHoa" asp-action="Index">
+                <i class="bi bi-box-seam me-2 fs-5"></i> Quản lý Tủ Bếp
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="HoaDonBan" asp-action="Index">
+                <i class="bi bi-receipt-cutoff me-2 fs-5"></i> Hoá đơn bán hàng
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-area="Admin" asp-controller="BaoCao" asp-action="Index">
+                <i class="bi bi-bar-chart-line me-2 fs-5"></i> Báo cáo & Thống kê
+            </a>
+        </li>
+        <li class="my-3 border-top border-secondary"></li>
+        <li class="nav-item">
+            <a class="nav-link text-warning" asp-area="" asp-controller="Home" asp-action="Index" target="_blank">
+                <i class="bi bi-shop me-2 fs-5"></i> Xem trang Khách hàng
+            </a>
+        </li>
+    </ul>
+
+    <div class="border-top border-secondary pt-3 px-2">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-person-circle fs-3 text-info me-2"></i>
+                <div>
+                    <div class="text-white small fw-bold">@User.Identity?.Name</div>
+                    <div class="text-muted" style="font-size: 0.7rem;">Quản trị viên</div>
+                </div>
+            </div>
+            <a asp-area="" asp-controller="Account" asp-action="Logout" class="text-danger" title="Đăng xuất">
+                <i class="bi bi-box-arrow-right fs-5"></i>
+            </a>
+        </div>
+    </div>
+</div>

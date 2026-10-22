@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>@ViewData["Title"] - Management System</title>
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+</head>
+<body class="sb-nav-fixed">
+    <!-- Begin Top nav -->
+    <partial name="TopNav" />
+    <!-- End Top nav -->
+    <div id="layoutSidenav">
+        <!-- Begin Left menu -->
+        <div id="layoutSidenav_nav">
+            <partial name="LeftMenu" />
+        </div>
+        <!-- End Left menu -->
+        <!-- Begin Right content -->
+        <div id="layoutSidenav_content">
+            <!-- Begin Main -->
+            <main>
+                @RenderBody()
+            </main>
+            <!-- End Main -->
+            <!-- Begin Footer -->
+            <footer class="py-4 bg-light mt-auto">
+                <partial name="Footer" />
+            </footer>
+            <!-- End Footer -->
+        </div>
+        <!-- End Right content -->
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/scripts.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,76 @@
+/* CSS Quản trị hệ thống (Admin Panel) */
+:root {
+    --sidebar-bg: #1e293b;
+    --sidebar-hover: #334155;
+    --sidebar-active: #0ea5e9;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f1f5f9;
+}
+
+#sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background-color: var(--sidebar-bg);
+    color: #94a3b8;
+    transition: all 0.3s;
+}
+
+#sidebar .nav-link {
+    color: #cbd5e1;
+    padding: 12px 20px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin: 4px 12px;
+}
+
+#sidebar .nav-link:hover {
+    background-color: var(--sidebar-hover);
+    color: #ffffff;
+}
+
+#sidebar .nav-link.active {
+    background-color: var(--sidebar-active);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+#content-wrapper {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.admin-topbar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 12px 24px;
+}
+
+.stat-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 4px !important;
+}
+
+.btn {
+    border-radius: 4px !important;
+}
+
+.rounded-3, .rounded-4, .rounded-pill {
+    border-radius: 4px !important;
+}
+
+.badge {
+    border-radius: 3px !important;
+}

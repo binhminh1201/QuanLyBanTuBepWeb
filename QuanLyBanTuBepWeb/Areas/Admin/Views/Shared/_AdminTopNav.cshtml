@@ -1,0 +1,16 @@
+<!-- Topbar (Tách từ _AdminLayout theo chuẩn Lab 2) -->
+<div class="admin-topbar d-flex justify-content-between align-items-center">
+    <div class="d-flex align-items-center gap-2">
+        <span class="text-muted small fw-medium">Hệ thống Quản lý</span>
+        <span class="text-muted small">/</span>
+        <h6 class="mb-0 text-dark fw-bold">@ViewData["Title"]</h6>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+        <span class="text-muted small">
+            <i class="bi bi-calendar3 me-1"></i>@DateTime.Now.ToString("dd/MM/yyyy")
+        </span>
+        <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary btn-sm" target="_blank">
+            <i class="bi bi-box-arrow-up-right me-1"></i> Xem Cửa Hàng
+        </a>
+    </div>
+</div>

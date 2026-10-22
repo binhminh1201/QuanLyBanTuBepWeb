@@ -7,9 +7,15 @@
 *.sln.docstates
 
 ## Build results (.NET)
-[Bb]in/
-[Oo]bj/
-appsettings.Development.json
+**/[Bb]in/
+**/[Oo]bj/
+**/appsettings.Development.json
+
+## Large archives & temp folders
+*.rar
+*.zip
+WebApp25/
+startbootstrap_extracted/
 
 ## OS generated files
 Thumbs.db

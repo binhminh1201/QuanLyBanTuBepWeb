@@ -1,31 +1,34 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+}
 <!-- Sidebar Navigation -->
 <div id="sidebar" class="d-flex flex-column p-3">
     <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="d-flex align-items-center mb-4 text-white text-decoration-none px-2">
         <img src="~/favicon.svg" alt="Admin Logo" width="34" height="34" class="me-2 rounded-2" />
         <div>
             <div class="fw-bold fs-5 lh-1">ADMIN PANEL</div>
-            <small class="text-muted" style="font-size: 0.75rem;">Quản Lý Bán Tủ Bếp</small>
+            <small class="text-light opacity-75" style="font-size: 0.75rem;">Quản Lý Bán Tủ Bếp</small>
         </div>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a class="nav-link" asp-area="Admin" asp-controller="Home" asp-action="Index">
+            <a class="nav-link @(currentController == "Home" ? "active" : "")" asp-area="Admin" asp-controller="Home" asp-action="Index">
                 <i class="bi bi-speedometer2 me-2 fs-5"></i> Bảng điều khiển
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Admin" asp-controller="DMHangHoa" asp-action="Index">
+            <a class="nav-link @(currentController == "DMHangHoa" ? "active" : "")" asp-area="Admin" asp-controller="DMHangHoa" asp-action="Index">
                 <i class="bi bi-box-seam me-2 fs-5"></i> Quản lý Tủ Bếp
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Admin" asp-controller="HoaDonBan" asp-action="Index">
+            <a class="nav-link @(currentController == "HoaDonBan" ? "active" : "")" asp-area="Admin" asp-controller="HoaDonBan" asp-action="Index">
                 <i class="bi bi-receipt-cutoff me-2 fs-5"></i> Hoá đơn bán hàng
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-area="Admin" asp-controller="BaoCao" asp-action="Index">
+            <a class="nav-link @(currentController == "BaoCao" ? "active" : "")" asp-area="Admin" asp-controller="BaoCao" asp-action="Index">
                 <i class="bi bi-bar-chart-line me-2 fs-5"></i> Báo cáo & Thống kê
             </a>
         </li>

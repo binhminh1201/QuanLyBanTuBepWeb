@@ -17,16 +17,21 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            ViewBag.TongHDBan = await _context.HoaDonBans.CountAsync();
+            ViewBag.TongDoanhThuBan = await _context.HoaDonBans.SumAsync(h => (decimal?)h.TongTien) ?? 0;
+            ViewBag.TongHDNhap = await _context.HoaDonNhaps.CountAsync();
+            ViewBag.TongTienNhap = await _context.HoaDonNhaps.SumAsync(h => (decimal?)h.TongTien) ?? 0;
             return View();
         }
 
         // 1. Báo cáo Top 3 sản phẩm bán chạy nhất theo Quý
         public async Task<IActionResult> Top3SanPhamTheoQuy(int? nam, int? quy)
         {
-            int currentYear = nam ?? DateTime.Now.Year;
-            int currentQuarter = quy ?? ((DateTime.Now.Month - 1) / 3 + 1);
+            var latestDate = await _context.HoaDonBans.MaxAsync(h => h.NgayBan) ?? DateTime.Now;
+            int currentYear = nam ?? latestDate.Year;
+            int currentQuarter = quy ?? ((latestDate.Month - 1) / 3 + 1);
 
             ViewBag.Nam = currentYear;
             ViewBag.Quy = currentQuarter;
@@ -66,8 +71,9 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
         // 2. Báo cáo Top 5 hóa đơn bán hàng có giá trị nhỏ nhất theo Quý
         public async Task<IActionResult> Top5HoaDonNhoNhatTheoQuy(int? nam, int? quy)
         {
-            int currentYear = nam ?? DateTime.Now.Year;
-            int currentQuarter = quy ?? ((DateTime.Now.Month - 1) / 3 + 1);
+            var latestDate = await _context.HoaDonBans.MaxAsync(h => h.NgayBan) ?? DateTime.Now;
+            int currentYear = nam ?? latestDate.Year;
+            int currentQuarter = quy ?? ((latestDate.Month - 1) / 3 + 1);
 
             ViewBag.Nam = currentYear;
             ViewBag.Quy = currentQuarter;
@@ -88,8 +94,9 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
         // 3. Báo cáo danh sách khách hàng mua hàng theo Tháng
         public async Task<IActionResult> KhachHangTheoThang(int? nam, int? thang)
         {
-            int currentYear = nam ?? DateTime.Now.Year;
-            int currentMonth = thang ?? DateTime.Now.Month;
+            var latestDate = await _context.HoaDonBans.MaxAsync(h => h.NgayBan) ?? DateTime.Now;
+            int currentYear = nam ?? latestDate.Year;
+            int currentMonth = thang ?? latestDate.Month;
 
             ViewBag.Nam = currentYear;
             ViewBag.Thang = currentMonth;

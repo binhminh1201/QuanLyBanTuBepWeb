@@ -3,7 +3,38 @@
 }
 
 <div class="card border-0 shadow-sm rounded-3 bg-white p-4">
-    <h5 class="fw-bold text-dark mb-4"><i class="bi bi-bar-chart-line text-primary me-2"></i>Hệ Thống Báo Cáo & Thống Kê</h5>
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+        <h5 class="fw-bold text-dark mb-0"><i class="bi bi-bar-chart-line text-primary me-2"></i>Hệ Thống Báo Cáo & Thống Kê</h5>
+        <span class="badge bg-light text-secondary border">Dữ liệu trích xuất trực tiếp từ SQL Server</span>
+    </div>
+
+    <!-- Số liệu tổng hợp nhanh từ CSDL -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="p-3 border rounded bg-light">
+                <div class="small text-muted">Tổng hoá đơn bán</div>
+                <div class="fs-5 fw-bold text-primary">@ViewBag.TongHDBan đơn</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="p-3 border rounded bg-light">
+                <div class="small text-muted">Tổng doanh thu bán</div>
+                <div class="fs-5 fw-bold text-danger">@(((decimal)(ViewBag.TongDoanhThuBan ?? 0m)).ToString("N0")) đ</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="p-3 border rounded bg-light">
+                <div class="small text-muted">Tổng hoá đơn nhập</div>
+                <div class="fs-5 fw-bold text-info">@ViewBag.TongHDNhap đơn</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="p-3 border rounded bg-light">
+                <div class="small text-muted">Tổng giá trị nhập kho</div>
+                <div class="fs-5 fw-bold text-success">@(((decimal)(ViewBag.TongTienNhap ?? 0m)).ToString("N0")) đ</div>
+            </div>
+        </div>
+    </div>
 
     <div class="row g-4">
         <div class="col-md-6">

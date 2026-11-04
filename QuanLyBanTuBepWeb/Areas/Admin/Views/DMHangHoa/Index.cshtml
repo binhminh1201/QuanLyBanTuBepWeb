@@ -101,17 +101,5 @@
 </div>
 
 @section Scripts {
-    <script>
-        $(document).ready(function () {
-            $(".btn-delete").click(function () {
-                var id = $(this).data("id");
-                var name = $(this).data("name");
-                $("#deleteId").val(id);
-                $("#deleteCode").text(id);
-                $("#deleteName").text(name);
-                var modal = new bootstrap.Modal($('#deleteModal'));
-                modal.show();
-            });
-        });
-    </script>
+    <script src="~/js/admin-product.js" asp-append-version="true"></script>
 }

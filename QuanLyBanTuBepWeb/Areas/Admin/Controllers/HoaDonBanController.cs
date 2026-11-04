@@ -16,8 +16,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             _context = context;
         }
 
-        // GET: Admin/HoaDonBan
-        // YC 5: Tìm kiếm các HĐ bán theo: mã hàng, ngày bán, tổng tiền
+        // Tìm kiếm Hóa đơn bán theo Mã hàng, Ngày bán và Khoảng tổng tiền
         public async Task<IActionResult> Index(string? maHang, DateTime? ngayBan, DateTime? tuNgay, DateTime? denNgay, decimal? tongTienTu, decimal? tongTienDen)
         {
             var query = _context.HoaDonBans

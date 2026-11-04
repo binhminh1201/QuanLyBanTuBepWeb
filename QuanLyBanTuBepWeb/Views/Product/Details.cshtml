@@ -105,7 +105,7 @@
                     {
                         <div class="mb-4">
                             <h6 class="fw-bold text-dark mb-2">Mô tả đặc tính:</h6>
-                            <p class="small text-muted mb-0">@Model.GhiChu</p>
+                            <div class="small text-muted mb-0">@Html.Raw(Model.GhiChu)</div>
                         </div>
                     }
                 </div>
@@ -177,55 +177,5 @@
             transform: translateY(-2px);
         }
     </style>
-    <script>
-        $(document).ready(function () {
-            // Chuyển đổi góc chụp ảnh khi click thumbnail
-            $('.thumb-item').on('click', function () {
-                $('.thumb-item').removeClass('active-thumb');
-                $(this).addClass('active-thumb');
-                var newSrc = $(this).data('src');
-                var label = $(this).data('label');
-
-                $('#mainProductImg').css('opacity', '0.4');
-                setTimeout(function () {
-                    $('#mainProductImg').attr('src', newSrc).css('opacity', '1');
-                }, 150);
-
-                $('#imgAngleBadge').html('<i class="bi bi-camera me-1"></i> ' + label);
-            });
-
-            var maxQty = @(Model.SoLuong ?? 0);
-
-            $("#btnMinus").click(function () {
-                var val = parseInt($("#inputQuantity").val()) || 1;
-                if (val > 1) $("#inputQuantity").val(val - 1);
-            });
-
-            $("#btnPlus").click(function () {
-                var val = parseInt($("#inputQuantity").val()) || 1;
-                if (val < maxQty) $("#inputQuantity").val(val + 1);
-            });
-
-            $("#btnAddToCart").click(function () {
-                var qty = parseInt($("#inputQuantity").val()) || 1;
-                var id = $(this).data("id");
-
-                $.ajax({
-                    url: "/Cart/AddToCart",
-                    type: "POST",
-                    data: { id: id, quantity: qty },
-                    success: function (res) {
-                        if (res.success) {
-                            $("#cartCountBadge").text(res.totalCount);
-                            $("#toastMessage").html('<i class="bi bi-check-circle-fill me-2"></i>' + res.message);
-                            var toast = new bootstrap.Toast($('#cartToast'));
-                            toast.show();
-                        } else {
-                            alert(res.message);
-                        }
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="~/js/product-details.js" asp-append-version="true"></script>
 }

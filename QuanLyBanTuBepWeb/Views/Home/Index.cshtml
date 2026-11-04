@@ -159,33 +159,3 @@
         </div>
     </div>
 </section>
-
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            // Thêm vào giỏ hàng bằng AJAX
-            $(".btn-add-cart").click(function (e) {
-                e.preventDefault();
-                var productId = $(this).data("id");
-                $.ajax({
-                    url: "/Cart/AddToCart",
-                    type: "POST",
-                    data: { id: productId, quantity: 1 },
-                    success: function (res) {
-                        if (res.success) {
-                            $("#cartCountBadge").text(res.totalCount);
-                            $("#toastMessage").html('<i class="bi bi-check-circle-fill me-2"></i>' + res.message);
-                            var toast = new bootstrap.Toast($('#cartToast'));
-                            toast.show();
-                        } else {
-                            alert(res.message);
-                        }
-                    },
-                    error: function () {
-                        alert("Có lỗi xảy ra khi thêm vào giỏ hàng!");
-                    }
-                });
-            });
-        });
-    </script>
-}

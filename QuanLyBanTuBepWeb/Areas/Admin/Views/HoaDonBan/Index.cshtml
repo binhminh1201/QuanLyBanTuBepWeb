@@ -9,14 +9,14 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
             <h5 class="fw-bold text-dark mb-1"><i class="bi bi-receipt text-primary me-2"></i>Quản Lý Hoá Đơn Bán Hàng</h5>
-            <small class="text-muted">(Hỗ trợ tìm kiếm theo Mã hàng, Ngày bán, Khoảng tổng tiền - Yêu cầu số 5)</small>
+            <small class="text-muted">Tra cứu hoá đơn theo mặt hàng, khoảng thời gian và giá trị đơn hàng</small>
         </div>
         <div>
             <span class="badge bg-primary fs-6 p-2">Tổng số: <strong>@Model.Count()</strong> hoá đơn</span>
         </div>
     </div>
 
-    <!-- Filter Form: YC 5 (Mã hàng, Ngày bán, Tổng tiền) -->
+    <!-- Bộ lọc tìm kiếm hoá đơn -->
     <form asp-action="Index" method="get" class="p-3 bg-light rounded-3 mb-4">
         <div class="row g-2 align-items-end">
             <!-- 1. Mã hàng hoá trong HĐ -->

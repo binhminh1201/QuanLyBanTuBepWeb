@@ -1,0 +1,73 @@
+<!-- Footer -->
+<footer class="footer py-5 mt-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <h5 class="text-white fw-bold mb-3"><i class="bi bi-grid-1x2-fill me-2"></i>KITCHENLUX</h5>
+                <p class="small">Chuyên tư vấn, thiết kế và thi công hệ thống tủ bếp hiện đại hàng đầu Việt Nam. Chất lượng vượt trội, mẫu mã đa dạng theo phong cách Châu Âu và Bắc Âu.</p>
+                <p class="small mb-1"><i class="bi bi-geo-alt me-2"></i>Hà Nội, Việt Nam</p>
+                <p class="small mb-1"><i class="bi bi-envelope me-2"></i>contact@tubepkitchenlux.vn</p>
+                <p class="small"><i class="bi bi-telephone me-2"></i><a href="tel:0345228952" class="text-white text-decoration-none fw-bold">0345.228.952</a></p>
+            </div>
+            <div class="col-lg-2 col-md-6">
+                <h6 class="text-white fw-bold mb-3">Danh mục chính</h6>
+                <ul class="list-unstyled small d-flex flex-column gap-2">
+                    <li><a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="CL02">Tủ bếp Acrylic</a></li>
+                    <li><a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="CL03">Tủ bếp Inox cánh kính</a></li>
+                    <li><a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="CL04">Tủ bếp Gỗ Tự Nhiên</a></li>
+                    <li><a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="CL01">Tủ bếp MDF lõi xanh</a></li>
+                    <li><a asp-controller="Product" asp-action="Index" asp-route-maChatLieu="CL05">Tủ bếp nhựa Picomat</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="text-white fw-bold mb-3">Chính sách & Hỗ trợ</h6>
+                <ul class="list-unstyled small d-flex flex-column gap-2">
+                    <li><a asp-controller="Home" asp-action="Policy" asp-route-tab="bao-hanh">Chính sách bảo hành 24-36 tháng</a></li>
+                    <li><a asp-controller="Home" asp-action="Policy" asp-route-tab="khao-sat">Quy trình khảo sát & Lắp đặt tận nơi</a></li>
+                    <li><a asp-controller="Home" asp-action="Policy" asp-route-tab="bao-mat">Chính sách bảo mật thông tin</a></li>
+                    <li><a asp-controller="Home" asp-action="Policy" asp-route-tab="thanh-toan">Hướng dẫn thanh toán & Vận chuyển</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h6 class="text-white fw-bold mb-3">Bài tập lớn Lập Trình Web</h6>
+                <p class="small">Đề tài: Quản lý bán tủ bếp (ASP.NET Core MVC 10 + EF Core + SQL Server 2022).</p>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-light btn-sm" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <i class="bi bi-shield-lock me-1"></i> Đăng nhập Quản trị (Admin)
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr class="border-secondary my-4">
+        <div class="text-center small">
+            &copy; @DateTime.Now.Year KITCHENLUX - Bài tập lớn Lập trình Web - Nhóm 5. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<!-- Floating Contact Widget: Zalo & Hotline -->
+<div class="floating-contact-btn">
+    <!-- Nút Gọi Hotline -->
+    <a href="tel:0345228952" class="contact-circle-btn btn-phone-call" title="Gọi Hotline: 0345.228.952">
+        <i class="bi bi-telephone-fill"></i>
+        <span class="contact-tooltip">Hotline: 0345.228.952</span>
+    </a>
+
+    <!-- Nút Chat Zalo -->
+    <a href="https://zalo.me/0345228952" target="_blank" rel="noopener noreferrer" class="contact-circle-btn btn-zalo p-0 overflow-hidden" title="Chat tư vấn qua Zalo: 0345.228.952">
+        <img src="~/images/zalo-icon.svg" width="54" height="54" alt="Chat Zalo" class="w-100 h-100" />
+        <span class="contact-tooltip">Tư vấn Zalo 24/7</span>
+    </a>
+</div>
+
+<!-- Toast & Cart Notification Helper -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="cartToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">
+                <i class="bi bi-check-circle-fill me-2"></i>Đã thêm vào giỏ hàng!
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>

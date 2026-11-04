@@ -19,7 +19,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             _context = context;
         }
 
-        // GET: /Account/Login
+        // 1. Đăng nhập và cấp phát Cookie Authentication
         public IActionResult Login(string? returnUrl)
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -32,7 +32,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View();
         }
 
-        // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl)
@@ -50,7 +49,6 @@ namespace QuanLyBanTuBepWeb.Controllers
                 return View(model);
             }
 
-            // Kiểm tra mật khẩu băm một chiều (PBKDF2 SHA-256)
             var hasher = new PasswordHasher<TaiKhoan>();
             bool isPasswordValid = false;
 
@@ -64,11 +62,9 @@ namespace QuanLyBanTuBepWeb.Controllers
             }
             catch
             {
-                // Khi mật khẩu cũ trong CSDL chưa ở định dạng hash của Identity
                 isPasswordValid = false;
             }
 
-            // Tương thích ngược: Cho phép tài khoản mẫu cũ (lưu plain text) đăng nhập và tự động nâng cấp sang bảng băm
             if (!isPasswordValid && user.MatKhau == model.MatKhau)
             {
                 isPasswordValid = true;
@@ -88,7 +84,6 @@ namespace QuanLyBanTuBepWeb.Controllers
                 return View(model);
             }
 
-            // Tạo Claims danh tính người dùng
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.TenDangNhap),
@@ -114,7 +109,6 @@ namespace QuanLyBanTuBepWeb.Controllers
 
             TempData["SuccessMessage"] = $"Xin chào, {user.HoTen}!";
 
-            // Phân quyền điều hướng
             if (user.Quyen == "Admin")
             {
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
@@ -128,7 +122,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Account/Register
+        // 2. Đăng ký tài khoản Khách hàng mới
         public IActionResult Register()
         {
             if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -138,21 +132,18 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View();
         }
 
-        // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
 
-            // Kiểm tra trùng tên đăng nhập
             if (await _context.TaiKhoans.AnyAsync(t => t.TenDangNhap == model.TenDangNhap))
             {
                 ModelState.AddModelError("TenDangNhap", "Tên đăng nhập này đã được sử dụng. Vui lòng chọn tên khác!");
                 return View(model);
             }
 
-            // Tạo mã khách hàng mới
             int countKh = await _context.KhachHangs.CountAsync() + 1;
             string maKhach = "KH" + countKh.ToString("D2");
             while (await _context.KhachHangs.AnyAsync(k => k.MaKhach == maKhach))
@@ -188,7 +179,6 @@ namespace QuanLyBanTuBepWeb.Controllers
 
             await _context.SaveChangesAsync();
 
-            // Tự động đăng nhập sau khi đăng ký
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, taiKhoan.TenDangNhap),
@@ -203,7 +193,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Account/Logout
+        // 3. Đăng xuất và lịch sử đơn hàng cá nhân
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -212,7 +202,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        // GET: /Account/Orders (Lịch sử đơn hàng cá nhân)
         [Authorize]
         public async Task<IActionResult> Orders()
         {
@@ -233,7 +222,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View(orders);
         }
 
-        // GET: /Account/AccessDenied
         public IActionResult AccessDenied()
         {
             return View();

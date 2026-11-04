@@ -17,19 +17,17 @@ namespace QuanLyBanTuBepWeb.Controllers
             _context = context;
         }
 
-        // Lấy giỏ hàng từ Session
+        // Quản lý trạng thái Giỏ hàng trong Session
         private List<CartItem> GetCart()
         {
             return HttpContext.Session.GetObjectFromJson<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
         }
 
-        // Lưu giỏ hàng vào Session
         private void SaveCart(List<CartItem> cart)
         {
             HttpContext.Session.SetObjectAsJson(CartSessionKey, cart);
         }
 
-        // GET: /Cart
         public IActionResult Index()
         {
             var cart = GetCart();
@@ -37,7 +35,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View(cart);
         }
 
-        // POST: /Cart/AddToCart
+        // Các thao tác Thêm / Cập nhật / Xóa giỏ hàng qua AJAX
         [HttpPost]
         public async Task<IActionResult> AddToCart(string id, int quantity = 1)
         {
@@ -85,7 +83,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             });
         }
 
-        // POST: /Cart/UpdateQuantity
         [HttpPost]
         public IActionResult UpdateQuantity(string id, int quantity)
         {
@@ -118,7 +115,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             });
         }
 
-        // POST: /Cart/RemoveItem
         [HttpPost]
         public IActionResult RemoveItem(string id)
         {
@@ -142,7 +138,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             });
         }
 
-        // GET: /Cart/Checkout
+        // Xử lý đặt hàng và lưu Hóa đơn bán xuống CSDL
         public async Task<IActionResult> Checkout()
         {
             var cart = GetCart();
@@ -154,7 +150,6 @@ namespace QuanLyBanTuBepWeb.Controllers
 
             var model = new CheckoutViewModel();
 
-            // Nếu người dùng đã đăng nhập, tự động điền sẵn thông tin
             if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 var username = User.Identity.Name;
@@ -175,7 +170,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View(model);
         }
 
-        // POST: /Cart/Checkout
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Checkout(CheckoutViewModel model)
@@ -194,7 +188,6 @@ namespace QuanLyBanTuBepWeb.Controllers
                 return View(model);
             }
 
-            // 1. Xác định hoặc tạo Khách hàng
             string maKhach = "";
             string? username = User.Identity?.IsAuthenticated == true ? User.Identity.Name : null;
             TaiKhoan? account = null;
@@ -210,7 +203,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             }
             else
             {
-                // Kiểm tra xem khách hàng có số điện thoại này đã có trong CSDL chưa
                 var khachCu = await _context.KhachHangs.FirstOrDefaultAsync(k => k.DienThoai == model.SoDienThoai);
                 if (khachCu != null)
                 {
@@ -218,7 +210,6 @@ namespace QuanLyBanTuBepWeb.Controllers
                 }
                 else
                 {
-                    // Tạo mã khách mới
                     int countKh = await _context.KhachHangs.CountAsync() + 1;
                     maKhach = "KH" + countKh.ToString("D2");
                     while (await _context.KhachHangs.AnyAsync(k => k.MaKhach == maKhach))
@@ -244,10 +235,7 @@ namespace QuanLyBanTuBepWeb.Controllers
                 }
             }
 
-            // 2. Tạo Mã Hóa đơn bán (SoHDB)
             string soHDB = "HDB" + DateTime.Now.ToString("yyMMddHHmmss");
-
-            // Chọn nhân viên phụ trách bán hàng mặc định (NV02 theo mẫu)
             var nv = await _context.NhanViens.FirstOrDefaultAsync(n => n.MaCV == "CV02") ?? await _context.NhanViens.FirstOrDefaultAsync();
 
             var hoaDon = new HoaDonBan
@@ -256,12 +244,11 @@ namespace QuanLyBanTuBepWeb.Controllers
                 MaNV = nv?.MaNV,
                 NgayBan = DateTime.Now,
                 MaKhach = maKhach,
-                TongTien = 0 // Trigger SQL sẽ tự động cập nhật
+                TongTien = 0
             };
             _context.HoaDonBans.Add(hoaDon);
             await _context.SaveChangesAsync();
 
-            // 3. Thêm các chi tiết hóa đơn
             foreach (var item in cart)
             {
                 var ct = new ChiTietHoaDonBan
@@ -270,19 +257,17 @@ namespace QuanLyBanTuBepWeb.Controllers
                     MaHang = item.MaHang,
                     SoLuong = item.SoLuong,
                     GiamGia = 0,
-                    ThanhTien = 0 // Trigger SQL sẽ tự động tính
+                    ThanhTien = 0
                 };
                 _context.ChiTietHoaDonBans.Add(ct);
             }
             await _context.SaveChangesAsync();
 
-            // 4. Xóa sạch giỏ hàng trong session
             HttpContext.Session.Remove(CartSessionKey);
 
             return RedirectToAction(nameof(OrderSuccess), new { id = soHDB });
         }
 
-        // GET: /Cart/OrderSuccess/HDB...
         public async Task<IActionResult> OrderSuccess(string id)
         {
             var order = await _context.HoaDonBans

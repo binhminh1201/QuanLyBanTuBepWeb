@@ -4,11 +4,9 @@ using QuanLyBanTuBepWeb.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Đảm bảo WebRootPath luôn trỏ đúng thư mục wwwroot chứa css, js, images
 var currentDir = new DirectoryInfo(Directory.GetCurrentDirectory());
 if (!Directory.Exists(Path.Combine(currentDir.FullName, "wwwroot")))
 {
-    // Nếu chạy từ thư mục bin/Debug/net10.0, tìm ngược lên thư mục dự án
     var baseDir = new DirectoryInfo(AppContext.BaseDirectory);
     while (baseDir != null && !File.Exists(Path.Combine(baseDir.FullName, "QuanLyBanTuBepWeb.csproj")))
     {
@@ -21,11 +19,10 @@ if (!Directory.Exists(Path.Combine(currentDir.FullName, "wwwroot")))
     }
 }
 
-// 1. Đăng ký DbContext với kết nối SQL Server
+// 1. Đăng ký các dịch vụ vào DI Container
 builder.Services.AddDbContext<QuanLyBanTuBepContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// 2. Đăng ký Session & Bộ nhớ Cache
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -34,7 +31,6 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// 3. Đăng ký Authentication với Cookie
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -45,15 +41,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// 4. Cho phép truy cập HttpContext trong Views / Services
 builder.Services.AddHttpContextAccessor();
-
-// 5. Thêm Controllers và Views
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// 6. Cấu hình HTTP Pipeline
+// 2. Cấu hình HTTP Request Pipeline (Middlewares)
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -61,17 +54,13 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
-// Luôn phục vụ static files từ wwwroot
 app.UseStaticFiles();
-
 app.UseRouting();
-
-// Bắt buộc đặt UseSession giữa UseRouting và UseAuthentication/UseAuthorization
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// 7. Cấu hình Routing
+// 3. Cấu hình Routing cho Areas và Default
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -80,7 +69,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Tự động mã hóa băm mật khẩu (PBKDF2 SHA-256) cho tất cả tài khoản chưa băm trong CSDL
+// 4. Khởi tạo băm mật khẩu cho dữ liệu mẫu
 using (var scope = app.Services.CreateScope())
 {
     try
@@ -102,7 +91,6 @@ using (var scope = app.Services.CreateScope())
     }
     catch
     {
-        // Bỏ qua nếu đang chạy build tool hoặc DB tạm thời chưa sẵn sàng
     }
 }
 

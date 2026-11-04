@@ -19,7 +19,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             _env = env;
         }
 
-        // GET: Admin/DMHangHoa
+        // 1. Danh sách & lọc tủ bếp
         public async Task<IActionResult> Index(string? keyword, string? maChatLieu)
         {
             var query = _context.DMHangHoas
@@ -46,14 +46,13 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(await query.ToListAsync());
         }
 
-        // GET: Admin/DMHangHoa/Create
+        // 2. Thêm mới tủ bếp & Upload ảnh
         public async Task<IActionResult> Create()
         {
             await PopulateDropdownsAsync();
             return View();
         }
 
-        // POST: Admin/DMHangHoa/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DMHangHoa model)
@@ -63,7 +62,6 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                 ModelState.AddModelError("MaHang", "Mã hàng hoá này đã tồn tại trong hệ thống");
             }
 
-            // Kiểm tra tính hợp lệ của tệp ảnh tải lên (nếu có)
             if (model.UploadAnh != null && model.UploadAnh.Length > 0)
             {
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".svg" };
@@ -81,7 +79,6 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                // Xử lý upload ảnh
                 if (model.UploadAnh != null && model.UploadAnh.Length > 0)
                 {
                     string extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
@@ -112,7 +109,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: Admin/DMHangHoa/Edit/TB01
+        // 3. Chỉnh sửa thông tin tủ bếp
         public async Task<IActionResult> Edit(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
@@ -124,14 +121,12 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(product);
         }
 
-        // POST: Admin/DMHangHoa/Edit/TB01
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, DMHangHoa model)
         {
             if (id != model.MaHang) return NotFound();
 
-            // Kiểm tra tệp ảnh nếu có upload ảnh mới
             if (model.UploadAnh != null && model.UploadAnh.Length > 0)
             {
                 var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".webp", ".svg" };
@@ -165,7 +160,6 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                     existing.ThoiGianBaoHanh = model.ThoiGianBaoHanh;
                     existing.GhiChu = model.GhiChu;
 
-                    // Nếu có upload ảnh mới
                     if (model.UploadAnh != null && model.UploadAnh.Length > 0)
                     {
                         string extension = Path.GetExtension(model.UploadAnh.FileName).ToLowerInvariant();
@@ -202,7 +196,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(model);
         }
 
-        // GET: Admin/DMHangHoa/Details/TB01
+        // 4. Chi tiết & Xóa tủ bếp (kiểm tra khóa ngoại)
         public async Task<IActionResult> Details(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
@@ -219,7 +213,6 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(product);
         }
 
-        // POST: Admin/DMHangHoa/Delete/TB01
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string id)
@@ -235,7 +228,6 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // Kiểm tra ràng buộc khóa ngoại
             if (product.ChiTietHoaDonBans.Any() || product.ChiTietHoaDonNhaps.Any())
             {
                 TempData["ErrorMessage"] = $"Không thể xoá sản phẩm '{product.TenHang}' vì đã có trong hoá đơn bán hoặc hoá đơn nhập!";

@@ -97,7 +97,6 @@
                 </div>
             </div>
 
-            <!-- Tích hợp CKEditor (Mục 3.3) -->
             <div class="col-12">
                 <label asp-for="GhiChu" class="form-label small fw-bold"></label>
                 <textarea asp-for="GhiChu" id="editorGhiChu" class="form-control" rows="4" placeholder="Mô tả chi tiết đặc điểm cấu tạo, phụ kiện đi kèm..."></textarea>
@@ -115,30 +114,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <!-- Tích hợp Rich Text Editor CKEditor CDN (Mục 3.3) -->
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
-    <script>
-        CKEDITOR.replace('editorGhiChu');
-
-        // Tự động tính DonGiaBan = 110% GiaNhap (Nghiệp vụ số 3)
-        $("#inputGiaNhap").on("input", function () {
-            var giaNhap = parseFloat($(this).val()) || 0;
-            if (giaNhap > 0) {
-                var giaBan = Math.round(giaNhap * 1.10);
-                $("#inputDonGiaBan").val(giaBan);
-            }
-        });
-
-        // Xem trước hình ảnh tải lên ngay lập tức
-        document.getElementById('fileUploadInput').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    document.getElementById('imagePreview').src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    </script>
+    <script>CKEDITOR.replace('editorGhiChu');</script>
+    <script src="~/js/admin-product.js" asp-append-version="true"></script>
 }

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QuanLyBanTuBepWeb.Models;
 using QuanLyBanTuBepWeb.Models.ViewModels;
@@ -23,7 +22,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View();
         }
 
-        // YC 6: Báo cáo danh sách 3 sản phẩm bán được nhiều nhất trong một quý chọn trước
+        // 1. Báo cáo Top 3 sản phẩm bán chạy nhất theo Quý
         public async Task<IActionResult> Top3SanPhamTheoQuy(int? nam, int? quy)
         {
             int currentYear = nam ?? DateTime.Now.Year;
@@ -64,7 +63,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(result);
         }
 
-        // YC 8: Báo cáo chi tiết danh sách 5 hoá đơn có tổng tiền bán hàng nhỏ nhất theo quý chọn trước
+        // 2. Báo cáo Top 5 hóa đơn bán hàng có giá trị nhỏ nhất theo Quý
         public async Task<IActionResult> Top5HoaDonNhoNhatTheoQuy(int? nam, int? quy)
         {
             int currentYear = nam ?? DateTime.Now.Year;
@@ -86,7 +85,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(result);
         }
 
-        // YC 9: Báo cáo danh sách các khách hàng mua hàng theo tháng chọn trước
+        // 3. Báo cáo danh sách khách hàng mua hàng theo Tháng
         public async Task<IActionResult> KhachHangTheoThang(int? nam, int? thang)
         {
             int currentYear = nam ?? DateTime.Now.Year;
@@ -123,7 +122,7 @@ namespace QuanLyBanTuBepWeb.Areas.Admin.Controllers
             return View(result);
         }
 
-        // YC 7: Báo cáo chi tiết danh sách các hoá đơn nhập do một nhân viên nhập được chọn trước
+        // 4. Báo cáo chi tiết hóa đơn nhập theo Nhân viên
         public async Task<IActionResult> HoaDonNhapTheoNV(string? maNV)
         {
             var nhanViens = await _context.NhanViens.OrderBy(nv => nv.MaNV).ToListAsync();

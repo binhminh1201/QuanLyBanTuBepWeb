@@ -15,14 +15,13 @@ namespace QuanLyBanTuBepWeb.Controllers
             _context = context;
         }
 
-        // GET: /Product
         public async Task<IActionResult> Index(string? keyword, string? maChatLieu, string? maMau, string? maKichThuoc, string? maNuocSX, decimal? giaTu, decimal? giaDen, string? sapXep, int page = 1)
         {
             var vm = await QueryProductsAsync(keyword, maChatLieu, maMau, maKichThuoc, maNuocSX, giaTu, giaDen, sapXep, page);
             return View(vm);
         }
 
-        // GET: /Product/FilterProducts (Phục vụ AJAX lọc sản phẩm không reload trang)
+        // Lọc và phân trang bất đồng bộ qua AJAX
         [HttpGet]
         public async Task<IActionResult> FilterProducts(string? keyword, string? maChatLieu, string? maMau, string? maKichThuoc, string? maNuocSX, decimal? giaTu, decimal? giaDen, string? sapXep, int page = 1)
         {
@@ -30,7 +29,6 @@ namespace QuanLyBanTuBepWeb.Controllers
             return PartialView("_ProductListPartial", vm);
         }
 
-        // GET: /Product/Details/TB01
         public async Task<IActionResult> Details(string id)
         {
             if (string.IsNullOrEmpty(id)) return NotFound();
@@ -44,7 +42,6 @@ namespace QuanLyBanTuBepWeb.Controllers
 
             if (product == null) return NotFound();
 
-            // Lấy sản phẩm tương tự cùng chất liệu
             ViewBag.RelatedProducts = await _context.DMHangHoas
                 .Where(p => p.MaChatLieu == product.MaChatLieu && p.MaHang != product.MaHang)
                 .Take(4)
@@ -53,7 +50,7 @@ namespace QuanLyBanTuBepWeb.Controllers
             return View(product);
         }
 
-        // Hàm truy vấn tổng hợp dùng chung cho cả View ban đầu và AJAX
+        // Truy vấn danh sách sản phẩm kết hợp tìm kiếm, lọc, sắp xếp và phân trang
         private async Task<ProductFilterVM> QueryProductsAsync(string? keyword, string? maChatLieu, string? maMau, string? maKichThuoc, string? maNuocSX, decimal? giaTu, decimal? giaDen, string? sapXep, int page)
         {
             var query = _context.DMHangHoas
@@ -63,24 +60,20 @@ namespace QuanLyBanTuBepWeb.Controllers
                 .Include(p => p.NuocSanXuat)
                 .AsQueryable();
 
-            // 1. Lọc theo từ khóa tìm kiếm
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 var kw = keyword.Trim().ToLower();
                 query = query.Where(p => p.TenHang.ToLower().Contains(kw) || p.MaHang.ToLower().Contains(kw));
             }
 
-            // 2. Lọc theo thuộc tính
             if (!string.IsNullOrEmpty(maChatLieu)) query = query.Where(p => p.MaChatLieu == maChatLieu);
             if (!string.IsNullOrEmpty(maMau)) query = query.Where(p => p.MaMau == maMau);
             if (!string.IsNullOrEmpty(maKichThuoc)) query = query.Where(p => p.MaKichThuoc == maKichThuoc);
             if (!string.IsNullOrEmpty(maNuocSX)) query = query.Where(p => p.MaNuocSX == maNuocSX);
 
-            // 3. Lọc theo khoảng giá
             if (giaTu.HasValue && giaTu > 0) query = query.Where(p => p.DonGiaBan >= giaTu.Value);
             if (giaDen.HasValue && giaDen > 0) query = query.Where(p => p.DonGiaBan <= giaDen.Value);
 
-            // 4. Sắp xếp
             query = sapXep switch
             {
                 "price_asc" => query.OrderBy(p => p.DonGiaBan),
@@ -89,7 +82,6 @@ namespace QuanLyBanTuBepWeb.Controllers
                 _ => query.OrderByDescending(p => p.MaHang)
             };
 
-            // 5. Phân trang
             int totalItems = await query.CountAsync();
             int totalPages = (int)Math.Ceiling(totalItems / (double)PageSize);
             if (totalPages < 1) totalPages = 1;

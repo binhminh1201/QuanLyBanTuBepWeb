@@ -511,140 +511,199 @@ END;
 GO
 
 -- ==========================================================================================
--- 7. CHÈN DỮ LIỆU MẪU (TEST DATA)
+
 -- ==========================================================================================
+-- Dá»® LIá»†U Äáº¦Y Äá»¦ Cá»¦A TOÃ€N Bá»˜ DATABASE QuanLyBanTuBep (LIVE EXPORT)
+-- Thá»i Ä‘iá»ƒm xuáº¥t: 2026-11-04 12:27:26
+-- CÆ¡ sá»Ÿ dá»¯ liá»‡u: Microsoft SQL Server (MSSQLLocalDB)
+-- ==========================================================================================
+USE QuanLyBanTuBep;
+GO
 
--- 7.1. Bảng Kích thước
-INSERT INTO KichThuoc (MaKichThuoc, TenKichThuoc) VALUES
-('KT01', N'Dài 1.2m x Sâu 0.6m'),
-('KT02', N'Dài 1.5m x Sâu 0.6m'),
-('KT03', N'Dài 2.0m x Sâu 0.6m'),
-('KT04', N'Dài 2.4m x Sâu 0.6m'),
-('KT05', N'Thiết kế theo yêu cầu'),
-('KT06', N'Chữ L (Dài 3.0m x Sâu 0.6m)'),
-('KT07', N'Chữ U có bàn đảo (Dài 3.6m)');
+-- Táº¯t táº¡m thá»i cÃ¡c Foreign Key vÃ  Trigger Ä‘á»ƒ import dá»¯ liá»‡u chuáº©n xÃ¡c khÃ´ng bá»‹ xung Ä‘á»™t
+EXEC sp_MSforeachtable 'ALTER TABLE ? NOCHECK CONSTRAINT ALL';
+EXEC sp_MSforeachtable 'ALTER TABLE ? DISABLE TRIGGER ALL';
+GO
 
--- 7.2. Bảng Chất liệu
-INSERT INTO ChatLieu (MaChatLieu, TenChatLieu) VALUES
-('CL01', N'Gỗ công nghiệp MDF lõi xanh'),
-('CL02', N'Gỗ Acrylic bóng gương'),
-('CL03', N'Inox 304 cánh kính'),
-('CL04', N'Gỗ Sồi Nga tự nhiên'),
-('CL05', N'Nhựa cao cấp Picomat'),
-('CL06', N'Gỗ Óc Chó (Walnut) tự nhiên'),
-('CL07', N'Gỗ Xoan Đào Gia Lai');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: KichThuoc (7 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [KichThuoc] ([MaKichThuoc], [TenKichThuoc]) VALUES
+(N'KT01', N'Dài 1.2m x Sâu 0.6m'),
+(N'KT02', N'Dài 1.5m x Sâu 0.6m'),
+(N'KT03', N'Dài 2.0m x Sâu 0.6m'),
+(N'KT04', N'Dài 2.4m x Sâu 0.6m'),
+(N'KT05', N'Thiết kế theo yêu cầu'),
+(N'KT06', N'Chữ L (Dài 3.0m x Sâu 0.6m)'),
+(N'KT07', N'Chữ U có bàn đảo (Dài 3.6m)');
+GO
 
--- 7.3. Bảng Nước sản xuất
-INSERT INTO NuocSanXuat (MaNuocSX, TenNuocSX) VALUES
-('VN', N'Việt Nam'),
-('HQ', N'Hàn Quốc'),
-('NB', N'Nhật Bản'),
-('DE', N'Đức'),
-('CN', N'Trung Quốc'),
-('IT', N'Italia (Ý)');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: ChatLieu (7 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [ChatLieu] ([MaChatLieu], [TenChatLieu]) VALUES
+(N'CL01', N'Gỗ công nghiệp MDF lõi xanh'),
+(N'CL02', N'Gỗ Acrylic bóng gương'),
+(N'CL03', N'Inox 304 cánh kính'),
+(N'CL04', N'Gỗ Sồi Nga tự nhiên'),
+(N'CL05', N'Nhựa cao cấp Picomat'),
+(N'CL06', N'Gỗ Óc Chó (Walnut) tự nhiên'),
+(N'CL07', N'Gỗ Xoan Đào Gia Lai');
+GO
 
--- 7.4. Bảng Màu sắc
-INSERT INTO MauSac (MaMau, TenMau) VALUES
-('M01', N'Trắng sứ'),
-('M02', N'Xám ghi'),
-('M03', N'Vân gỗ sồi'),
-('M04', N'Đen mờ'),
-('M05', N'Xanh rêu pastel'),
-('M06', N'Nâu hạt dẻ / Óc chó'),
-('M07', N'Trắng ngọc trai phối xám'),
-('M08', N'Xanh Navy hoàng gia');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: NuocSanXuat (6 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [NuocSanXuat] ([MaNuocSX], [TenNuocSX]) VALUES
+(N'CN', N'Trung Quốc'),
+(N'DE', N'Đức'),
+(N'HQ', N'Hàn Quốc'),
+(N'IT', N'Italia (Ý)'),
+(N'NB', N'Nhật Bản'),
+(N'VN', N'Việt Nam');
+GO
 
--- 7.5. Bảng Công việc
-INSERT INTO CongViec (MaCV, TenCV, MucLuong) VALUES
-('CV01', N'Quản lý cửa hàng', 18000000),
-('CV02', N'Nhân viên bán hàng', 8000000),
-('CV03', N'Nhân viên kỹ thuật - lắp đặt', 10000000),
-('CV04', N'Kế toán kho', 9000000);
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: MauSac (8 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [MauSac] ([MaMau], [TenMau]) VALUES
+(N'M01', N'Trắng sứ'),
+(N'M02', N'Xám ghi'),
+(N'M03', N'Vân gỗ sồi'),
+(N'M04', N'Đen mờ'),
+(N'M05', N'Xanh rêu pastel'),
+(N'M06', N'Nâu hạt dẻ / Óc chó'),
+(N'M07', N'Trắng ngọc trai phối xám'),
+(N'M08', N'Xanh Navy hoàng gia');
+GO
 
--- 7.6. Bảng Nhân viên
-INSERT INTO NhanVien (MaNV, TenNV, GioiTinh, NgaySinh, DienThoai, DiaChi, MaCV) VALUES
-('NV01', N'Nguyễn Văn An', N'Nam', '1992-05-15', '0912345678', N'Cầu Giấy, Hà Nội', 'CV01'),
-('NV02', N'Trần Thị Bích', N'Nữ', '1996-08-20', '0923456789', N'Đống Đa, Hà Nội', 'CV02'),
-('NV03', N'Lê Hoàng Long', N'Nam', '1995-12-10', '0934567890', N'Hà Đông, Hà Nội', 'CV03'),
-('NV04', N'Phạm Thu Hà', N'Nữ', '1998-03-25', '0945678901', N'Thanh Xuân, Hà Nội', 'CV04');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: CongViec (4 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [CongViec] ([MaCV], [TenCV], [MucLuong]) VALUES
+(N'CV01', N'Quản lý cửa hàng', 18000000),
+(N'CV02', N'Nhân viên bán hàng', 8000000),
+(N'CV03', N'Nhân viên kỹ thuật - lắp đặt', 10000000),
+(N'CV04', N'Kế toán kho', 9000000);
+GO
 
--- 7.7. Bảng Khách hàng
-INSERT INTO KhachHang (MaKhach, TenKhach, DiaChi, DienThoai) VALUES
-('KH01', N'Đỗ Minh Tuấn', N'Vinhomes Ocean Park, Gia Lâm', '0901112233'),
-('KH02', N'Nguyễn Thu Trang', N'EcoPark, Hưng Yên', '0902223344'),
-('KH03', N'Vũ Đình Hưng', N'Royal City, Thanh Xuân, Hà Nội', '0903334455'),
-('KH04', N'Lê Mai Phương', N'Times City, Hai Bà Trưng, Hà Nội', '0904445566');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: KhachHang (5 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [KhachHang] ([MaKhach], [TenKhach], [DiaChi], [DienThoai]) VALUES
+(N'KH01', N'Đỗ Minh Tuấn', N'Vinhomes Ocean Park, Gia Lâm', N'0901112233'),
+(N'KH02', N'Nguyễn Thu Trang', N'EcoPark, Hưng Yên', N'0902223344'),
+(N'KH03', N'Vũ Đình Hưng', N'Royal City, Thanh Xuân, Hà Nội', N'0903334455'),
+(N'KH04', N'Lê Mai Phương', N'Times City, Hai Bà Trưng, Hà Nội', N'0904445566'),
+(N'KH05', N'Đỗ Minh Tuấn', NULL, N'0901112233');
+GO
 
--- 7.8. Bảng Nhà cung cấp
-INSERT INTO NhaCungCap (MaNCC, TenNCC, DiaChi, DienThoai) VALUES
-('NCC01', N'Công ty Cổ phần Gỗ An Cường', N'Bình Dương', '02743888999'),
-('NCC02', N'Công ty TNHH Nhựa Picomat', N'Hà Nội', '0243666777'),
-('NCC03', N'Tập đoàn Hafele Việt Nam', N'TP. Hồ Chí Minh', '0283999888');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: NhaCungCap (3 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [NhaCungCap] ([MaNCC], [TenNCC], [DiaChi], [DienThoai]) VALUES
+(N'NCC01', N'Công ty Cổ phần Gỗ An Cường', N'Bình Dương', N'02743888999'),
+(N'NCC02', N'Công ty TNHH Nhựa Picomat', N'Hà Nội', N'0243666777'),
+(N'NCC03', N'Tập đoàn Hafele Việt Nam', N'TP. Hồ Chí Minh', N'0283999888');
+GO
 
--- 7.9. Bảng Hàng hoá (Dữ liệu tủ bếp thực tế cao cấp kèm bộ ảnh đa góc chụp)
-INSERT INTO DMHangHoa (MaHang, TenHang, MaKichThuoc, MaChatLieu, MaMau, MaNuocSX, SoLuong, GiaNhap, ThoiGianBaoHanh, Anh, GhiChu) VALUES
-('TB01', N'Tủ Bếp Nhựa PVC Cánh Phủ Acrylic Bóng Gương An Cường Chữ I', 'KT03', 'CL05', 'M01', 'VN', 8, 13500000, N'60 tháng', 'tu_bep_01.jpg;tu_bep_01_angle.jpg;tu_bep_01_detail.jpg;tu_bep_01_inside.jpg', N'Thùng tủ nhựa PVC đặc 18mm chịu nước 100%, cánh phủ Acrylic noline bóng gương An Cường, bản lề giảm chấn inox 304.'),
-('TB02', N'Tủ Bếp Inox 304 Khung Hộp Cánh Kính Cường Lực Viền Nhôm', 'KT04', 'CL03', 'M02', 'DE', 6, 24000000, N'60 tháng', 'tu_bep_02.jpg;tu_bep_02_angle.jpg;tu_bep_02_detail.jpg;tu_bep_02_inside.jpg', N'Khung inox hộp chuẩn SUS 304 dập chấn CNC cao cấp không mối hàn, cánh kính cường lực 4mm viền nhôm Anode tràn viền sang trọng.'),
-('TB03', N'Tủ Bếp Gỗ Sồi Nga Tự Nhiên Sơn PU Màu Hạt Dẻ Bắc Âu', 'KT03', 'CL04', 'M03', 'NB', 6, 16500000, N'36 tháng', 'tu_bep_03.jpg;tu_bep_03_angle.jpg;tu_bep_03_detail.jpg;tu_bep_03_inside.jpg', N'100% gỗ Sồi Nga tự nhiên đã tẩm sấy công nghệ cao chống co ngót nứt nẻ, sơn lót PU 5 lớp giữ trọn vân gỗ uốn lượn.'),
-('TB04', N'Tủ Bếp Gỗ MDF Lõi Xanh Chống Ẩm Phủ Melamine Chữ I', 'KT03', 'CL01', 'M04', 'VN', 12, 9800000, N'24 tháng', 'tu_bep_04.jpg;tu_bep_04_angle.jpg;tu_bep_04_detail.jpg;tu_bep_04_inside.jpg', N'Cốt gỗ MDF lõi xanh chống ẩm tiêu chuẩn E1 An Cường, bề mặt phủ Melamine chống trầy xước, giải pháp tối ưu cho chung cư.'),
-('TB05', N'Tủ Bếp Nhựa PVC Sơn Men Bóng Ô Tô Công Nghệ Ánh Kim Chữ L', 'KT06', 'CL05', 'M05', 'VN', 7, 15000000, N'60 tháng', 'tu_bep_05.jpg;tu_bep_05_angle.jpg;tu_bep_05_detail.jpg;tu_bep_05_inside.jpg', N'Sơn men bóng ô tô cao cấp ánh kim độc quyền Xuyên Việt, line 2 màu xanh pastel dịu mắt, bo viền cạnh tinh tế chống ẩm tuyệt đối.'),
-('TB06', N'Tủ Bếp Inox 304 Cánh Kính Vân Khói Hút Khử Mùi Kịch Trần', 'KT06', 'CL03', 'M04', 'DE', 5, 29000000, N'60 tháng', 'tu_bep_06.jpg;tu_bep_06_angle.jpg;tu_bep_06_detail.jpg;tu_bep_06_inside.jpg', N'Thiết kế kịch trần nhân đôi không gian chứa đồ, cánh kính màu khói phản quang sang trọng, kháng nước và chống cháy hoàn hảo.'),
-('TB07', N'Tủ Bếp Gỗ Óc Chó (Walnut) Nhập Khẩu Bắc Mỹ Phong Cách Hoàng Gia', 'KT07', 'CL06', 'M06', 'VN', 3, 48000000, N'60 tháng', 'tu_bep_07.jpg;tu_bep_07_angle.jpg;tu_bep_07_detail.jpg;tu_bep_07_inside.jpg', N'Dòng gỗ thượng lưu màu nâu socola trầm ấm, hệ vân cuộn xoáy tự nhiên cuốn hút, hoàn thiện thủ công sơn Inchem 6 lớp đỉnh cao.'),
-('TB08', N'Tủ Bếp Chữ L MDF Chống Ẩm Phủ Melamine Kết Hợp Acrylic', 'KT06', 'CL01', 'M03', 'VN', 10, 14500000, N'24 tháng', 'tu_bep_08.jpg;tu_bep_08_angle.jpg;tu_bep_08_detail.jpg;tu_bep_08_inside.jpg', N'Tủ dưới phủ Melamine chống xước chống va đập, tủ trên Acrylic bóng gương tạo độ tương phản thời thượng cho góc bếp chữ L.'),
-('TB09', N'Tủ Bếp Acrylic Kịch Trần 2 Tầng Tối Đa Không Gian Chứa Đồ', 'KT04', 'CL02', 'M07', 'HQ', 8, 18500000, N'36 tháng', 'tu_bep_09.jpg;tu_bep_09_angle.jpg;tu_bep_09_detail.jpg;tu_bep_09_inside.jpg', N'Thiết kế 2 tầng kịch trần hiện đại, tay nắm âm nhôm chữ J tinh tế không vướng víu, cánh phủ Acrylic bóng sáng như gương.'),
-('TB10', N'Tủ Bếp Nhựa PVC Phủ Laminate Vân Đá Chống Xước Cao Cấp', 'KT04', 'CL05', 'M02', 'VN', 9, 16500000, N'60 tháng', 'tu_bep_10.jpg;tu_bep_10_angle.jpg;tu_bep_10_detail.jpg;tu_bep_10_inside.jpg', N'Thùng nhựa PVC đặc chống nước tuyệt đối, cánh phủ Laminate vân đá sần chống trầy xước và chịu nhiệt vượt trội.'),
-('TB11', N'Tủ Bếp Tân Cổ Điển Gỗ Tự Nhiên Sơn Men Trắng Sứ Nhập Khẩu', 'KT06', 'CL04', 'M01', 'IT', 4, 34000000, N'36 tháng', 'tu_bep_11.jpg;tu_bep_11_angle.jpg;tu_bep_11_detail.jpg;tu_bep_11_inside.jpg', N'Chạm khắc soi huỳnh viền chỉ tỉ mỉ phong cách quý tộc Châu Âu, mặt đá cẩm thạch Ý sang trọng, hệ phụ kiện giảm chấn cao cấp.'),
-('TB12', N'Tủ Bếp Gỗ Xoan Đào Gia Lai Chọn Vân Vân Gỗ Đều Màu', 'KT02', 'CL07', 'M06', 'VN', 7, 12000000, N'24 tháng', 'tu_bep_12.jpg;tu_bep_12_angle.jpg;tu_bep_12_detail.jpg;tu_bep_12_inside.jpg', N'Gỗ Xoan Đào tự nhiên chọn lọc đanh chắc, chịu lực tốt, màu sắc cánh gián ấm cúng, hương thơm tự nhiên xua đuổi côn trùng.'),
-('TB13', N'Tủ Bếp Inox Hệ Module Rời Cánh Hợp Kim Nhôm Cao Cấp', 'KT04', 'CL03', 'M02', 'NB', 4, 26500000, N'60 tháng', 'tu_bep_13.jpg;tu_bep_13_angle.jpg;tu_bep_13_detail.jpg;tu_bep_13_inside.jpg', N'Module inox độc lập công nghệ Nhật Bản tháo lắp linh hoạt, chống cong vênh và chống rỉ sét vĩnh cửu trong môi trường ẩm.'),
-('TB14', N'Tủ Bếp Chữ U Acrylic Phối Bàn Đảo & Quầy Bar Mini', 'KT07', 'CL02', 'M08', 'IT', 4, 42000000, N'36 tháng', 'tu_bep_14.jpg;tu_bep_14_angle.jpg;tu_bep_14_detail.jpg;tu_bep_14_inside.jpg', N'Không gian nấu nướng chuẩn công thái học tam giác vàng, tone xanh Navy hoàng gia sang trọng, quầy bar thưởng rượu lý tưởng.'),
-('TB15', N'Tủ Bếp Mini Studio 1m2 Tích Hợp Phụ Kiện Rút Thông Minh', 'KT01', 'CL01', 'M01', 'VN', 15, 7500000, N'12 tháng', 'tu_bep_15.jpg;tu_bep_15_angle.jpg;tu_bep_15_detail.jpg;tu_bep_15_inside.jpg', N'Tối ưu từng milimet cho căn hộ studio: giá dao thớt gia vị rút, thùng gạo âm tủ, ngăn chia thìa dĩa và chậu rửa mini tiện lợi.'),
-('TB16', N'Tủ Bếp Gỗ Sồi Cánh Nan Chớp Thông Gió Chống Ẩm Mốc', 'KT03', 'CL04', 'M03', 'NB', 6, 16000000, N'24 tháng', 'tu_bep_16.jpg;tu_bep_16_angle.jpg;tu_bep_16_detail.jpg;tu_bep_16_inside.jpg', N'Thiết kế cánh nan chớp lưu thông không khí, giữ khoang gia vị và bát đĩa khô thoáng, chống ẩm mốc trong mùa nồm miền Bắc.'),
-('TB17', N'Tủ Bếp Nhựa PVC Cánh Bo Viền Nghệ Thuật Phối Quầy Bar', 'KT07', 'CL05', 'M07', 'VN', 5, 22000000, N'60 tháng', 'tu_bep_17.jpg;tu_bep_17_angle.jpg;tu_bep_17_detail.jpg;tu_bep_17_inside.jpg', N'Tích hợp quầy bar gia đình và tủ rượu cánh kính đèn LED sang trọng, công nghệ bo góc nghệ thuật mềm mại và an toàn.'),
-('TB18', N'Tủ Bếp Chữ L Inox Cánh Kính Cường Lực Sơn Nhiệt Ceramic', 'KT06', 'CL03', 'M04', 'DE', 6, 31000000, N'60 tháng', 'tu_bep_18.jpg;tu_bep_18_angle.jpg;tu_bep_18_detail.jpg;tu_bep_18_inside.jpg', N'Mặt kính cường lực hấp nhiệt men gốm ceramic chống xước và chịu sốc nhiệt lên tới 300 độ C, khung inox 304 chống mối mọt trọn đời.'),
-('TB19', N'Tủ Bếp Sơn Men Màu Pastel Xanh Sage Mát Mẻ', 'KT03', 'CL01', 'M05', 'VN', 9, 11200000, N'24 tháng', 'tu_bep_19.jpg;tu_bep_19_angle.jpg;tu_bep_19_detail.jpg;tu_bep_19_inside.jpg', N'Gam màu xanh Sage pastel dịu mát, phong cách Scandinavian trẻ trung giúp căn bếp luôn tràn ngập năng lượng tươi mới.'),
-('TB20', N'Tủ Bếp Biệt Thự Inox 304 Luxury Tích Hợp Đèn LED Cảm Ứng Bàn Đảo', 'KT07', 'CL03', 'M08', 'DE', 3, 55000000, N'60 tháng', 'tu_bep_20.jpg;tu_bep_20_angle.jpg;tu_bep_20_detail.jpg;tu_bep_20_inside.jpg', N'Dòng siêu phẩm dành cho biệt thự: bàn đảo 3m6, hệ thống ray trượt Blum điện tích hợp LED cảm ứng vẫy tay tự động cao cấp.');
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: NhanVien (4 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [NhanVien] ([MaNV], [TenNV], [GioiTinh], [NgaySinh], [DienThoai], [DiaChi], [MaCV]) VALUES
+(N'NV01', N'Nguyễn Văn An', N'Nam', '1992-05-15 00:00:00.000', N'0912345678', N'Cầu Giấy, Hà Nội', N'CV01'),
+(N'NV02', N'Trần Thị Bích', N'Nữ', '1996-08-20 00:00:00.000', N'0923456789', N'Đống Đa, Hà Nội', N'CV02'),
+(N'NV03', N'Lê Hoàng Long', N'Nam', '1995-12-10 00:00:00.000', N'0934567890', N'Hà Đông, Hà Nội', N'CV03'),
+(N'NV04', N'Phạm Thu Hà', N'Nữ', '1998-03-25 00:00:00.000', N'0945678901', N'Thanh Xuân, Hà Nội', N'CV04');
+GO
 
--- 7.10. Bảng Hóa đơn nhập & Chi tiết hóa đơn nhập (Trigger tự cập nhật Thành tiền, Tổng tiền, Số lượng tồn, Giá nhập & Giá bán)
-INSERT INTO HoaDonNhap (SoHDN, MaNV, NgayNhap, MaNCC, TongTien) VALUES
-('HDN01', 'NV04', '2026-01-10', 'NCC01', 0),
-('HDN02', 'NV04', '2026-02-15', 'NCC02', 0),
-('HDN03', 'NV04', '2026-03-01', 'NCC03', 0),
-('HDN04', 'NV04', '2026-03-20', 'NCC01', 0);
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: DMHangHoa (20 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [DMHangHoa] ([MaHang], [TenHang], [MaKichThuoc], [MaChatLieu], [MaMau], [MaNuocSX], [SoLuong], [GiaNhap], [DonGiaBan], [ThoiGianBaoHanh], [Anh], [GhiChu]) VALUES
+(N'TB01', N'Tủ Bếp Nhựa PVC Cánh Phủ Acrylic Bóng Gương An Cường Chữ I', N'KT03', N'CL05', N'M01', N'VN', 8, 12000000.00, 13200000.00, N'60 tháng', N'tu_bep_01.jpg;tu_bep_01_angle.jpg;tu_bep_01_detail.jpg;tu_bep_01_inside.jpg', N'Thùng tủ nhựa PVC đặc 18mm chịu nước 100%, cánh phủ Acrylic noline bóng gương An Cường, bản lề giảm chấn inox 304.'),
+(N'TB02', N'Tủ Bếp Inox 304 Khung Hộp Cánh Kính Cường Lực Viền Nhôm', N'KT04', N'CL03', N'M02', N'DE', 7, 22000000.00, 24200000.00, N'60 tháng', N'tu_bep_02.jpg;tu_bep_02_angle.jpg;tu_bep_02_detail.jpg;tu_bep_02_inside.jpg', N'Khung inox hộp chuẩn SUS 304 dập chấn CNC cao cấp không mối hàn, cánh kính cường lực 4mm viền nhôm Anode tràn viền sang trọng.'),
+(N'TB03', N'Tủ Bếp Gỗ Sồi Nga Tự Nhiên Sơn PU Màu Hạt Dẻ Bắc Âu', N'KT03', N'CL04', N'M03', N'NB', 6, 16500000.00, 18150000.00, N'36 tháng', N'tu_bep_03.jpg;tu_bep_03_angle.jpg;tu_bep_03_detail.jpg;tu_bep_03_inside.jpg', N'100% gỗ Sồi Nga tự nhiên đã tẩm sấy công nghệ cao chống co ngót nứt nẻ, sơn lót PU 5 lớp giữ trọn vân gỗ uốn lượn.'),
+(N'TB04', N'Tủ Bếp Gỗ MDF Lõi Xanh Chống Ẩm Phủ Melamine Chữ I', N'KT03', N'CL01', N'M04', N'VN', 16, 9500000.00, 10450000.00, N'24 tháng', N'tu_bep_04.jpg;tu_bep_04_angle.jpg;tu_bep_04_detail.jpg;tu_bep_04_inside.jpg', N'Cốt gỗ MDF lõi xanh chống ẩm tiêu chuẩn E1 An Cường, bề mặt phủ Melamine chống trầy xước, giải pháp tối ưu cho chung cư.'),
+(N'TB05', N'Tủ Bếp Nhựa PVC Sơn Men Bóng Ô Tô Công Nghệ Ánh Kim Chữ L', N'KT06', N'CL05', N'M05', N'VN', 7, 15000000.00, 16500000.00, N'60 tháng', N'tu_bep_05.jpg;tu_bep_05_angle.jpg;tu_bep_05_detail.jpg;tu_bep_05_inside.jpg', N'Sơn men bóng ô tô cao cấp ánh kim độc quyền Xuyên Việt, line 2 màu xanh pastel dịu mắt, bo viền cạnh tinh tế chống ẩm tuyệt đối.'),
+(N'TB06', N'Tủ Bếp Inox 304 Cánh Kính Vân Khói Hút Khử Mùi Kịch Trần', N'KT06', N'CL03', N'M04', N'DE', 8, 28000000.00, 30800000.00, N'60 tháng', N'tu_bep_06.jpg;tu_bep_06_angle.jpg;tu_bep_06_detail.jpg;tu_bep_06_inside.jpg', N'Thiết kế kịch trần nhân đôi không gian chứa đồ, cánh kính màu khói phản quang sang trọng, kháng nước và chống cháy hoàn hảo.'),
+(N'TB07', N'Tủ Bếp Gỗ Óc Chó (Walnut) Nhập Khẩu Bắc Mỹ Phong Cách Hoàng Gia', N'KT07', N'CL06', N'M06', N'VN', 4, 45000000.00, 49500000.00, N'60 tháng', N'tu_bep_07.jpg;tu_bep_07_angle.jpg;tu_bep_07_detail.jpg;tu_bep_07_inside.jpg', N'Dòng gỗ thượng lưu màu nâu socola trầm ấm, hệ vân cuộn xoáy tự nhiên cuốn hút, hoàn thiện thủ công sơn Inchem 6 lớp đỉnh cao.'),
+(N'TB08', N'Tủ Bếp Chữ L MDF Chống Ẩm Phủ Melamine Kết Hợp Acrylic', N'KT06', N'CL01', N'M03', N'VN', 15, 13500000.00, 14850000.00, N'24 tháng', N'tu_bep_08.jpg;tu_bep_08_angle.jpg;tu_bep_08_detail.jpg;tu_bep_08_inside.jpg', N'Tủ dưới phủ Melamine chống xước chống va đập, tủ trên Acrylic bóng gương tạo độ tương phản thời thượng cho góc bếp chữ L.'),
+(N'TB09', N'Tủ Bếp Acrylic Kịch Trần 2 Tầng Tối Đa Không Gian Chứa Đồ', N'KT04', N'CL02', N'M07', N'HQ', 8, 18500000.00, 20350000.00, N'36 tháng', N'tu_bep_09.jpg;tu_bep_09_angle.jpg;tu_bep_09_detail.jpg;tu_bep_09_inside.jpg', N'Thiết kế 2 tầng kịch trần hiện đại, tay nắm âm nhôm chữ J tinh tế không vướng víu, cánh phủ Acrylic bóng sáng như gương.'),
+(N'TB10', N'Tủ Bếp Nhựa PVC Phủ Laminate Vân Đá Chống Xước Cao Cấp', N'KT04', N'CL05', N'M02', N'VN', 9, 16500000.00, 18150000.00, N'60 tháng', N'tu_bep_10.jpg;tu_bep_10_angle.jpg;tu_bep_10_detail.jpg;tu_bep_10_inside.jpg', N'Thùng nhựa PVC đặc chống nước tuyệt đối, cánh phủ Laminate vân đá sần chống trầy xước và chịu nhiệt vượt trội.'),
+(N'TB11', N'Tủ Bếp Tân Cổ Điển Gỗ Tự Nhiên Sơn Men Trắng Sứ Nhập Khẩu', N'KT06', N'CL04', N'M01', N'IT', 6, 32000000.00, 35200000.00, N'36 tháng', N'tu_bep_11.jpg;tu_bep_11_angle.jpg;tu_bep_11_detail.jpg;tu_bep_11_inside.jpg', N'Chạm khắc soi huỳnh viền chỉ tỉ mỉ phong cách quý tộc Châu Âu, mặt đá cẩm thạch Ý sang trọng, hệ phụ kiện giảm chấn cao cấp.'),
+(N'TB12', N'Tủ Bếp Gỗ Xoan Đào Gia Lai Chọn Vân Vân Gỗ Đều Màu', N'KT02', N'CL07', N'M06', N'VN', 7, 12000000.00, 13200000.00, N'24 tháng', N'tu_bep_12.jpg;tu_bep_12_angle.jpg;tu_bep_12_detail.jpg;tu_bep_12_inside.jpg', N'Gỗ Xoan Đào tự nhiên chọn lọc đanh chắc, chịu lực tốt, màu sắc cánh gián ấm cúng, hương thơm tự nhiên xua đuổi côn trùng.'),
+(N'TB13', N'Tủ Bếp Inox Hệ Module Rời Cánh Hợp Kim Nhôm Cao Cấp', N'KT04', N'CL03', N'M02', N'NB', 4, 26500000.00, 29150000.00, N'60 tháng', N'tu_bep_13.jpg;tu_bep_13_angle.jpg;tu_bep_13_detail.jpg;tu_bep_13_inside.jpg', N'Module inox độc lập công nghệ Nhật Bản tháo lắp linh hoạt, chống cong vênh và chống rỉ sét vĩnh cửu trong môi trường ẩm.'),
+(N'TB14', N'Tủ Bếp Chữ U Acrylic Phối Bàn Đảo & Quầy Bar Mini', N'KT07', N'CL02', N'M08', N'IT', 4, 42000000.00, 46200000.00, N'36 tháng', N'tu_bep_14.jpg;tu_bep_14_angle.jpg;tu_bep_14_detail.jpg;tu_bep_14_inside.jpg', N'Không gian nấu nướng chuẩn công thái học tam giác vàng, tone xanh Navy hoàng gia sang trọng, quầy bar thưởng rượu lý tưởng.'),
+(N'TB15', N'Tủ Bếp Mini Studio 1m2 Tích Hợp Phụ Kiện Rút Thông Minh', N'KT01', N'CL01', N'M01', N'VN', 15, 7500000.00, 8250000.00, N'12 tháng', N'tu_bep_15.jpg;tu_bep_15_angle.jpg;tu_bep_15_detail.jpg;tu_bep_15_inside.jpg', N'Tối ưu từng milimet cho căn hộ studio: giá dao thớt gia vị rút, thùng gạo âm tủ, ngăn chia thìa dĩa và chậu rửa mini tiện lợi.'),
+(N'TB16', N'Tủ Bếp Gỗ Sồi Cánh Nan Chớp Thông Gió Chống Ẩm Mốc', N'KT03', N'CL04', N'M03', N'NB', 6, 16000000.00, 17600000.00, N'24 tháng', N'tu_bep_16.jpg;tu_bep_16_angle.jpg;tu_bep_16_detail.jpg;tu_bep_16_inside.jpg', N'Thiết kế cánh nan chớp lưu thông không khí, giữ khoang gia vị và bát đĩa khô thoáng, chống ẩm mốc trong mùa nồm miền Bắc.'),
+(N'TB17', N'Tủ Bếp Nhựa PVC Cánh Bo Viền Nghệ Thuật Phối Quầy Bar', N'KT07', N'CL05', N'M07', N'VN', 5, 22000000.00, 24200000.00, N'60 tháng', N'tu_bep_17.jpg;tu_bep_17_angle.jpg;tu_bep_17_detail.jpg;tu_bep_17_inside.jpg', N'Tích hợp quầy bar gia đình và tủ rượu cánh kính đèn LED sang trọng, công nghệ bo góc nghệ thuật mềm mại và an toàn.'),
+(N'TB18', N'Tủ Bếp Chữ L Inox Cánh Kính Cường Lực Sơn Nhiệt Ceramic', N'KT06', N'CL03', N'M04', N'DE', 6, 31000000.00, 34100000.00, N'60 tháng', N'tu_bep_18.jpg;tu_bep_18_angle.jpg;tu_bep_18_detail.jpg;tu_bep_18_inside.jpg', N'Mặt kính cường lực hấp nhiệt men gốm ceramic chống xước và chịu sốc nhiệt lên tới 300 độ C, khung inox 304 chống mối mọt trọn đời.'),
+(N'TB19', N'Tủ Bếp Sơn Men Màu Pastel Xanh Sage Mát Mẻ', N'KT03', N'CL01', N'M05', N'VN', 9, 11200000.00, 12320000.00, N'24 tháng', N'tu_bep_19.jpg;tu_bep_19_angle.jpg;tu_bep_19_detail.jpg;tu_bep_19_inside.jpg', N'Gam màu xanh Sage pastel dịu mát, phong cách Scandinavian trẻ trung giúp căn bếp luôn tràn ngập năng lượng tươi mới.'),
+(N'TB20', N'Tủ Bếp Biệt Thự Inox 304 Luxury Tích Hợp Đèn LED Cảm Ứng Bàn Đảo', N'KT07', N'CL03', N'M08', N'DE', 3, 55000000.00, 60500000.00, N'60 tháng', N'tu_bep_20.jpg;tu_bep_20_angle.jpg;tu_bep_20_detail.jpg;tu_bep_20_inside.jpg', N'Dòng siêu phẩm dành cho biệt thự: bàn đảo 3m6, hệ thống ray trượt Blum điện tích hợp LED cảm ứng vẫy tay tự động cao cấp.');
+GO
 
-INSERT INTO ChiTietHoaDonNhap (SoHDN, MaHang, SoLuong, DonGia, GiamGia) VALUES
-('HDN01', 'TB01', 3, 12000000, 0),
-('HDN01', 'TB04', 5, 9500000, 5),
-('HDN02', 'TB02', 2, 22000000, 2),
-('HDN03', 'TB06', 4, 28000000, 0),
-('HDN03', 'TB07', 2, 45000000, 3),
-('HDN04', 'TB08', 6, 13500000, 5),
-('HDN04', 'TB11', 3, 32000000, 2);
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: TaiKhoan (3 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [TaiKhoan] ([TenDangNhap], [MatKhau], [HoTen], [Email], [SoDienThoai], [DiaChi], [Quyen], [MaKhach], [MaNV], [TrangThai], [NgayTao]) VALUES
+(N'admin', N'AQAAAAIAAYagAAAAEE7vOQ28CHznE97j9yBkYRh2NZ4ySYtFszJJ76aZd3xKB6kSB+0y9eRxB/E3UqdV9g==', N'Quản trị viên', N'admin@tubep.vn', N'0912345678', NULL, N'Admin', NULL, N'NV01', 1, '2026-10-04 08:46:39.777'),
+(N'khach01', N'AQAAAAIAAYagAAAAEFZZ1KhRdkL8iVykUW3iQ1u9bgcwvuBVBpbLCeD7SZxM1EahX+39txhDYYFJ+mKeTg==', N'Đỗ Minh Tuấn', N'tuan@gmail.com', N'0901112233', NULL, N'KhachHang', N'KH01', NULL, 1, '2026-10-04 08:46:39.777'),
+(N'minh1201', N'AQAAAAIAAYagAAAAEJeZp8poXhHIOFJ4eXPBKG2qxC6PzfegvCHvTwFQp2lsl2DCNkPcMKVOHEBEpUar5g==', N'Đỗ Minh Tuấn', NULL, N'0901112233', NULL, N'KhachHang', N'KH05', NULL, 1, '2026-10-19 20:21:43.137');
+GO
 
--- 7.11. Bảng Hóa đơn bán & Chi tiết hóa đơn bán (Trigger tự trừ Số lượng tồn, tính Thành tiền và Tổng tiền)
-INSERT INTO HoaDonBan (SoHDB, MaNV, NgayBan, MaKhach, TongTien) VALUES
-('HDB01', 'NV02', '2026-02-20', 'KH01', 0),
-('HDB02', 'NV02', '2026-03-05', 'KH02', 0),
-('HDB03', 'NV02', '2026-03-12', 'KH03', 0),
-('HDB04', 'NV02', '2026-03-25', 'KH04', 0),
-('HDB05', 'NV02', '2026-04-02', 'KH01', 0),
-('HDB06', 'NV02', '2026-04-10', 'KH03', 0);
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: HoaDonNhap (4 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [HoaDonNhap] ([SoHDN], [MaNV], [NgayNhap], [MaNCC], [TongTien]) VALUES
+(N'HDN01', N'NV04', '2026-01-10 00:00:00.000', N'NCC01', 81125000.00),
+(N'HDN02', N'NV04', '2026-02-15 00:00:00.000', N'NCC02', 43120000.00),
+(N'HDN03', N'NV04', '2026-03-01 00:00:00.000', N'NCC03', 199300000.00),
+(N'HDN04', N'NV04', '2026-03-20 00:00:00.000', N'NCC01', 171030000.00);
+GO
 
-INSERT INTO ChiTietHoaDonBan (SoHDB, MaHang, SoLuong, GiamGia) VALUES
-('HDB01', 'TB01', 1, 0),
-('HDB01', 'TB04', 1, 5),
-('HDB02', 'TB02', 1, 0),
-('HDB03', 'TB01', 2, 10),
-('HDB04', 'TB06', 1, 0),
-('HDB04', 'TB08', 1, 5),
-('HDB05', 'TB07', 1, 3),
-('HDB06', 'TB11', 1, 0);
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: ChiTietHoaDonNhap (7 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [ChiTietHoaDonNhap] ([SoHDN], [MaHang], [SoLuong], [DonGia], [GiamGia], [ThanhTien]) VALUES
+(N'HDN01', N'TB01', 3, 12000000.00, 0, 36000000.00),
+(N'HDN01', N'TB04', 5, 9500000.00, 5, 45125000.00),
+(N'HDN02', N'TB02', 2, 22000000.00, 2, 43120000.00),
+(N'HDN03', N'TB06', 4, 28000000.00, 0, 112000000.00),
+(N'HDN03', N'TB07', 2, 45000000.00, 3, 87300000.00),
+(N'HDN04', N'TB08', 6, 13500000.00, 5, 76950000.00),
+(N'HDN04', N'TB11', 3, 32000000.00, 2, 94080000.00);
+GO
 
--- 7.12. Bảng Tài khoản người dùng (Tài khoản mẫu khớp với HUONG_DAN_DU_AN_BTL.md)
-INSERT INTO TaiKhoan (TenDangNhap, MatKhau, HoTen, Email, SoDienThoai, DiaChi, Quyen, MaKhach, MaNV, TrangThai, NgayTao) VALUES
-('admin', '123456', N'Quản Trị Viên Hệ Thống', 'admin@kitchenlux.vn', '0912345678', N'Hà Nội', 'Admin', NULL, 'NV01', 1, GETDATE()),
-('nv02', '123456', N'Trần Thị Bích (Nhân viên)', 'bich.tran@kitchenlux.vn', '0923456789', N'Hà Nội', 'Admin', NULL, 'NV02', 1, GETDATE()),
-('khach01', '123456', N'Đỗ Minh Tuấn', 'tuan.do@gmail.com', '0901112233', N'Vinhomes Ocean Park, Gia Lâm', 'KhachHang', 'KH01', NULL, 1, GETDATE()),
-('khach02', '123456', N'Nguyễn Thu Trang', 'trang.nguyen@gmail.com', '0902223344', N'EcoPark, Hưng Yên', 'KhachHang', 'KH02', NULL, 1, GETDATE());
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: HoaDonBan (6 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [HoaDonBan] ([SoHDB], [MaNV], [NgayBan], [MaKhach], [TongTien]) VALUES
+(N'HDB01', N'NV02', '2026-02-20 00:00:00.000', N'KH01', 23127500.00),
+(N'HDB02', N'NV02', '2026-03-05 00:00:00.000', N'KH02', 24200000.00),
+(N'HDB03', N'NV02', '2026-03-12 00:00:00.000', N'KH03', 23760000.00),
+(N'HDB04', N'NV02', '2026-03-25 00:00:00.000', N'KH04', 44907500.00),
+(N'HDB05', N'NV02', '2026-04-02 00:00:00.000', N'KH01', 48015000.00),
+(N'HDB06', N'NV02', '2026-04-10 00:00:00.000', N'KH03', 35200000.00);
+GO
+
+-- ------------------------------------------------------------------------------------------
+-- Dá»¯ liá»‡u báº£ng: ChiTietHoaDonBan (8 dÃ²ng)
+-- ------------------------------------------------------------------------------------------
+INSERT INTO [ChiTietHoaDonBan] ([SoHDB], [MaHang], [SoLuong], [GiamGia], [ThanhTien]) VALUES
+(N'HDB01', N'TB01', 1, 0, 13200000.00),
+(N'HDB01', N'TB04', 1, 5, 9927500.00),
+(N'HDB02', N'TB02', 1, 0, 24200000.00),
+(N'HDB03', N'TB01', 2, 10, 23760000.00),
+(N'HDB04', N'TB06', 1, 0, 30800000.00),
+(N'HDB04', N'TB08', 1, 5, 14107500.00),
+(N'HDB05', N'TB07', 1, 3, 48015000.00),
+(N'HDB06', N'TB11', 1, 0, 35200000.00);
+GO
+
+-- Báº­t láº¡i Foreign Key vÃ  Trigger sau khi Ä‘Ã£ import dá»¯ liá»‡u hoÃ n táº¥t
+EXEC sp_MSforeachtable 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT ALL';
+EXEC sp_MSforeachtable 'ALTER TABLE ? ENABLE TRIGGER ALL';
 GO
 
 -- ==========================================================================================
